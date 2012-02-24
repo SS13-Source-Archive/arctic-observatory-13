@@ -236,7 +236,6 @@ client
 
 		if(ismob(D))
 			body += "<option value='byond://?src=\ref[src];give_spell=\ref[D]'>Give Spell</option>"
-			body += "<option value='byond://?src=\ref[src];ninja=\ref[D]'>Make Space Ninja</option>"
 			body += "<option value='byond://?src=\ref[src];godmode=\ref[D]'>Toggle Godmode</option>"
 			body += "<option value='byond://?src=\ref[src];build_mode=\ref[D]'>Toggle Build Mode</option>"
 			if(ishuman(D))
@@ -442,18 +441,6 @@ client
 				return
 			src.give_spell(MOB)
 			href_list["datumrefresh"] = href_list["give_spell"]
-		else if (href_list["ninja"])
-			if(!href_list["ninja"])
-				return
-			var/mob/MOB = locate(href_list["ninja"])
-			if(!MOB)
-				return
-			if(!ismob(MOB))
-				return
-			if(!src.holder)
-				return
-			src.cmd_admin_ninjafy(MOB)
-			href_list["datumrefresh"] = href_list["ninja"]
 		else if (href_list["godmode"])
 			if(!href_list["godmode"])
 				return

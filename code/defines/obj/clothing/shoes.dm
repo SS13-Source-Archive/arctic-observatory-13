@@ -104,15 +104,6 @@
 	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
 	flags = NOSLIP
 
-/obj/item/clothing/shoes/space_ninja
-	name = "ninja shoes"
-	desc = "A pair of running shoes. Excellent for running and even better for smashing skulls."
-	icon_state = "s-ninja"
-	protective_temperature = 700
-	permeability_coefficient = 0.01
-	flags = NOSLIP
-	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
-
 /obj/item/clothing/shoes/white
 	name = "White Shoes"
 	icon_state = "white"

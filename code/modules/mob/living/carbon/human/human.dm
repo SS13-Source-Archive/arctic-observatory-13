@@ -229,8 +229,6 @@
 			if (mind.special_role == "Changeling" && changeling)
 				stat("Chemical Storage", changeling.chem_charges)
 				stat("Genetic Damage Time", changeling.geneticdamage)
-		if (istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)&&wear_suit:s_initialized)
-			stat("Energy Charge", round(wear_suit:cell:charge/100))
 
 /mob/living/carbon/human/ex_act(severity)
 	flick("flash", flash)
@@ -1080,9 +1078,6 @@
 			shielded = 2
 			break
 
-	if(istype(wear_suit, /obj/item/clothing/suit/space/space_ninja)&&wear_suit:s_active)
-		shielded = 3
-
 	switch(shielded)
 		if(1)
 			overlays += image("icon" = 'effects.dmi', "icon_state" = "shield", "layer" = MOB_LAYER+1)
@@ -1091,13 +1086,6 @@
 			//New stealth. Hopefully doesn't lag too much. /N
 			if(istype(loc, /turf))//If they are standing on a turf.
 				AddCamoOverlay(loc)//Overlay camo.
-		if(3)
-			if(istype(loc, /turf))
-			//Ninjas may flick into view once in a while if they are stealthed.
-				if(prob(90))
-					NinjaStealthActive(loc)
-				else
-					NinjaStealthMalf()
 		else
 			invisibility = 0
 /*

@@ -129,7 +129,6 @@
 		if (holder.level >= 6)//Game Master********************************************************************
 			verbs += /client/proc/callproc
 			verbs += /obj/admins/proc/toggle_aliens			//toggle aliens
-			verbs += /obj/admins/proc/toggle_space_ninja	//toggle ninjas
 			verbs += /obj/admins/proc/adjump
 			verbs += /client/proc/triple_ai
 			verbs += /client/proc/get_admin_state
@@ -167,7 +166,6 @@
 			verbs += /client/proc/cmd_admin_drop_everything
 			verbs += /client/proc/make_sound
 			verbs += /client/proc/play_local_sound
-			verbs += /client/proc/send_space_ninja
 			verbs += /client/proc/restartcontroller //Can call via aproccall --I_hate_easy_things.jpg, Mport --Agouri
 			verbs += /client/proc/Blobize//I need to remember to move/remove this later
 			verbs += /client/proc/toggle_clickproc //TODO ERRORAGE (Temporary proc while the enw clickproc is being tested)
@@ -290,7 +288,6 @@
 	verbs -= /client/proc/show_verbs
 	verbs -= /client/proc/colorooc
 	verbs -= /obj/admins/proc/toggle_aliens			//toggle aliens
-	verbs -= /obj/admins/proc/toggle_space_ninja	//toggle ninjas
 	verbs -= /obj/admins/proc/adjump
 	verbs -= /client/proc/triple_ai
 	verbs -= /client/proc/get_admin_state
@@ -322,7 +319,6 @@
 	verbs -= /client/proc/cmd_admin_drop_everything
 	verbs -= /client/proc/make_sound
 	verbs -= /client/proc/only_one
-	verbs -= /client/proc/send_space_ninja
 	verbs -= /obj/admins/proc/adrev					//toggle admin revives
 	verbs -= /obj/admins/proc/adspawn				//toggle admin item spawning
 	verbs -= /obj/admins/proc/toggleaban			//abandon mob

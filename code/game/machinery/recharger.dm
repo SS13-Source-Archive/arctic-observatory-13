@@ -33,10 +33,6 @@ obj/machinery/recharger
 
 /obj/machinery/recharger/attack_hand(mob/user as mob)
 	src.add_fingerprint(user)
-	if(ishuman(user))
-		if(istype(user:gloves, /obj/item/clothing/gloves/space_ninja)&&user:gloves:candrain&&!user:gloves:draining)
-			call(/obj/item/clothing/gloves/space_ninja/proc/drain)("MACHINERY",src,user:wear_suit)
-			return
 
 	if (src.charging)
 		src.charging.update_icon()

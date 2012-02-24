@@ -343,7 +343,7 @@ datum/mind
 						new_objective = new objective_path
 						new_objective.owner = src
 						new_objective:target = new_target:mind
-						//Will display as special role if the target is set as MODE. Ninjas/commandos/nuke ops.
+						//Will display as special role if the target is set as MODE. commandos/nuke ops.
 						new_objective.explanation_text = "[objective_type] [new_target:real_name], the [new_target:mind:assigned_role=="MODE" ? (new_target:mind:special_role) : (new_target:mind:assigned_role)]."
 
 				if ("hijack")
@@ -372,7 +372,7 @@ datum/mind
 					if (!steal.select_target())
 						return
 
-				if("download","capture","absorb")
+				if("capture","absorb")
 					var/def_num
 					if(objective&&objective.type==text2path("/datum/objective/[new_obj_type]"))
 						def_num = objective.target_amount
@@ -382,9 +382,6 @@ datum/mind
 						return
 
 					switch(new_obj_type)
-						if("download")
-							new_objective = new /datum/objective/download
-							new_objective.explanation_text = "Download [target_number] research levels."
 						if("capture")
 							new_objective = new /datum/objective/capture
 							new_objective.explanation_text = "Accumulate [target_number] capture points."

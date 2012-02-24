@@ -106,13 +106,6 @@
 	var/vchange = 0//This didn't do anything before. It now checks if the mask has special functions/N
 	origin_tech = "syndicate=4"
 
-/obj/item/clothing/mask/gas/voice/space_ninja
-	name = "ninja mask"
-	desc = "A close-fitting mask that acts both as an air filter and a post-modern fashion statement."
-	icon_state = "s-ninja"
-	item_state = "s-ninja_mask"
-	vchange = 1
-
 /obj/item/clothing/mask/gas/clown_hat
 	name = "clown wig and mask"
 	desc = "A true prankster's facial attire. A clown is incomplete without his wig and mask."

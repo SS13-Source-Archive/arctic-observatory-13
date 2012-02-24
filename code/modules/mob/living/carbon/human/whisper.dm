@@ -31,25 +31,6 @@
 	var/italics = 1
 	var/message_range = 1
 
-	if(istype(src.wear_mask, /obj/item/clothing/mask/gas/voice/space_ninja)&&src.wear_mask:voice=="Unknown")
-		if(copytext(message, 1, 2) != "*")
-			var/list/temp_message = dd_text2list(message, " ")
-			var/list/pick_list = list()
-			for(var/i = 1, i <= temp_message.len, i++)
-				pick_list += i
-			for(var/i=1, i <= abs(temp_message.len/3), i++)
-				var/H = pick(pick_list)
-				if(findtext(temp_message[H], "*") || findtext(temp_message[H], ";") || findtext(temp_message[H], ":")) continue
-				temp_message[H] = ninjaspeak(temp_message[H])
-				pick_list -= H
-			message = dd_list2text(temp_message, " ")
-			message = dd_replaceText(message, "o", "¤")
-			message = dd_replaceText(message, "p", "þ")
-			message = dd_replaceText(message, "l", "£")
-			message = dd_replaceText(message, "s", "§")
-			message = dd_replaceText(message, "u", "µ")
-			message = dd_replaceText(message, "b", "ß")
-
 	if (src.stuttering)
 		message = stutter(message)
 

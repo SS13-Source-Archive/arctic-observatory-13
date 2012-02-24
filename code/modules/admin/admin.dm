@@ -1526,12 +1526,6 @@
 					if(aliens_allowed)
 						alien_infestation()
 						message_admins("[key_name_admin(usr)] has spawned aliens", 1)
-				if("spaceninja")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","SN")
-					if(toggle_space_ninja)
-						if(space_ninja_arrival())//If the ninja is actually spawned. They may not be depending on a few factors.
-							message_admins("[key_name_admin(usr)] has sent in a space ninja", 1)
 				if("carp")
 					feedback_inc("admin_secrets_fun_used",1)
 					feedback_add_details("admin_secrets_fun_used","C")
@@ -2069,7 +2063,6 @@
 <A href='?src=\ref[src];secretsfun=timeanomalies'>Spawn wormholes (Untested)</A><BR>
 <A href='?src=\ref[src];secretsfun=goblob'>Spawn blob(Untested)</A><BR>
 <A href='?src=\ref[src];secretsfun=aliens'>Trigger an Alien infestation</A><BR>
-<A href='?src=\ref[src];secretsfun=spaceninja'>Send in a space ninja</A><BR>
 <A href='?src=\ref[src];secretsfun=carp'>Trigger an Carp migration</A><BR>
 <A href='?src=\ref[src];secretsfun=radiation'>Irradiate the station</A><BR>
 <A href='?src=\ref[src];secretsfun=prison_break'>Trigger a Prison Break</A><BR>
@@ -2379,14 +2372,6 @@
 	aliens_allowed = !aliens_allowed
 	log_admin("[key_name(usr)] toggled Aliens to [aliens_allowed].")
 	message_admins("[key_name_admin(usr)] toggled Aliens [aliens_allowed ? "on" : "off"].", 1)
-
-/obj/admins/proc/toggle_space_ninja()
-	set category = "Server"
-	set desc="Toggle space ninjas spawning."
-	set name="Toggle Space Ninjas"
-	toggle_space_ninja = !toggle_space_ninja
-	log_admin("[key_name(usr)] toggled Space Ninjas to [toggle_space_ninja].")
-	message_admins("[key_name_admin(usr)] toggled Space Ninjas [toggle_space_ninja ? "on" : "off"].", 1)
 
 /obj/admins/proc/delay()
 	set category = "Server"

@@ -12,13 +12,6 @@
 	var/obj/machinery/camera/closest = null
 	var/atom/old = (user.current?user.current : user.loc)
 
-	if(istype(user.loc, /obj/item/clothing/suit/space/space_ninja))//To make ninja suit AI holograms work.
-		var/obj/item/clothing/suit/space/space_ninja/S = user.loc//Ease of use.
-		if(S.hologram)//If there is a hologram.
-			S.hologram.loc = get_step(S.hologram, direct)
-			S.hologram.dir = direct
-		return//Whatever the case, return since you can't move anyway.
-
 	if(user.client)//To make AI holograms work. They will relay directions as long as they are centered on the object.
 		var/obj/machinery/hologram/holopad/T = user.client.eye//Client eye centers on an object.
 		if(istype(T)&&T.hologram&&T.master==user)//If there is a hologram and its master is the user.

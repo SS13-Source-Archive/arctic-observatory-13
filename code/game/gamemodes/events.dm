@@ -15,8 +15,6 @@
 
 	var/eventNumbersToPickFrom = list(1,2,4,5,6,7,8,9,10,11,12,13,14) //so ninjas don't cause "empty" events.
 
-	if((world.time/10)>=3600 && toggle_space_ninja && !sent_ninja_to_station)//If an hour has passed, relatively speaking. Also, if ninjas are allowed to spawn and if there is not already a ninja for the round.
-		eventNumbersToPickFrom += 3
 	switch(pick(eventNumbersToPickFrom))
 		if(1)
 			command_alert("Meteors have been detected on collision course with the station.", "Meteor Alert")
@@ -57,10 +55,7 @@
 						P.name = "wormhole"
 						spawn(rand(300,600))
 							del(P)
-		*/
-		if(3)
-			if((world.time/10)>=3600 && toggle_space_ninja && !sent_ninja_to_station)//If an hour has passed, relatively speaking. Also, if ninjas are allowed to spawn and if there is not already a ninja for the round.
-				space_ninja_arrival()//Handled in space_ninja.dm. Doesn't announce arrival, all sneaky-like.
+		*/.
 		if(4)
 			mini_blob_event()
 
