@@ -104,7 +104,7 @@
 			if(SOUTH)
 				pixel_y += 5
 			if(EAST)
-				pixel_x -= 6
+				pixel_x -= 5
 			if(WEST)
 				pixel_x += 5
 
