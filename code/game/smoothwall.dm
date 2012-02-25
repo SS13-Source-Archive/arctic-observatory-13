@@ -83,6 +83,31 @@
 
 	..()
 
+	for(var/turf/space/snowTile in range(src,1))
+		var/snowDirection = get_dir(src,snowTile)
+		if(snowDirection in cardinal)
+			new /obj/effect/snow_covering(snowTile,snowDirection)
+
+/obj/effect/snow_covering
+	icon = 'walls.dmi'
+	icon_state = "snowwall"
+	layer = TURF_LAYER + 0.1
+
+	New(turf/location, direction)
+		..()
+
+		dir = direction
+
+		switch(dir)
+			if(NORTH)
+				pixel_y -= 5
+			if(SOUTH)
+				pixel_y += 5
+			if(EAST)
+				pixel_x -= 6
+			if(WEST)
+				pixel_x += 5
+
 /obj/structure/falsewall/New()
 
 	for(var/turf/simulated/wall/W in range(src,1))
