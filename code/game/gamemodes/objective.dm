@@ -50,7 +50,7 @@ datum/objective/assassinate
 
 	check_completion()
 		if(target && target.current)
-			if(target.current.stat == 2 || istype(target.current.loc.loc, /area/tdome) || issilicon(target.current) || isbrain(target.current)) //Assuming this works, people in the thunderdome and borgs now count as dead for traitor objectives. --NeoFite
+			if(target.current.stat == 2 || issilicon(target.current) || isbrain(target.current)) //Assuming this works, people in the thunderdome and borgs now count as dead for traitor objectives. --NeoFite
 				return 1
 			else
 				return 0
@@ -148,7 +148,7 @@ datum/objective/protect//The opposite of killing a dude.
 		if(!target)//If it's a free objective.
 			return 1
 		if(target.current)
-			if(target.current.stat == 2 || istype(target.current.loc.loc, /area/tdome) || issilicon(target.current) || isbrain(target.current))
+			if(target.current.stat == 2 || issilicon(target.current) || isbrain(target.current))
 				return 0
 			else
 				return 1
