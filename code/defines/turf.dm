@@ -60,6 +60,18 @@
 	var/to_be_destroyed = 0 //Used for fire, if a melting temperature was reached, it will be destroyed
 	var/max_fire_temperature_sustained = 0 //The max temperature of the fire which it was subjected to
 
+/turf/snow
+	icon = 'space.dmi'
+	name = "\proper Snow"
+	icon_state = "snow0"
+
+	temperature = TCMB
+	thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
+	heat_capacity = 700000
+
+/turf/snow/New()
+	icon_state = "snow[rand(0,3)]"
+
 
 
 /turf/simulated/wall/r_wall
