@@ -1074,7 +1074,6 @@
 	throw_speed = 3
 	throw_range = 5
 	w_class = 3.0
-	pressure_resistance = 80
 	var/charge = 0	// note %age conveted to actual charge in New
 	var/maxcharge = 1000
 	m_amt = 700
@@ -1190,8 +1189,6 @@
 	icon = 'items.dmi'
 	icon_state = "gift"
 	item_state = "gift"
-	pressure_resistance = 70
-
 
 /obj/item/weapon/camera_bug
 	name = "camera bug"

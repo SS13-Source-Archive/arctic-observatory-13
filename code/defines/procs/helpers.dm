@@ -728,48 +728,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 /proc/ionnum()
 	return "[pick("!","@","#","$","%","^","&","*")][pick(pick("!","@","#","$","%","^","&","*"))][pick(pick("!","@","#","$","%","^","&","*"))][pick(pick("!","@","#","$","%","^","&","*"))]"
 
-/proc/freeborg()
-	var/select = null
-	var/list/names = list()
-	var/list/borgs = list()
-	var/list/namecounts = list()
-	for (var/mob/living/silicon/robot/A in world)
-		var/name = A.real_name
-		if (A.stat == 2)
-			continue
-		if (A.connected_ai)
-			continue
-		else
-			if(A.module)
-				name += " ([A.module.name])"
-			names.Add(name)
-			namecounts[name] = 1
-		borgs[name] = A
-
-	if (borgs.len)
-		select = input("Unshackled borg signals detected:", "Borg selection", null, null) as null|anything in borgs
-		return borgs[select]
-
-/proc/activeais()
-	var/select = null
-	var/list/names = list()
-	var/list/ais = list()
-	var/list/namecounts = list()
-	for (var/mob/living/silicon/ai/A in world)
-		var/name = A.real_name
-		if (A.stat == 2)
-			continue
-		if (A.control_disabled == 1)
-			continue
-		else
-			names.Add(name)
-			namecounts[name] = 1
-		ais[name] = A
-
-	if (ais.len)
-		select = input("AI signals detected:", "AI selection") in ais
-		return ais[select]
-
 /proc/getmobs()
 
 	var/list/mobs = sortmobs()
@@ -1430,31 +1388,6 @@ proc/listclearnulls(list/list)
 					refined_src -= T
 					refined_trg -= B
 					continue moving
-
-	var/list/doors = new/list()
-
-	if(toupdate.len)
-		for(var/turf/simulated/T1 in toupdate)
-			for(var/obj/machinery/door/D2 in T1)
-				doors += D2
-			if(T1.parent)
-				air_master.groups_to_rebuild += T1.parent
-			else
-				air_master.tiles_to_update += T1
-
-	if(fromupdate.len)
-		for(var/turf/simulated/T2 in fromupdate)
-			for(var/obj/machinery/door/D2 in T2)
-				doors += D2
-			if(T2.parent)
-				air_master.groups_to_rebuild += T2.parent
-			else
-				air_master.tiles_to_update += T2
-
-	for(var/obj/O in doors)
-		O:update_nearby_tiles(1)
-
-
 
 proc/get_cardinal_dir(atom/A, atom/B)
 	var/dx = abs(B.x - A.x)

@@ -435,10 +435,6 @@
 	if ((!( ticker ) || emergency_shuttle.location))
 		return
 
-	if(sent_strike_team == 1)
-		user << "Centcom will not allow the shuttle to be called. Consider all contracts terminated."
-		return
-
 	if(world.time < 6000) // Ten minute grace period to let the game get going without lolmetagaming. -- TLE
 		user << "The emergency shuttle is refueling. Please wait another [(6000-world.time)/10] seconds before trying again."
 		return
@@ -511,9 +507,6 @@
 		if(!shuttlecaller.stat && shuttlecaller.client && istype(shuttlecaller.loc,/turf))
 			return ..()
 
-	if(ticker.mode.name == "revolution" || ticker.mode.name == "AI malfunction" || sent_strike_team)
-		return ..()
-
 	emergency_shuttle.incall(2)
 	log_game("All the AIs, comm consoles and boards are destroyed. Shuttle called.")
 	message_admins("All the AIs, comm consoles and boards are destroyed. Shuttle called.", 1)
@@ -531,13 +524,6 @@
 	for(var/obj/item/weapon/circuitboard/communications/commboard in world)
 		if((istype(commboard.loc,/turf) || istype(commboard.loc,/obj/item/weapon/storage)) && commboard != src)
 			return ..()
-
-	for(var/mob/living/silicon/ai/shuttlecaller in world)
-		if(!shuttlecaller.stat && shuttlecaller.client && istype(shuttlecaller.loc,/turf))
-			return ..()
-
-	if(ticker.mode.name == "revolution" || ticker.mode.name == "AI malfunction" || sent_strike_team)
-		return ..()
 
 	emergency_shuttle.incall(2)
 	log_game("All the AIs, comm consoles and boards are destroyed. Shuttle called.")

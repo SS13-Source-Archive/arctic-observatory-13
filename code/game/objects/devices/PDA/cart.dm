@@ -45,11 +45,6 @@
 		icon_state = "cart-s"
 		access_security = 1
 
-		New()
-			..()
-			spawn(5)
-				radio = new /obj/item/radio/integrated/beepsky(src)
-
 	detective
 		name = "D.E.T.E.C.T. Cartridge"
 		icon_state = "cart-s"
@@ -99,11 +94,6 @@
 		icon_state = "cart-q"
 		access_quartermaster = 1
 
-		New()
-			..()
-			spawn(5)
-				radio = new /obj/item/radio/integrated/mule(src)
-
 	head
 		name = "Easy-Record DELUXE"
 		icon_state = "cart-h"
@@ -117,22 +107,12 @@
 		access_status_display = 1
 		access_quartermaster = 1
 
-		New()
-			..()
-			spawn(5)
-				radio = new /obj/item/radio/integrated/mule(src)
-
 	hos
 		name = "R.O.B.U.S.T. DELUXE"
 		icon_state = "cart-hos"
 		access_manifest = 1
 		access_status_display = 1
 		access_security = 1
-
-		New()
-			..()
-			spawn(5)
-				radio = new /obj/item/radio/integrated/beepsky(src)
 
 	ce
 		name = "Power-On DELUXE"
@@ -395,54 +375,6 @@ Code:
 					menu += "<b>Record Lost!</b><br>"
 
 				menu += "<br>"
-			if (46) //beepsky control
-				var/obj/item/radio/integrated/beepsky/SC = radio
-				if(!SC)
-					menu = "Interlink Error - Please reinsert cartridge."
-					return
-
-				menu = "<h4><img src=pda_cuffs.png> Securitron Interlink</h4>"
-
-				if(!SC.active)
-					// list of bots
-					if(!SC.botlist || (SC.botlist && SC.botlist.len==0))
-						menu += "No bots found.<BR>"
-
-					else
-						for(var/obj/machinery/bot/secbot/B in SC.botlist)
-							menu += "<A href='byond://?src=\ref[SC];op=control;bot=\ref[B]'>[B] at [B.loc.loc]</A><BR>"
-
-					menu += "<BR><A href='byond://?src=\ref[SC];op=scanbots'><img src=pda_scanner.png> Scan for active bots</A><BR>"
-
-				else	// bot selected, control it
-
-					menu += "<B>[SC.active]</B><BR> Status: (<A href='byond://?src=\ref[SC];op=control;bot=\ref[SC.active]'><img src=pda_refresh.png><i>refresh</i></A>)<BR>"
-
-					if(!SC.botstatus)
-						menu += "Waiting for response...<BR>"
-					else
-
-						menu += "Location: [SC.botstatus["loca"] ]<BR>"
-						menu += "Mode: "
-
-						switch(SC.botstatus["mode"])
-							if(0)
-								menu += "Ready"
-							if(1)
-								menu += "Apprehending target"
-							if(2,3)
-								menu += "Arresting target"
-							if(4)
-								menu += "Starting patrol"
-							if(5)
-								menu += "On patrol"
-							if(6)
-								menu += "Responding to summons"
-
-						menu += "<BR>\[<A href='byond://?src=\ref[SC];op=stop'>Stop Patrol</A>\] "
-						menu += "\[<A href='byond://?src=\ref[SC];op=go'>Start Patrol</A>\] "
-						menu += "\[<A href='byond://?src=\ref[SC];op=summon'>Summon Bot</A>\]<BR>"
-						menu += "<HR><A href='byond://?src=\ref[SC];op=botlist'><img src=pda_back.png>Return to bot list</A>"
 
 			if (47) //quartermaster order records
 				menu = "<h4><img src=pda_crate.png> Supply Record Interlink</h4>"
@@ -460,123 +392,6 @@ Code:
 					var/datum/supply_order/SO = S
 					menu += "<li>[SO.object.name] requested by [SO.orderedby]</li>"
 				menu += "</ol><font size=\"-3\">Upgrade NOW to Space Parts & Space Vendors PLUS for full remote order control and inventory management."
-
-			if (48) //mulebot control
-				var/obj/item/radio/integrated/mule/QC = radio
-				if(!QC)
-					menu = "Interlink Error - Please reinsert cartridge."
-					return
-
-				menu = "<h4><img src=pda_mule.png> M.U.L.E. bot Interlink V0.8</h4>"
-
-				if(!QC.active)
-					// list of bots
-					if(!QC.botlist || (QC.botlist && QC.botlist.len==0))
-						menu += "No bots found.<BR>"
-
-					else
-						for(var/obj/machinery/bot/mulebot/B in QC.botlist)
-							menu += "<A href='byond://?src=\ref[QC];op=control;bot=\ref[B]'>[B] at [B.loc.loc]</A><BR>"
-
-					menu += "<BR><A href='byond://?src=\ref[QC];op=scanbots'><img src=pda_scanner.png> Scan for active bots</A><BR>"
-
-				else	// bot selected, control it
-
-					menu += "<B>[QC.active]</B><BR> Status: (<A href='byond://?src=\ref[QC];op=control;bot=\ref[QC.active]'><img src=pda_refresh.png><i>refresh</i></A>)<BR>"
-
-					if(!QC.botstatus)
-						menu += "Waiting for response...<BR>"
-					else
-
-						menu += "Location: [QC.botstatus["loca"] ]<BR>"
-						menu += "Mode: "
-
-						switch(QC.botstatus["mode"])
-							if(0)
-								menu += "Ready"
-							if(1)
-								menu += "Loading/Unloading"
-							if(2)
-								menu += "Navigating to Delivery Location"
-							if(3)
-								menu += "Navigating to Home"
-							if(4)
-								menu += "Waiting for clear path"
-							if(5,6)
-								menu += "Calculating navigation path"
-							if(7)
-								menu += "Unable to locate destination"
-						var/obj/structure/closet/crate/C = QC.botstatus["load"]
-						menu += "<BR>Current Load: [ !C ? "<i>none</i>" : "[C.name] (<A href='byond://?src=\ref[QC];op=unload'><i>unload</i></A>)" ]<BR>"
-						menu += "Destination: [!QC.botstatus["dest"] ? "<i>none</i>" : QC.botstatus["dest"] ] (<A href='byond://?src=\ref[QC];op=setdest'><i>set</i></A>)<BR>"
-						menu += "Power: [QC.botstatus["powr"]]%<BR>"
-						menu += "Home: [!QC.botstatus["home"] ? "<i>none</i>" : QC.botstatus["home"] ]<BR>"
-						menu += "Auto Return Home: [QC.botstatus["retn"] ? "<B>On</B> <A href='byond://?src=\ref[QC];op=retoff'>Off</A>" : "(<A href='byond://?src=\ref[QC];op=reton'><i>On</i></A>) <B>Off</B>"]<BR>"
-						menu += "Auto Pickup Crate: [QC.botstatus["pick"] ? "<B>On</B> <A href='byond://?src=\ref[QC];op=pickoff'>Off</A>" : "(<A href='byond://?src=\ref[QC];op=pickon'><i>On</i></A>) <B>Off</B>"]<BR><BR>"
-
-						menu += "\[<A href='byond://?src=\ref[QC];op=stop'>Stop</A>\] "
-						menu += "\[<A href='byond://?src=\ref[QC];op=go'>Proceed</A>\] "
-						menu += "\[<A href='byond://?src=\ref[QC];op=home'>Return Home</A>\]<BR>"
-						menu += "<HR><A href='byond://?src=\ref[QC];op=botlist'><img src=pda_back.png>Return to bot list</A>"
-
-			if (49) //janitorial locator
-				menu = "<h4><img src=pda_bucket.png> Persistent Custodial Object Locator</h4>"
-
-				var/turf/cl = get_turf(src)
-				if (cl)
-					menu += "Current Orbital Location: <b>\[[cl.x],[cl.y]\]</b>"
-
-					menu += "<h4>Located Mops:</h4>"
-
-					var/ldat
-					for (var/obj/item/weapon/mop/M in world)
-						var/turf/ml = get_turf(M)
-
-						if(ml)
-							if (ml.z != cl.z)
-								continue
-
-						ldat += "Mop - <b>\[[ml.x],[ml.y]\]</b> - [M.reagents.total_volume ? "Wet" : "Dry"]<br>"
-
-					if (!ldat)
-						menu += "None"
-					else
-						menu += "[ldat]"
-
-					menu += "<h4>Located Mop Buckets:</h4>"
-
-					ldat = null
-					for (var/obj/structure/mopbucket/B in world)
-						var/turf/bl = get_turf(B)
-
-						if (bl.z != cl.z)
-							continue
-
-						ldat += "Bucket - <b>\[[bl.x],[bl.y]\]</b> - Water level: [B.reagents.total_volume]/100<br>"
-
-					if (!ldat)
-						menu += "None"
-					else
-						menu += "[ldat]"
-
-					menu += "<h4>Located Cleanbots:</h4>"
-
-					ldat = null
-					for (var/obj/machinery/bot/cleanbot/B in world)
-						var/turf/bl = get_turf(B)
-
-						if (bl.z != cl.z)
-							continue
-
-						ldat += "Cleanbot - <b>\[[bl.x],[bl.y]\]</b> - [B.on ? "Online" : "Offline"]<br>"
-
-					if (!ldat)
-						menu += "None"
-					else
-						menu += "[ldat]"
-
-				else
-					menu += "ERROR: Unable to determine current location."
 
 /obj/item/weapon/cartridge/Topic(href, href_list)
 	..()

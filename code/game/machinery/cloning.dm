@@ -165,21 +165,6 @@
 		ticker.minds += src.occupant.mind
 
 	// -- Mode/mind specific stuff goes here
-
-	switch(ticker.mode.name)
-		if("revolution")
-			if(src.occupant.mind in ticker.mode:revolutionaries)
-				ticker.mode:update_all_rev_icons() //So the icon actually appears
-			if(src.occupant.mind in ticker.mode:head_revolutionaries)
-				ticker.mode:update_all_rev_icons()
-		if("nuclear emergency")
-			if (src.occupant.mind in ticker.mode:syndicates)
-				ticker.mode:update_all_synd_icons()
-		if("cult")
-			if (src.occupant.mind in ticker.mode:cult)
-				ticker.mode:add_cultist(src.occupant.mind)
-				ticker.mode:update_all_cult_icons() //So the icon actually appears
-
 	if (changelingClone && occupant.mind in ticker.mode.changelings)
 		occupant.changeling = changelingClone
 		src.occupant.make_changeling()

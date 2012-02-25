@@ -28,41 +28,12 @@
 				return
 	return
 
-/obj/structure/window/blob_act()
-	if(reinf) new /obj/item/stack/rods( src.loc)
-	density = 0
-	del(src)
-
-/obj/structure/window/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(istype(mover) && mover.checkpass(PASSGLASS))
-		return 1
-	if (src.dir == SOUTHWEST || src.dir == SOUTHEAST || src.dir == NORTHWEST || src.dir == NORTHEAST)
-		return 0 //full tile window, you can't move into it!
-	if(get_dir(loc, target) == dir)
-		return !density
-	else
-		return 1
-
 /obj/structure/window/CheckExit(atom/movable/O as mob|obj, target as turf)
 	if(istype(O) && O.checkpass(PASSGLASS))
 		return 1
 	if (get_dir(O.loc, target) == dir)
 		return 0
 	return 1
-
-/obj/structure/window/meteorhit()
-
-	//*****RM
-	//world << "glass at [x],[y],[z] Mhit"
-	src.health = 0
-	new /obj/item/weapon/shard( src.loc )
-	if(reinf) new /obj/item/stack/rods( src.loc)
-	src.density = 0
-
-
-	del(src)
-	return
-
 
 /obj/structure/window/hitby(AM as mob|obj)
 
@@ -238,15 +209,7 @@
 	if (src.anchored)
 		usr << "It is fastened to the floor; therefore, you can't rotate it!"
 		return 0
-
-	update_nearby_tiles(need_rebuild=1) //Compel updates before
-
 	src.dir = turn(src.dir, 90)
-
-	updateSilicate()
-
-	update_nearby_tiles(need_rebuild=1)
-
 	src.ini_dir = src.dir
 	return
 
@@ -258,15 +221,7 @@
 	if (src.anchored)
 		usr << "It is fastened to the floor; therefore, you can't rotate it!"
 		return 0
-
-	update_nearby_tiles(need_rebuild=1) //Compel updates before
-
 	src.dir = turn(src.dir, 270)
-
-	updateSilicate()
-
-	update_nearby_tiles(need_rebuild=1)
-
 	src.ini_dir = src.dir
 	return
 
@@ -299,48 +254,17 @@
 			icon_state = "twindow"
 	else
 		icon_state = "window"
-
-	update_nearby_tiles(need_rebuild=1)
-
 	return
 
 /obj/structure/window/Del()
 	density = 0
-
-	update_nearby_tiles()
-
 	playsound(src, "shatter", 70, 1)
 	..()
 
 /obj/structure/window/Move()
-	update_nearby_tiles(need_rebuild=1)
 
 	..()
 
 	src.dir = src.ini_dir
-	update_nearby_tiles(need_rebuild=1)
 
 	return
-
-/obj/structure/window/proc/update_nearby_tiles(need_rebuild)
-	if(!air_master) return 0
-
-	var/turf/simulated/source = loc
-	var/turf/simulated/target = get_step(source,dir)
-
-	if(need_rebuild)
-		if(istype(source)) //Rebuild/update nearby group geometry
-			if(source.parent)
-				air_master.groups_to_rebuild += source.parent
-			else
-				air_master.tiles_to_update += source
-		if(istype(target))
-			if(target.parent)
-				air_master.groups_to_rebuild += target.parent
-			else
-				air_master.tiles_to_update += target
-	else
-		if(istype(source)) air_master.tiles_to_update += source
-		if(istype(target)) air_master.tiles_to_update += target
-
-	return 1

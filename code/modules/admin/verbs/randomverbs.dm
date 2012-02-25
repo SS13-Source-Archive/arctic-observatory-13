@@ -153,84 +153,6 @@
 
 	M << "You have been [(M.client.muted ? "muted" : "voiced")]."
 
-
-/client/proc/cmd_admin_add_random_ai_law()
-	set category = "Fun"
-	set name = "Add Random AI Law"
-	if(!authenticated || !holder)
-		src << "Only administrators may use this command."
-		return
-	log_admin("[key_name(src)] has added a random AI law.")
-	message_admins("[key_name_admin(src)] has added a random AI law.", 1)
-
-	var/show_log = alert(src, "Show ion message?", "Message", "Yes", "No")
-	if(show_log == "Yes")
-		command_alert("Ion storm detected near the station. Please check all AI-controlled equipment for errors.", "Anomaly Alert")
-		world << sound('ionstorm.ogg')
-
-	IonStorm(0)
-
- /*
- Stealth spawns xenos
- Changed to accomodate specific spawning. It was annoying before. /N
-  */
-/client/proc/spawn_xeno()
-	set category = "Fun"
-	set name = "Spawn Xeno"
-	set desc = "Spawns a xenomorph for all those boring rounds, without having you to do so manually."
-	set popup_menu = 0
-
-	if(!authenticated || !holder)
-		src << "Only administrators may use this command."
-		return
-
-	create_xeno()
-	return
-
-//I use this proc for respawn character too. /N
-/proc/create_xeno(mob/dead/observer/G)
-	var/alien_caste = alert(src, "Please choose which caste to spawn.",,"Hunter","Sentinel","Drone")
-
-	var/obj/effect/landmark/spawn_here = xeno_spawn.len ? pick(xeno_spawn) : pick(latejoin)
-
-	var/mob/living/carbon/alien/humanoid/new_xeno
-	switch(alien_caste)
-		if("Hunter")
-			new_xeno = new /mob/living/carbon/alien/humanoid/hunter (spawn_here)
-		if("Sentinel")
-			new_xeno = new /mob/living/carbon/alien/humanoid/sentinel (spawn_here)
-		if("Drone")
-			new_xeno = new /mob/living/carbon/alien/humanoid/drone (spawn_here)
-
-	// Picks a random ghost for the role if none is specified. Mostly a copy of alien burst code.
-	var/candidates_list[] = list()
-	if(G)//If G exists through a passed argument.
-		candidates_list += G.client
-	else//Else we need to find them.
-		for(G in world)
-			if(G.client)
-				if(!G.client.holder && ((G.client.inactivity/10)/60) <= 5)
-					candidates_list += G.client//We want their client, not their ghost.
-	if(candidates_list.len)//If there are people to spawn.
-		if(!G)//If G was not passed through an argument.
-			var/client/G_client = input("Pick the client you want to respawn as a xeno.", "Active Players") as null|anything in candidates_list//It will auto-pick a person when there is only one candidate.
-			if(G_client)//They may have logged out when the admin was choosing people. Or were not chosen. Would run time error otherwise.
-				G = G_client.mob
-
-		if(G)//If G exists.
-			message_admins("\blue [key_name_admin(usr)] has spawned [G.key] as a filthy xeno.", 1)
-			new_xeno.mind_initialize(G, alien_caste)
-			new_xeno.key = G.key
-		else//We won't be reporting duds.
-			del(new_xeno)
-
-		del(G)
-		return
-
-	alert("There are no available ghosts to throw into the xeno. Aborting command.")
-	del(new_xeno)
-	return
-
 /*
 If a guy was gibbed and you want to revive him, this is a good way to do so.
 Works kind of like entering the game with a new character. Character receives a new mind if they didn't have one.
@@ -262,10 +184,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	//Second, we check if they are an alien or monkey.
 	var/adj_name = copytext(G_found.real_name,1,7)//What is their name?
-	if(G_found.mind&&G_found.mind.special_role=="Alien")//If they have a mind, are they an alien?
-		adj_name="alien "
-	if( adj_name==("alien "||"monkey"))
-		if(alert("This character appears to either be an an alien or monkey. Would you like to respawn them as such?",,"Yes","No")=="Yes")//If you do.
+	if( adj_name==("monkey"))
+		if(alert("This character appears to be a monkey. Would you like to respawn them as such?",,"Yes","No")=="Yes")//If you do.
 			switch(adj_name)//Let's check based on adjusted name.
 				if("monkey")//A monkey. Monkeys don't have a mind, so we can safely spawn them here if needed.
 					//TO DO: Monkeys may have a mind now. May need retooling.
@@ -274,35 +194,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 					if(M.mind)//If the mind is not null.
 						M.mind.current = M
 						M.key = G_found.key//They are now a monkey. Nothing else needs doing.
-				if("alien ")//An alien. Aliens can have a mind which can be used to determine a few things.
-					if(G_found.mind)
-						var/turf/location = xeno_spawn.len ? pick(xeno_spawn) : pick(latejoin)//Location where they will be spawned.
-						var/mob/living/carbon/alien/new_xeno//Null alien mob first.
-						switch(G_found.mind.special_role)//If they have a mind, we can determine which caste they were.
-							if("Hunter")
-								new_xeno = new/mob/living/carbon/alien/humanoid/hunter(location)
-							if("Sentinel")
-								new_xeno = new/mob/living/carbon/alien/humanoid/sentinel(location)
-							if("Drone")
-								new_xeno = new/mob/living/carbon/alien/humanoid/drone(location)
-							if("Queen")
-								new_xeno = new/mob/living/carbon/alien/humanoid/queen(location)
-							else//If we don't know what special role they have, for whatever reason, or they're a larva.
-								create_xeno(G_found)
-								return
-						//Now to give them a new mind.
-						new_xeno.mind = new
-						new_xeno.mind.assigned_role = "Alien"
-						new_xeno.mind.special_role = G_found.mind.special_role
-						new_xeno.mind.key = G_found.key
-						new_xeno.mind.current = new_xeno
-						new_xeno.key = G_found.key
-						new_xeno << "You have been fully respawned. Enjoy the game."
-						message_admins("\blue [key_name_admin(usr)] has respawned [new_xeno.key] as a filthy xeno.", 1)
-						//And we're done. Announcing other stuff is handled by spawn_xeno.
-					else
-						create_xeno(G_found)//Else we default to the standard command for spawning a xenomorph.
-						return
 			del(G_found)
 			return
 			//Monkeys aren't terribly important so we won't be announcing them. The proc basically ends here.
@@ -401,32 +292,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		if("traitor")
 			job_master.EquipRank(new_character, new_character.mind.assigned_role, 1)
 			ticker.mode.equip_traitor(new_character)
-		if("Wizard")
-			new_character.loc = pick(wizardstart)
-			//ticker.mode.learn_basic_spells(new_character)
-			ticker.mode.equip_wizard(new_character)
-		if("Syndicate")
-			var/obj/effect/landmark/synd_spawn = locate("landmark*Syndicate-Spawn")
-			if(synd_spawn)
-				new_character.loc = get_turf(synd_spawn)
-			call(/datum/game_mode/proc/equip_syndicate)(new_character)
-		if("Death Commando")//Leaves them at late-join spawn.
-			new_character.equip_death_commando()
-			new_character.internal = new_character.s_store
-			new_character.internals.icon_state = "internal1"
-		else//They may also be a cyborg or AI.
-			switch(new_character.mind.assigned_role)
-				if("Cyborg")//More rigging to make em' work and check if they're traitor.
-					new_character = new_character.Robotize()
-					if(new_character.mind.special_role=="traitor")
-						call(/datum/game_mode/proc/add_law_zero)(new_character)
-				if("AI")
-					new_character = new_character.AIize()
-					if(new_character.mind.special_role=="traitor")
-						call(/datum/game_mode/proc/add_law_zero)(new_character)
-				//Add aliens.
-				else
-					job_master.EquipRank(new_character, new_character.mind.assigned_role, 1)//Or we simply equip them.
 
 	//Announces the character on all the systems, based on the record.
 	if(!issilicon(new_character))//If they are not a cyborg/AI.
@@ -444,33 +309,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	del(G_found)//Don't want to leave ghosts around.
 	return new_character
-
-/client/proc/cmd_admin_add_freeform_ai_law()
-	set category = "Fun"
-	set name = "Add Custom AI law"
-	if(!authenticated || !holder)
-		src << "Only administrators may use this command."
-		return
-	var/input = input(usr, "Please enter anything you want the AI to do. Anything. Serious.", "What?", "") as text|null
-	if(!input)
-		return
-	for(var/mob/living/silicon/ai/M in world)
-		if (M.stat == 2)
-			usr << "Upload failed. No signal is being detected from the AI."
-		else if (M.see_in_dark == 0)
-			usr << "Upload failed. Only a faint signal is being detected from the AI, and it is not responding to our requests. It may be low on power."
-		else
-			M.add_ion_law(input)
-			for(var/mob/living/silicon/ai/O in world)
-				O << "\red " + input
-
-	log_admin("Admin [key_name(usr)] has added a new AI law - [input]")
-	message_admins("Admin [key_name_admin(usr)] has added a new AI law - [input]", 1)
-
-	var/show_log = alert(src, "Show ion message?", "Message", "Yes", "No")
-	if(show_log == "Yes")
-		command_alert("Ion storm detected near the station. Please check all AI-controlled equipment for errors.", "Anomaly Alert")
-		world << sound('ionstorm.ogg')
 
 /client/proc/cmd_admin_rejuvenate(mob/living/M as mob in world)
 	set category = "Special Verbs"

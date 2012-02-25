@@ -60,9 +60,6 @@
 	A.updateicon()
 
 	flick("echair1", src)
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-	s.set_up(12, 1, src)
-	s.start()
 	if(buckled_mob)
 		buckled_mob.burn_skin(85)
 		buckled_mob << "\red <B>You feel a deep shock course through your body!</B>"

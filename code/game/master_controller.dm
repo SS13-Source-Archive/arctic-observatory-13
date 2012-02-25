@@ -15,18 +15,11 @@ datum/controller/game_controller
 			return
 			//There can be only one master.
 
-		if(!air_master)
-			air_master = new /datum/controller/air_system()
-			air_master.setup()
-
 		if(!job_master)
 			job_master = new /datum/controller/occupations()
 			if(job_master.SetupOccupations())
 				world << "\red \b Job setup complete"
 				job_master.LoadJobs("config/jobs.txt")
-
-		if(!tension_master)
-			tension_master = new /datum/tension()
 
 		world.tick_lag = 0.9
 
@@ -52,19 +45,6 @@ datum/controller/game_controller
 		for(var/obj/object in world)
 			object.initialize()
 
-		world << "\red \b Initializing pipe networks"
-		sleep(-1)
-
-		for(var/obj/machinery/atmospherics/machine in world)
-			machine.build_network()
-
-		world << "\red \b Initializing atmos machinery."
-		sleep(-1)
-		for(var/obj/machinery/atmospherics/unary/vent_pump/T in world)
-			T.broadcast_status()
-		for(var/obj/machinery/atmospherics/unary/vent_scrubber/T in world)
-			T.broadcast_status()
-
 		world << "\red \b Initializations complete."
 
 
@@ -77,13 +57,7 @@ datum/controller/game_controller
 
 		var/start_time = world.timeofday
 
-		air_master.process()
-
-		tension_master.process()
-
 		sleep(1)
-
-		sun.calc_position()
 
 		sleep(-1)
 
@@ -107,9 +81,6 @@ datum/controller/game_controller
 
 		for(var/obj/object in processing_objects)
 			object.process()
-
-		for(var/datum/pipe_network/network in pipe_networks)
-			network.process()
 
 		for(var/datum/powernet/P in powernets)
 			P.reset()

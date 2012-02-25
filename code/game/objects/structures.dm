@@ -80,8 +80,6 @@ obj/structure
 				user << "\blue You added the plating!"
 				var/turf/Tsrc = get_turf(src)
 				Tsrc.ReplaceWithWall()
-				for(var/obj/machinery/atmospherics/pipe/P in Tsrc)
-					P.layer = 1
 				for(var/turf/simulated/wall/X in Tsrc.loc)
 					if(X)	X.add_hiddenprint(usr)
 				if (W)	W:use(2)
@@ -95,8 +93,6 @@ obj/structure
 					user << "\blue Wall fully reinforced!"
 					var/turf/Tsrc = get_turf(src)
 					Tsrc.ReplaceWithRWall()
-					for(var/obj/machinery/atmospherics/pipe/P in Tsrc)
-						P.layer = 1
 					for(var/turf/simulated/wall/r_wall/X in Tsrc.loc)
 						if(X)	X.add_hiddenprint(usr)
 					if (W)
@@ -111,12 +107,6 @@ obj/structure
 					new/obj/structure/girder/reinforced( src.loc )
 					del(src)
 					return
-		else if(istype(W, /obj/item/pipe))
-			var/obj/item/pipe/P = W
-			if (P.pipe_type in list(0, 1, 5))	//simple pipes, simple bends, and simple manifolds.
-				user.drop_item()
-				P.loc = src.loc
-				user << "\blue You fit the pipe into the [src]!"
 		else
 			..()
 

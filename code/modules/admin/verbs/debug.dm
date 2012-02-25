@@ -117,95 +117,6 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			returnval = call(procname)(arglist(lst)) // Pass the lst as an argument list to the proc
 	usr << "\blue Proc returned: [returnval ? returnval : "null"]"
 
-/client/proc/Cell()
-	set category = "Debug"
-	set name = "Air Status in Location"
-	if(!mob)
-		return
-	var/turf/T = mob.loc
-
-	if (!( istype(T, /turf) ))
-		return
-
-	var/datum/gas_mixture/env = T.return_air()
-
-	var/t = ""
-	t+= "Nitrogen : [env.nitrogen]\n"
-	t+= "Oxygen : [env.oxygen]\n"
-	t+= "Plasma : [env.toxins]\n"
-	t+= "CO2: [env.carbon_dioxide]\n"
-
-	usr.show_message(t, 1)
-
-/client/proc/cmd_admin_robotize(var/mob/M in world)
-	set category = "Fun"
-	set name = "Make Robot"
-
-	if(!ticker)
-		alert("Wait until the game starts")
-		return
-	if(istype(M, /mob/living/carbon/human))
-		log_admin("[key_name(src)] has robotized [M.key].")
-		spawn(10)
-			M:Robotize()
-
-	else
-		alert("Invalid mob")
-
-/client/proc/makepAI(var/turf/T in world)
-	set category = "Fun"
-	set name = "Make pAI"
-	set desc = "Specify a location to spawn a pAI device, then specify a key to play that pAI"
-
-	var/list/available = list()
-	for(var/mob/C in world)
-		if(C.key)
-			available.Add(C)
-	var/mob/choice = input("Choose a player to play the pAI", "Spawn pAI") in available
-	if(!choice)
-		return 0
-	if(!istype(choice, /mob/dead/observer))
-		var/confirm = input("[choice.key] isn't ghosting right now. Are you sure you want to yank him out of them out of their body and place them in this pAI?", "Spawn pAI Confirmation", "No") in list("Yes", "No")
-		if(confirm != "Yes")
-			return 0
-	var/obj/item/device/paicard/card = new(T)
-	var/mob/living/silicon/pai/pai = new(card)
-	pai.name = input(choice, "Enter your pAI name:", "pAI Name", "Personal AI") as text
-	pai.real_name = pai.name
-	pai.key = choice.key
-	card.pai = pai
-	for(var/datum/paiCandidate/candidate in paiController.pai_candidates)
-		if(candidate.key == choice.key)
-			paiController.pai_candidates.Remove(candidate)
-
-/client/proc/cmd_admin_alienize(var/mob/M in world)
-	set category = "Fun"
-	set name = "Make Alien"
-
-	if(!ticker)
-		alert("Wait until the game starts")
-		return
-	if(ishuman(M))
-		log_admin("[key_name(src)] has alienized [M.key].")
-		spawn(10)
-			M:Alienize()
-	else
-		alert("Invalid mob")
-
-/client/proc/cmd_admin_metroidize(var/mob/M in world)
-	set category = "Fun"
-	set name = "Make Metroid"
-
-	if(!ticker)
-		alert("Wait until the game starts")
-		return
-	if(ishuman(M))
-		log_admin("[key_name(src)] has metroidized [M.key].")
-		spawn(10)
-			M:Metroidize()
-	else
-		alert("Invalid mob")
-
 /*
 /client/proc/cmd_admin_monkeyize(var/mob/M in world)
 	set category = "Fun"
@@ -415,11 +326,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			M.equip_if_possible(new /obj/item/clothing/under/color/grey(M), M.slot_w_uniform)
 			M.equip_if_possible(new /obj/item/clothing/suit/space(M), M.slot_wear_suit)
 			M.equip_if_possible(new /obj/item/clothing/head/helmet/space(M), M.slot_head)
-			var /obj/item/weapon/tank/jetpack/J = new /obj/item/weapon/tank/jetpack/oxygen(M)
-			M.equip_if_possible(J, M.slot_back)
-			J.toggle()
 			M.equip_if_possible(new /obj/item/clothing/mask/breath(M), M.slot_wear_mask)
-			J.Topic(null, list("stat" = 1))
 		if ("tournament standard red","tournament standard green") //we think stunning weapon is too overpowered to use it on tournaments. --rastaf0
 			if (dresscode=="tournament standard red")
 				M.equip_if_possible(new /obj/item/clothing/under/color/red(M), M.slot_w_uniform)
@@ -432,8 +339,6 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 			M.equip_if_possible(new /obj/item/weapon/gun/energy/pulse_rifle/destroyer(M), M.slot_r_hand)
 			M.equip_if_possible(new /obj/item/weapon/kitchenknife(M), M.slot_l_hand)
-			M.equip_if_possible(new /obj/item/weapon/smokebomb(M), M.slot_r_store)
-
 
 		if ("tournament gangster") //gangster are supposed to fight each other. --rastaf0
 			M.equip_if_possible(new /obj/item/clothing/under/det(M), M.slot_w_uniform)
@@ -582,12 +487,6 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			W.assignment = "Reaper"
 			W.registered = M.real_name
 			M.equip_if_possible(W, M.slot_wear_id)
-
-		if("death commando")//Was looking to add this for a while.
-			M.equip_death_commando()
-
-		if("syndicate commando")
-			M.equip_syndicate_commando()
 
 		if("centcom official")
 			M.equip_if_possible(new /obj/item/clothing/under/rank/centcom_officer(M), M.slot_w_uniform)

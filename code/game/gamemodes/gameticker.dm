@@ -136,10 +136,7 @@ var/global/datum/controller/gameticker/ticker
 	proc/create_characters()
 		for(var/mob/new_player/player in world)
 			if(player.ready)
-				if(player.mind && player.mind.assigned_role=="AI")
-					player.close_spawn_windows()
-					player.AIize()
-				else if(player.mind)
+				if(player.mind)
 					player.create_character()
 					del(player)
 
@@ -195,28 +192,6 @@ var/global/datum/controller/gameticker/ticker
 
 
 /datum/controller/gameticker/proc/declare_completion()
-
-	for (var/mob/living/silicon/ai/aiPlayer in world)
-		if (aiPlayer.stat != 2)
-			world << "<b>[aiPlayer.name]'s laws at the end of the game were:</b>"
-		else
-			world << "<b>[aiPlayer.name]'s laws when it was deactivated were:</b>"
-		aiPlayer.show_laws(1)
-
-		if (aiPlayer.connected_robots.len)
-			var/robolist = "<b>The AI's loyal minions were:</b> "
-			for(var/mob/living/silicon/robot/robo in aiPlayer.connected_robots)
-				robolist += "[robo.name][robo.stat?" (Deactivated), ":", "]"
-			world << "[robolist]"
-
-	for (var/mob/living/silicon/robot/robo in world)
-		if (!robo.connected_ai)
-			if (robo.stat != 2)
-				world << "<b>[robo.name] survived as an AI-less borg! Its laws were:</b>"
-			else
-				world << "<b>[robo.name] was unable to survive the rigors of being a cyborg without an AI. Its laws were:</b>"
-			robo.laws.show_laws(world)
-
 	mode.declare_completion()//To declare normal completion.
 
 	//calls auto_declare_completion_* for all modes

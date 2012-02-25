@@ -69,8 +69,6 @@ var/global/list/datum/stack_recipe/metal_recipes = list ( \
 	new/datum/stack_recipe("rack parts", /obj/item/weapon/rack_parts), \
 	new/datum/stack_recipe("closet", /obj/structure/closet, 2, one_per_turf = 1), \
 	null, \
-	new/datum/stack_recipe("canister", /obj/machinery/portable_atmospherics/canister, 2, one_per_turf = 1), \
-	null, \
 	new/datum/stack_recipe("floor tile", /obj/item/stack/tile/plasteel, 1, 4, 10), \
 	new/datum/stack_recipe("metal rod", /obj/item/stack/rods, 1, 2, 60), \
 	null, \
@@ -82,8 +80,6 @@ var/global/list/datum/stack_recipe/metal_recipes = list ( \
 	null, \
 	new/datum/stack_recipe("apc frame", /obj/item/apc_frame, 2), \
 	new/datum/stack_recipe("grenade casing", /obj/item/weapon/chem_grenade), \
-	null, \
-	new/datum/stack_recipe("iron door", /obj/structure/mineral_door/iron, 20), \
 )
 
 /obj/item/stack/sheet/metal
@@ -96,7 +92,6 @@ var/global/list/datum/stack_recipe/metal_recipes = list ( \
 // /datum/stack_recipe/New(title, result_type, req_amount, res_amount, max_res_amount, time, one_per_turf, on_floor = 0)
 var/global/list/datum/stack_recipe/plasteel_recipes = list ( \
 	new/datum/stack_recipe("table parts", /obj/item/weapon/table_parts/reinforced, 2), \
-	new/datum/stack_recipe("AI core", /obj/structure/AIcore, 4, one_per_turf = 1), \
 	)
 
 /obj/item/stack/sheet/plasteel

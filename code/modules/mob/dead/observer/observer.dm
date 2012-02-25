@@ -23,8 +23,6 @@
 			verbs += /mob/dead/observer/proc/reenter_corpse
 		return
 
-/mob/dead/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	return 1
 /*
 Transfer_mind is there to check if mob is being deleted/not going to have a body.
 Works together with spawning an observer, noted above.
@@ -104,13 +102,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	..()
 	statpanel("Status")
 	if (client.statpanel == "Status")
-		if(ticker)
-			if(ticker.mode)
-				//world << "DEBUG: ticker not null"
-				if(ticker.mode.name == "AI malfunction")
-					//world << "DEBUG: malf mode ticker test"
-					if(ticker.mode:malf_mode_declared)
-						stat(null, "Time left: [max(ticker.mode:AI_win_timeleft/(ticker.mode:apcs/3), 0)]")
 		if(emergency_shuttle)
 			if(emergency_shuttle.online && emergency_shuttle.location < 2)
 				var/timeleft = emergency_shuttle.timeleft()
@@ -128,14 +119,6 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		client.clear_admin_verbs()
 		client.holder.state = 1
 		client.update_admins(rank)
-	if(iscultist(corpse) && corpse.ajourn==1 && corpse.stat!=2) //checks if it's an astral-journeying cultistm if it is and he's not on an astral journey rune, re-entering won't work
-		var/S=0
-		for(var/obj/effect/rune/R in world)
-			if(corpse.loc==R.loc && R.word1 == wordhell && R.word2 == wordtravel && R.word3 == wordself)
-				S=1
-		if(!S)
-			usr << "\red The astral cord that ties your body and your spirit has been severed. You are likely to wander the realm beyond until your body is finally dead and thus reunited with you."
-			return
 	if(corpse.ajourn)
 		corpse.ajourn=0
 	client.mob = corpse

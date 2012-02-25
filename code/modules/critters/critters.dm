@@ -96,7 +96,6 @@
 		src.alive = 0
 		var/turf/T = get_turf(src.loc)
 		if(T)
-			T.hotspot_expose(700,125)
 			explosion(T, -1, -1, 2, 3)
 		del src
 

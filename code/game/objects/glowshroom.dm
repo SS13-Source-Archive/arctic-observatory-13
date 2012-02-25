@@ -150,11 +150,6 @@
 		else
 	return
 
-/obj/effect/glowshroom/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if(exposed_temperature > 300)
-		endurance -= 5
-		CheckEndurance()
-
 /obj/effect/glowshroom/proc/CheckEndurance()
 	if(endurance <= 0)
 		del(src)

@@ -47,23 +47,6 @@
 			if(safety <= 0)
 				M.Weaken(10)
 				flick("e_flash", M.flash)
-
-				if(ishuman(M) && ishuman(user))
-					if(user.mind in ticker.mode.head_revolutionaries)
-						var/revsafe = 0
-						for(var/obj/item/weapon/implant/loyalty/L in M)
-							if(L && L.implanted)
-								revsafe = 1
-								break
-						if(M.mind.has_been_rev)
-							revsafe = 2
-						if(!revsafe)
-							M.mind.has_been_rev = 1
-							ticker.mode.add_revolutionary(M.mind)
-						else if(revsafe == 1)
-							user << "\red Something seems to be blocking the flash!"
-						else
-							user << "\red This mind seems resistant to the flash!"
 			else
 				flashfail = 1
 

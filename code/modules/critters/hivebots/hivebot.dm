@@ -79,14 +79,6 @@
 					T = C
 					break
 
-			for(var/obj/mecha/M in view(src.seekrange,src))
-				if(istype(M, /obj/mecha) && !src.atkmech) continue
-				if(M.health <= 0) continue
-				if(istype(M, /obj/mecha) && src.atkmech) src.attack = 1
-				if(src.attack)
-					T = M
-					break
-
 		if(src.attack)
 			src.target = T
 			src.oldtarget_name = T:name

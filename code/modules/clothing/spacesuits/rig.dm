@@ -24,7 +24,7 @@
 	protective_temperature = 5000 //For not dieing near a fire, but still not being great in a full inferno
 	slowdown = 2
 	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 60)
-	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/weapon/satchel,/obj/item/device/t_scanner,/obj/item/weapon/pickaxe, /obj/item/weapon/rcd)
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/satchel,/obj/item/device/t_scanner,/obj/item/weapon/pickaxe, /obj/item/weapon/rcd)
 
 /obj/item/clothing/suit/space/rig/mining
 	icon_state = "rig-mining"

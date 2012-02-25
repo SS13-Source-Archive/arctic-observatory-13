@@ -1,10 +1,6 @@
 /obj/structure/closet/alter_health()
 	return get_turf(src)
 
-/obj/structure/closet/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(air_group || (height==0 || wall_mounted)) return 1
-	return (!density)
-
 /obj/structure/closet/proc/can_open()
 	if(src.welded)
 		return 0
@@ -18,9 +14,6 @@
 
 /obj/structure/closet/proc/dump_contents()
 	for(var/obj/item/I in src)
-		I.loc = src.loc
-
-	for(var/obj/mecha/working/ripley/deathripley/I in src)
 		I.loc = src.loc
 
 	for(var/mob/M in src)
@@ -56,9 +49,6 @@
 	for(var/obj/item/I in src.loc)
 		if(!I.anchored)
 			I.loc = src
-
-	for(var/obj/mecha/working/ripley/deathripley/I in src.loc)
-		I.loc = src
 
 	for(var/mob/M in src.loc)
 		if(istype (M, /mob/dead/observer))
@@ -116,29 +106,8 @@
 
 	return
 
-// this should probably use dump_contents()
-/obj/structure/closet/blob_act()
-	if(prob(75))
-		for(var/atom/movable/A as mob|obj in src)
-			A.loc = src.loc
-		del(src)
-
-/obj/structure/closet/meteorhit(obj/O as obj)
-	if(O.icon_state == "flaming")
-		src.dump_contents()
-		del(src)
-
 /obj/structure/closet/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if(istype(W, /obj/item/weapon/packageWrap))
-		var/obj/item/weapon/packageWrap/O = W
-		if (O.amount > 3)
-			var/obj/effect/bigDelivery/P = new /obj/effect/bigDelivery(get_turf(src.loc))
-			P.wrapped = src
-			src.close()
-			src.welded = 1
-			src.loc = P
-			O.amount -= 3
-	else if(src.opened)
+	if(src.opened)
 		if(istype(W, /obj/item/weapon/grab))
 			src.MouseDrop_T(W:affecting, user)      //act like they were dragged onto the closet
 

@@ -37,9 +37,6 @@ Deathnettle
 		if (istype(A, /obj/machinery/hydroponics)) // We are targeting hydrotray
 			return
 
-		else if (istype(A, /obj/effect/blob)) // blob damage in blob code
-			return
-
 		else
 			var/obj/effect/decal/D = new/obj/effect/decal/(get_turf(src)) // Targeting elsewhere
 			D.name = "chemicals"

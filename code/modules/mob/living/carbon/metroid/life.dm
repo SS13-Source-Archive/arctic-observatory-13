@@ -315,16 +315,6 @@
 				adjustFireLoss(rand(10,20))
 				return
 
-			//var/environment_heat_capacity = environment.heat_capacity()
-			var/loc_temp = T0C
-			if(istype(loc, /turf/space))
-				//environment_heat_capacity = loc:heat_capacity
-				loc_temp = 2.7
-			else if(istype(loc, /obj/machinery/atmospherics/unary/cryo_cell))
-				loc_temp = loc:air_contents.temperature
-			else
-				loc_temp = environment.temperature
-
 			/*
 			if((environment.temperature > (T0C + 50)) || (environment.temperature < (T0C + 10)))
 				var/transfer_coefficient

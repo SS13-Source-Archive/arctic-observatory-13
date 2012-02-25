@@ -109,20 +109,6 @@
 				if(M.client)
 					hear += M
 
-	// Cryos:
-	for(var/obj/machinery/atmospherics/unary/cryo_cell/C in V)
-		if(C.occupant)
-			if(isInSight(source,C))
-				if(C.occupant.client)
-					hear += C.occupant
-
-	// Intelicards
-	for(var/obj/item/device/aicard/C in V)
-		for(var/mob/living/silicon/ai/M in C)
-			if(isInSight(source,C))
-				if(M.client)
-					hear += M
-
 	// Brains/MMIs/pAIs
 	for(var/mob/living/carbon/brain/C in world)
 		if(get_turf(C) in V)
@@ -141,27 +127,6 @@
 				if(C.pai.client)
 					hear += C.pai
 */
-	// Exosuits
-	for(var/obj/mecha/C in V)
-		if(C.occupant)
-			if(isInSight(source,C))
-				if(C.occupant.client)
-					hear += C.occupant
-
-	// Disposal Machines
-	for(var/obj/machinery/disposal/C in V)
-		for(var/mob/M in C.contents)
-			if(isInSight(source,C))
-				if(M.client)
-					hear += M
-
-	//Borg rechargers
-	for(var/obj/machinery/recharge_station/C in V)
-		if(C.occupant)
-			if(isInSight(source,C))
-				if(C.occupant.client)
-					hear += C.occupant
-
 	return hear
 
 #define SIGN(X) ((X<0)?-1:1)

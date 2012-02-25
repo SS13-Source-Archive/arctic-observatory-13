@@ -9,7 +9,7 @@
 	heat_transfer_coefficient = 0.01
 	protective_temperature = 10000
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
-	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen,/obj/item/weapon/extinguisher)
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/extinguisher)
 	slowdown = 1.0
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 
@@ -48,7 +48,7 @@
 	heat_transfer_coefficient = 0.30
 	protective_temperature = 1000
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
-	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank/emergency_oxygen)
+	allowed = list(/obj/item/device/flashlight)
 	slowdown = 1.5
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 60, rad = 100)
 	flags_inv = HIDEJUMPSUIT

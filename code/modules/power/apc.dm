@@ -470,15 +470,6 @@
 			user.machine = null
 			user << browse(null, "window=apc")
 			return
-		else if (istype(user, /mob/living/silicon) && src.aidisabled && !src.malfhack)
-			user << "AI control for this APC interface has been disabled."
-			user << browse(null, "window=apc")
-			return
-		else if (src.malfai)
-			if ((src.malfai != user && src.malfai != user:parent) && !islinked(user, malfai))
-				user << "AI control for this APC interface has been disabled."
-				user << browse(null, "window=apc")
-				return
 	if(wiresexposed && (!istype(user, /mob/living/silicon)))
 		var/t1 = text("<html><head><title>[area.name] APC wires</title></head><body><B>Access Panel</B><br>\n")
 		var/list/apcwires = list(
@@ -581,22 +572,6 @@
 
 		t += "<BR>Total load: [lastused_light + lastused_equip + lastused_environ] W</PRE>"
 		t += "<HR>Cover lock: [coverlocked ? "<B><A href='?src=\ref[src];lock=1'>Engaged</A></B>" : "<B><A href='?src=\ref[src];lock=1'>Disengaged</A></B>"]"
-
-
-		if (istype(user, /mob/living/silicon))
-			t += "<BR><HR><A href='?src=\ref[src];overload=1'><I>Overload lighting circuit</I></A><BR>"
-		if (ticker && ticker.mode)
-//		 world << "there's a ticker"
-			if(user.mind in ticker.mode.malf_ai)
-//				world << "ticker says its malf"
-				if (!src.malfai)
-					t += "<BR><HR><A href='?src=\ref[src];malfhack=1'><I>Override Programming</I></A><BR>"
-				else
-					t += "<BR><HR><I>APC Hacked</I><BR>"
-					if(!src.occupant)
-						t += "<A href='?src=\ref[src];occupyapc=1'><I>Shunt Core Processes</I></A><BR>"
-					else
-						t += "<I>Core Processes Uploaded</I><BR>"
 
 	t += "<BR><HR><A href='?src=\ref[src];close=1'>Close</A>"
 
@@ -783,10 +758,6 @@
 
 	else if (href_list["breaker"])
 		operating = !operating
-		if(malfai)
-			if (ticker.mode.config_tag == "malfunction")
-				if (src.z == 1) //if (is_type_in_list(get_area(src), the_station_areas))
-					operating ? ticker.mode:apcs++ : ticker.mode:apcs--
 		src.update()
 		updateicon()
 
@@ -831,73 +802,8 @@
 		if( istype(usr, /mob/living/silicon) && !src.aidisabled )
 			src.overload_lighting()
 
-	else if (href_list["malfhack"])
-		var/mob/living/silicon/ai/malfai = usr
-		if( istype(malfai, /mob/living/silicon/ai) && !src.aidisabled )
-			if (malfai.malfhacking)
-				malfai << "You are already hacking an APC."
-				return
-			malfai << "Beginning override of APC systems. This takes some time, and you cannot perform other actions during the process."
-			malfai.malfhack = src
-			malfai.malfhacking = 1
-			sleep(600)
-			if (!src.aidisabled)
-				malfai.malfhack = null
-				malfai.malfhacking = 0
-				if (ticker.mode.config_tag == "malfunction")
-					if (src.z == 1) //if (is_type_in_list(get_area(src), the_station_areas))
-						ticker.mode:apcs++
-				if(usr:parent)
-					src.malfai = usr:parent
-				else
-					src.malfai = usr
-				malfai << "Hack complete. The APC is now under your exclusive control."
-				updateicon()
-
-	else if (href_list["occupyapc"])
-		malfoccupy(usr)
-
-
-	else if (href_list["deoccupyapc"])
-		malfvacate()
-
 	src.updateDialog()
 	return
-
-/obj/machinery/power/apc/proc/malfoccupy(var/mob/living/silicon/ai/malf)
-	if(!istype(malf))
-		return
-	if(src.z != 1)
-		return
-	src.occupant = new /mob/living/silicon/ai(src,malf.laws,null,1)
-	src.occupant.adjustOxyLoss(malf.getOxyLoss())
-	src.occupant.name = "[malf.name] APC Copy"
-	if(malf.parent)
-		src.occupant.parent = malf.parent
-	else
-		src.occupant.parent = malf
-	malf.mind.transfer_to(src.occupant)
-	if(malf.parent)
-		del(malf)
-	src.occupant.verbs += /mob/living/silicon/ai/proc/corereturn
-	src.occupant.cancel_camera()
-
-/obj/machinery/power/apc/proc/malfvacate(var/forced)
-	if(!src.occupant)
-		return
-	if(src.occupant.parent && src.occupant.parent.stat != 2)
-		src.occupant.mind.transfer_to(src.occupant.parent)
-		src.occupant.parent.adjustOxyLoss(src.occupant.getOxyLoss())
-		src.occupant.parent.cancel_camera()
-		del(src.occupant)
-
-	else
-		src.occupant << "\red Primary core damaged, unable to return core processes."
-		if(forced)
-			src.occupant.loc = src.loc
-			src.occupant.death()
-			src.occupant.gib()
-
 
 /obj/machinery/power/apc/proc/ion_act()
 	//intended to be exactly the same as an AI malf attack
@@ -1116,12 +1022,6 @@
 	return val
 
 // damage and destruction acts
-
-/obj/machinery/power/apc/meteorhit(var/obj/O as obj)
-
-	set_broken()
-	return
-
 /obj/machinery/power/apc/emp_act(severity)
 	if(cell)
 		cell.emp_act(severity)
@@ -1163,14 +1063,8 @@
 			cell.blob_act()
 
 /obj/machinery/power/apc/proc/set_broken()
-	if(malfai && operating)
-		if (ticker.mode.config_tag == "malfunction")
-			if (src.z == 1) //if (is_type_in_list(get_area(src), the_station_areas))
-				ticker.mode:apcs--
 	stat |= BROKEN
 	operating = 0
-	if(occupant)
-		malfvacate(1)
 	updateicon()
 	update()
 
@@ -1189,16 +1083,10 @@
 					sleep(1)
 
 /obj/machinery/power/apc/Del()
-	if(malfai && operating)
-		if (ticker.mode.config_tag == "malfunction")
-			if (src.z == 1) //if (is_type_in_list(get_area(src), the_station_areas))
-				ticker.mode:apcs--
 	area.power_light = 0
 	area.power_equip = 0
 	area.power_environ = 0
 	area.power_change()
-	if(occupant)
-		malfvacate(1)
 	..()
 
 /obj/machinery/power/apc/proc/shock(mob/user, prb)

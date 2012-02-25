@@ -4,10 +4,6 @@
 		set invisibility = 0
 		set background = 1
 
-		var/datum/gas_mixture/environment // Added to prevent null location errors-- TLE
-		if(loc)
-			environment = loc.return_air()
-
 	//Apparently, the person who wrote this code designed it so that
 	//blinded get reset each cycle and then get activated later in the
 	//code. Very ugly. I dont care. Moving this stuff here so its easy
@@ -16,10 +12,6 @@
 
 	//Disease Check
 		handle_virus_updates()
-
-	//Handle temperature/pressure differences between body and environment
-		if(environment)	// More error checking -- TLE
-			handle_environment(environment)
 
 	//Mutations and radiation
 		handle_mutations_and_radiation()
@@ -32,9 +24,6 @@
 
 		if(client)
 			handle_regular_hud_updates()
-
-	// Yup.
-		update_canmove()
 
 		clamp_values()
 
@@ -84,52 +73,6 @@
 							domutcheck(src,null)
 							emote("gasp")
 						updatehealth()
-
-		update_canmove()
-			if(in_contents_of(/obj/mecha))
-				canmove = 1
-			else
-				canmove = 0
-			return
-
-		handle_environment(datum/gas_mixture/environment)
-			if(!environment)
-				return
-			var/environment_heat_capacity = environment.heat_capacity()
-			if(istype(loc, /turf/space))
-				environment_heat_capacity = loc:heat_capacity
-
-			if((environment.temperature > (T0C + 50)) || (environment.temperature < (T0C + 10)))
-				var/transfer_coefficient
-
-				transfer_coefficient = 1
-				if(wear_mask && (wear_mask.body_parts_covered & HEAD) && (environment.temperature < wear_mask.protective_temperature))
-					transfer_coefficient *= wear_mask.heat_transfer_coefficient
-
-				handle_temperature_damage(HEAD, environment.temperature, environment_heat_capacity*transfer_coefficient)
-
-			if(stat==2)
-				bodytemperature += 0.1*(environment.temperature - bodytemperature)*environment_heat_capacity/(environment_heat_capacity + 270000)
-
-			//Account for massive pressure differences
-
-			return //TODO: DEFERRED
-
-		handle_temperature_damage(body_part, exposed_temperature, exposed_intensity)
-			if(nodamage) return
-
-			if(exposed_temperature > bodytemperature)
-				var/discomfort = min( abs(exposed_temperature - bodytemperature)*(exposed_intensity)/2000000, 1.0)
-				//adjustFireLoss(2.5*discomfort)
-				//adjustFireLoss(5.0*discomfort)
-				adjustFireLoss(20.0*discomfort)
-
-			else
-				var/discomfort = min( abs(exposed_temperature - bodytemperature)*(exposed_intensity)/2000000, 1.0)
-				//adjustFireLoss(2.5*discomfort)
-				adjustFireLoss(5.0*discomfort)
-
-
 
 		handle_chemicals_in_body()
 

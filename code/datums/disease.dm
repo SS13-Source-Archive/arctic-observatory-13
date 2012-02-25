@@ -149,8 +149,6 @@ to null does not delete the object itself. Thank you.
 //		world << "Setting res to [src]"
 		var/saved_type = "[type]"//copy the value, not create the reference to it, so when the object is deleted, the value remains.
 		affected_mob.resistances += text2path(saved_type)
-	if((affected_mob) && (istype(src, /datum/disease/alien_embryo)))//Get rid of the flag.
-		affected_mob.alien_egg_flag = 0
 //	world << "Removing [src]"
 	spawn(0)
 		del(src)

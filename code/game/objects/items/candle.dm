@@ -56,10 +56,6 @@
 				src.dropped()
 			del(src)
 		update_icon()
-		if(istype(loc, /turf)) //start a fire if possible
-			var/turf/T = loc
-			T.hotspot_expose(700, 5)
-
 
 	attack_self(mob/user as mob)
 		if(lit)

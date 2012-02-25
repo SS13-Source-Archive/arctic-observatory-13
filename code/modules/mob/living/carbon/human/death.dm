@@ -7,8 +7,6 @@
 	src.dizziness = 0
 	src.jitteriness = 0
 
-	tension_master.death(src)
-
 	if (!gibbed)
 		emote("deathgasp") //let the world KNOW WE ARE DEAD
 

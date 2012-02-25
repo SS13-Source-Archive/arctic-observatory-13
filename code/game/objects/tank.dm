@@ -314,7 +314,6 @@
 /obj/item/weapon/tank/plasma/proc/release()
 	var/datum/gas_mixture/removed = air_contents.remove(air_contents.total_moles())
 
-	loc.assume_air(removed)
 
 /obj/item/weapon/tank/plasma/proc/ignite()
 	var/fuel_moles = air_contents.toxins + air_contents.oxygen/6

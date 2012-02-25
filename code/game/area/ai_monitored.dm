@@ -81,6 +81,3 @@
 		if (status) // ok we've just been reconnected... send an alarm!
 			detectTime = world.time - 301
 			triggerAlarm()
-		else
-			for (var/mob/living/silicon/aiPlayer in world) // manually cancel, to not disturb internal state
-				aiPlayer.cancelAlarm("Motion", src.loc.loc)

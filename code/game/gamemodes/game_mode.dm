@@ -161,28 +161,6 @@
 
 	shuffle(possible_modes)
 
-	var/datum/intercept_text/i_text = new /datum/intercept_text
-	for(var/A in possible_modes)
-		if(modePlayer.len == 0)
-			intercepttext += i_text.build(A)
-		else
-			intercepttext += i_text.build(A, pick(modePlayer))
-
-	for (var/obj/machinery/computer/communications/comm in world)
-		if (!(comm.stat & (BROKEN | NOPOWER)) && comm.prints_intercept)
-			var/obj/item/weapon/paper/intercept = new /obj/item/weapon/paper( comm.loc )
-			intercept.name = "paper- 'Cent. Com. Status Summary'"
-			intercept.info = intercepttext
-
-			comm.messagetitle.Add("Cent. Com. Status Summary")
-			comm.messagetext.Add(intercepttext)
-
-	command_alert("Summary downloaded and printed out at all communications consoles.", "Enemy communication intercept. Security Level Elevated.")
-	world << sound('intercept.ogg')
-	if(security_level < SEC_LEVEL_BLUE)
-		set_security_level(SEC_LEVEL_BLUE)
-
-
 /datum/game_mode/proc/get_players_for_role(var/role, override_jobbans=1)
 	var/list/candidates = list()
 	for(var/mob/new_player/player in world)

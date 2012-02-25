@@ -97,6 +97,3 @@
 				if(I.implanted)
 					if(istype(I,/obj/item/weapon/implant/tracking))
 						C.images += image(tempHud,perp,"hud_imp_tracking")
-					if(istype(I,/obj/item/weapon/implant/loyalty))
-						C.images += image(tempHud,perp,"hud_imp_loyal")
-

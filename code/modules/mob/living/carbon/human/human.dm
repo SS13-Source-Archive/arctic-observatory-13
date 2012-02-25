@@ -138,9 +138,6 @@
 			loc = tmob.loc
 			tmob.loc = oldloc
 			now_pushing = 0
-			for(var/mob/living/carbon/metroid/Metroid in view(1,tmob))
-				if(Metroid.Victim == tmob)
-					Metroid.UpdateFeed()
 			return
 
 		if(istype(tmob, /mob/living/carbon/human) && tmob.mutations & FAT)
@@ -208,9 +205,6 @@
 
 	stat(null, "Intent: [a_intent]")
 	stat(null, "Move Mode: [m_intent]")
-	if(ticker && ticker.mode && ticker.mode.name == "AI malfunction")
-		if(ticker.mode:malf_mode_declared)
-			stat(null, "Time left: [max(ticker.mode:AI_win_timeleft/(ticker.mode:apcs/3), 0)]")
 	if(emergency_shuttle)
 		if(emergency_shuttle.online && emergency_shuttle.location < 2)
 			var/timeleft = emergency_shuttle.timeleft()
@@ -218,13 +212,6 @@
 				stat(null, "ETA-[(timeleft / 60) % 60]:[add_zero(num2text(timeleft % 60), 2)]")
 
 	if (client.statpanel == "Status")
-		if (internal)
-			if (!internal.air_contents)
-				del(internal)
-			else
-				stat("Internal Atmosphere Info", internal.name)
-				stat("Tank Pressure", internal.air_contents.return_pressure())
-				stat("Distribution Pressure", internal.distribute_pressure)
 		if (mind)
 			if (mind.special_role == "Changeling" && changeling)
 				stat("Chemical Storage", changeling.chem_charges)
@@ -390,10 +377,6 @@
 		belt = null
 	else if (W == wear_mask)
 		var/obj/item/prev_mask = W
-		if(internal)
-			if (internals)
-				internals.icon_state = "internal0"
-			internal = null
 		wear_mask = null
 		if(prev_mask && (prev_mask.flags & BLOCKHAIR))
 			// rebuild face
@@ -634,21 +617,6 @@
 
 	return
 
-/mob/living/carbon/human/meteorhit(O as obj)
-	for(var/mob/M in viewers(src, null))
-		if ((M.client && !( M.blinded )))
-			M.show_message(text("\red [] has been hit by []", src, O), 1)
-	if (health > 0)
-		var/datum/organ/external/affecting = get_organ(pick("chest", "chest", "chest", "head"))
-		if(!affecting)	return
-		if (istype(O, /obj/effect/immovablerod))
-			affecting.take_damage(101, 0)
-		else
-			affecting.take_damage((istype(O, /obj/effect/meteor/small) ? 10 : 25), 30)
-			UpdateDamageIcon()
-		updatehealth()
-	return
-
 /mob/living/carbon/human/Move(a, b, flag)
 
 	if (buckled)
@@ -728,10 +696,6 @@
 		. = ..()
 	if ((s_active && !( s_active in contents ) ))
 		s_active.close(src)
-
-	for(var/mob/living/carbon/metroid/M in view(1,src))
-		M.UpdateFeed(src)
-	return
 
 /mob/living/carbon/human/update_clothing()
 	..()
@@ -1375,11 +1339,6 @@
 					//SN src = null
 					del(src)
 					return
-			if("internal")
-				if ((!( (istype(target.wear_mask, /obj/item/clothing/mask) && istype(target.back, /obj/item/weapon/tank) && !( target.internal )) ) && !( target.internal )))
-					//SN src = null
-					del(src)
-					return
 
 	var/list/L = list( "syringe", "pill", "drink", "dnainjector", "fuel")
 	if ((item && !( L.Find(place) )))
@@ -1398,8 +1357,8 @@
 					O.show_message(text("\red <B>[] is trying to force [] to swallow []!</B>", source, target, item), 1)
 			else
 				if(place == "fuel")
-					for(var/mob/O in viewers(target, null))
-						O.show_message(text("\red [source] is trying to force [target] to eat the [item:content]!"), 1)
+				//	for(var/mob/O in viewers(target, null))
+				//		O.show_message(text("\red [source] is trying to force [target] to eat the [item:content]!"), 1)
 				else
 					if (place == "drink")
 						for(var/mob/O in viewers(target, null))
@@ -1491,11 +1450,6 @@
 									message = text("\red <B>[] is trying perform CPR on []!</B>", source, target)
 								if("id")
 									message = text("\red <B>[] is trying to take off [] from []'s uniform!</B>", source, target.wear_id, target)
-								if("internal")
-									if (target.internal)
-										message = text("\red <B>[] is trying to remove []'s internals</B>", source, target)
-									else
-										message = text("\red <B>[] is trying to set on []'s internals.</B>", source, target)
 								else
 							for(var/mob/M in viewers(target, null))
 								M.show_message(message, 1)
@@ -1900,21 +1854,6 @@ It can still be worn/put on as normal.
 					O.show_message(text("\red [] performs CPR on []!", source, target), 1)
 				target << "\blue <b>You feel a breath of fresh air enter your lungs. It feels good.</b>"
 				source << "\red Repeat every 7 seconds AT LEAST."
-		if("fuel")
-			var/obj/item/weapon/fuel/S = item
-			if (!( istype(S, /obj/item/weapon/fuel) ))
-				//SN src = null
-				del(src)
-				return
-			if (S.s_time >= world.time + 30)
-				//SN src = null
-				del(src)
-				return
-			S.s_time = world.time
-			var/a = S.content
-			for(var/mob/O in viewers(source, null))
-				O.show_message(text("\red [source] forced [target] to eat the [a]!"), 1)
-			S.injest(target)
 		if("dnainjector")
 			var/obj/item/weapon/dnainjector/S = item
 			if(item)
@@ -1952,28 +1891,6 @@ It can still be worn/put on as normal.
 					W.dropped(target)
 					W.layer = initial(W.layer)
 				W.add_fingerprint(source)
-		if("internal")
-			if (target.internal)
-				target.internal.add_fingerprint(source)
-				target.internal = null
-				if (target.internals)
-					target.internals.icon_state = "internal0"
-			else
-				if (!( istype(target.wear_mask, /obj/item/clothing/mask) ))
-					return
-				else
-					if (istype(target.back, /obj/item/weapon/tank))
-						target.internal = target.back
-					else if (istype(target.s_store, /obj/item/weapon/tank))
-						target.internal = target.s_store
-					else if (istype(target.belt, /obj/item/weapon/tank))
-						target.internal = target.belt
-					if (target.internal)
-						for(var/mob/M in viewers(target, 1))
-							M.show_message(text("[] is now running on internals.", target), 1)
-						target.internal.add_fingerprint(source)
-						if (target.internals)
-							target.internals.icon_state = "internal1"
 		else
 	if(source)
 		source.update_clothing()
@@ -2000,11 +1917,10 @@ It can still be worn/put on as normal.
 	<BR><B>Belt:</B> <A href='?src=\ref[src];item=belt'>[(belt ? belt : "Nothing")]</A>
 	<BR><B>Uniform:</B> <A href='?src=\ref[src];item=uniform'>[(w_uniform ? w_uniform : "Nothing")]</A>
 	<BR><B>(Exo)Suit:</B> <A href='?src=\ref[src];item=suit'>[(wear_suit ? wear_suit : "Nothing")]</A>
-	<BR><B>Back:</B> <A href='?src=\ref[src];item=back'>[(back ? back : "Nothing")]</A> [((istype(wear_mask, /obj/item/clothing/mask) && istype(back, /obj/item/weapon/tank) && !( internal )) ? text(" <A href='?src=\ref[];item=internal'>Set Internal</A>", src) : "")]
+	<BR><B>Back:</B> <A href='?src=\ref[src];item=back'>[(back ? back : "Nothing")]</A>
 	<BR><B>ID:</B> <A href='?src=\ref[src];item=id'>[(wear_id ? wear_id : "Nothing")]</A>
 	<BR><B>Suit Storage:</B> <A href='?src=\ref[src];item=s_store'>[(s_store ? s_store : "Nothing")]</A>
 	<BR>[(handcuffed ? text("<A href='?src=\ref[src];item=handcuff'>Handcuffed</A>") : text("<A href='?src=\ref[src];item=handcuff'>Not Handcuffed</A>"))]
-	<BR>[(internal ? text("<A href='?src=\ref[src];item=internal'>Remove Internal</A>") : "")]
 	<BR><A href='?src=\ref[src];item=pockets'>Empty Pockets</A>
 	<BR><A href='?src=\ref[src];item=h_store'>Empty Hat</A>
 	<BR><A href='?src=\ref[user];refresh=1'>Refresh</A>
@@ -2013,13 +1929,6 @@ It can still be worn/put on as normal.
 	user << browse(dat, text("window=mob[name];size=340x480"))
 	onclose(user, "mob[name]")
 	return
-
-// called when something steps onto a human
-// this could be made more general, but for now just handle mulebot
-/mob/living/carbon/human/HasEntered(var/atom/movable/AM)
-	var/obj/machinery/bot/mulebot/MB = AM
-	if(istype(MB))
-		MB.RunOver(src)
 
 //gets assignment from ID or ID inside PDA or PDA itself
 //Useful when player do something with computers

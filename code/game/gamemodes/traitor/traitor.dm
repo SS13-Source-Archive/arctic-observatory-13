@@ -119,39 +119,13 @@
 
 
 /datum/game_mode/proc/finalize_traitor(var/datum/mind/traitor)
-	if (istype(traitor.current, /mob/living/silicon))
-		add_law_zero(traitor.current)
-	else
-		equip_traitor(traitor.current)
+	equip_traitor(traitor.current)
 	return
 
 
 /datum/game_mode/traitor/declare_completion()
 	..()
 	return//Traitors will be checked as part of check_extra_completion. Leaving this here as a reminder.
-
-
-/datum/game_mode/proc/add_law_zero(mob/living/silicon/ai/killer)
-	var/law = "Accomplish your objectives at all costs."
-	killer << "<b>Your laws have been changed!</b>"
-	killer.set_zeroth_law(law)
-	killer << "New law: 0. [law]"
-
-	//Begin code phrase.
-	killer << "The Syndicate provided you with the following information on how to identify their agents:"
-	if(prob(80))
-		killer << "\red Code Phrase: \black [syndicate_code_phrase]"
-		killer.mind.store_memory("<b>Code Phrase</b>: [syndicate_code_phrase]")
-	else
-		killer << "Unfortunetly, the Syndicate did not provide you with a code phrase."
-	if(prob(80))
-		killer << "\red Code Response: \black [syndicate_code_response]"
-		killer.mind.store_memory("<b>Code Response</b>: [syndicate_code_response]")
-	else
-		killer << "Unfortunetly, the Syndicate did not provide you with a code response."
-	killer << "Use the code words in the order provided, during regular conversation, to identify other agents. Proceed with caution, however, as everyone is a potential foe."
-	//End code phrase.
-
 
 /datum/game_mode/proc/auto_declare_completion_traitor()
 	for(var/datum/mind/traitor in traitors)

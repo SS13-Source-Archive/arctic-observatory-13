@@ -40,7 +40,6 @@
 		H.equip_if_possible(new /obj/item/device/pda/toxins(H), H.slot_belt)
 		H.equip_if_possible(new /obj/item/clothing/suit/labcoat/science(H), H.slot_wear_suit)
 		H.equip_if_possible(new /obj/item/clothing/mask/gas(H), H.slot_wear_mask)
-		H.equip_if_possible(new /obj/item/weapon/tank/oxygen(H), H.slot_l_hand)
 		return 1
 
 

@@ -37,14 +37,6 @@
 					del(src)
 					return
 
-	blob_act()
-		if (prob(50))
-			del(src)
-
-	meteorhit()
-		del(src)
-		return
-
 	proc/updateWindow(mob/user as mob)
 		winset(user, "chemdispenser.energy", "text=\"Energy: [src.energy]\"")
 		winset(user, "chemdispenser.amount", "text=\"Amount: [src.amount]\"")
@@ -177,14 +169,6 @@
 				if (prob(50))
 					del(src)
 					return
-
-	blob_act()
-		if (prob(50))
-			del(src)
-
-	meteorhit()
-		del(src)
-		return
 
 	attackby(var/obj/item/weapon/reagent_containers/glass/B as obj, var/mob/user as mob)
 		if(!istype(B, /obj/item/weapon/reagent_containers/glass))

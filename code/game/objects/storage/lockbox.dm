@@ -64,19 +64,6 @@
 			..()
 		return
 
-
-/obj/item/weapon/storage/lockbox/loyalty
-	name = "Lockbox (Loyalty Implants)"
-	req_access = list(access_security)
-
-	New()
-		..()
-		new /obj/item/weapon/implantcase/loyalty(src)
-		new /obj/item/weapon/implantcase/loyalty(src)
-		new /obj/item/weapon/implantcase/loyalty(src)
-		new /obj/item/weapon/implanter/loyalty(src)
-
-
 /obj/item/weapon/storage/lockbox/clusterbang
 	name = "Lockbox (Clusterbang)"
 	desc = "You have a bad feeling about opening this."

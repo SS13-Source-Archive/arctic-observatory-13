@@ -235,24 +235,7 @@ datum
 				for(var/mob/living/carbon/metroid/M in T)
 					M.adjustToxLoss(rand(15,20))
 
-				var/hotspot = (locate(/obj/effect/hotspot) in T)
-				if(hotspot && !istype(T, /turf/space))
-					var/datum/gas_mixture/lowertemp = T.remove_air( T:air:total_moles() )
-					lowertemp.temperature = max( min(lowertemp.temperature-2000,lowertemp.temperature / 2) ,0)
-					lowertemp.react()
-					T.assume_air(lowertemp)
-					del(hotspot)
-				return
 			reaction_obj(var/obj/O, var/volume)
-				src = null
-				var/turf/T = get_turf(O)
-				var/hotspot = (locate(/obj/effect/hotspot) in T)
-				if(hotspot && !istype(T, /turf/space))
-					var/datum/gas_mixture/lowertemp = T.remove_air( T:air:total_moles() )
-					lowertemp.temperature = max( min(lowertemp.temperature-2000,lowertemp.temperature / 2) ,0)
-					lowertemp.react()
-					T.assume_air(lowertemp)
-					del(hotspot)
 				if(istype(O,/obj/item/weapon/reagent_containers/food/snacks/monkeycube))
 					var/obj/item/weapon/reagent_containers/food/snacks/monkeycube/cube = O
 					if(!cube.wrapped)
@@ -941,24 +924,6 @@ datum
 			reagent_state = LIQUID
 			color = "#660000" // rgb: 102, 0, 0
 
-			reaction_obj(var/obj/O, var/volume)
-				src = null
-				var/turf/the_turf = get_turf(O)
-				if(!the_turf)
-					return //No sense trying to start a fire if you don't have a turf to set on fire. --NEO
-				var/datum/gas_mixture/napalm = new
-				var/datum/gas/volatile_fuel/fuel = new
-				fuel.moles = 15
-				napalm.trace_gases += fuel
-				the_turf.assume_air(napalm)
-			reaction_turf(var/turf/T, var/volume)
-				src = null
-				var/datum/gas_mixture/napalm = new
-				var/datum/gas/volatile_fuel/fuel = new
-				fuel.moles = 15
-				napalm.trace_gases += fuel
-				T.assume_air(napalm)
-				return
 			on_mob_life(var/mob/living/M as mob)
 				if(!M) M = holder.my_atom
 				M:adjustToxLoss(1)
@@ -1026,10 +991,7 @@ datum
 			reaction_obj(var/obj/O, var/volume)
 		//		if(istype(O,/obj/plant/vine/))
 		//			O:life -= rand(15,35) // Kills vines nicely // Not tested as vines don't work in R41
-				if(istype(O,/obj/effect/alien/weeds/))
-					O:health -= rand(15,35) // Kills alien weeds pretty fast
-					O:healthcheck()
-				else if(istype(O,/obj/effect/glowshroom)) //even a small amount is enough to kill it
+				if(istype(O,/obj/effect/glowshroom)) //even a small amount is enough to kill it
 					del(O)
 				// Damage that is done to growing plants is separately
 				// at code/game/machinery/hydroponics at obj/item/hydroponics
@@ -1058,23 +1020,6 @@ datum
 					holder.remove_reagent("inaprovaline", 2)
 				M:adjustToxLoss(1)
 				..()
-				return
-			reaction_obj(var/obj/O, var/volume)
-				if((!O) || (!volume))	return 0
-				src = null
-				var/turf/the_turf = get_turf(O)
-				var/datum/gas_mixture/napalm = new
-				var/datum/gas/volatile_fuel/fuel = new
-				fuel.moles = 5
-				napalm.trace_gases += fuel
-				the_turf.assume_air(napalm)
-			reaction_turf(var/turf/T, var/volume)
-				src = null
-				var/datum/gas_mixture/napalm = new
-				var/datum/gas/volatile_fuel/fuel = new
-				fuel.moles = 5
-				napalm.trace_gases += fuel
-				T.assume_air(napalm)
 				return
 
 		leporazine
@@ -1470,31 +1415,6 @@ datum
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		nanites
-			name = "Nanomachines"
-			id = "nanites"
-			description = "Microscopic construction robots."
-			reagent_state = LIQUID
-			color = "#535E66" // rgb: 83, 94, 102
-
-			reaction_mob(var/mob/M, var/method=TOUCH, var/volume)
-				src = null
-				if( (prob(10) && method==TOUCH) || method==INGEST)
-					M.contract_disease(new /datum/disease/robotic_transformation(0),1)
-
-		xenomicrobes
-			name = "Xenomicrobes"
-			id = "xenomicrobes"
-			description = "Microbes with an entirely alien cellular structure."
-			reagent_state = LIQUID
-			color = "#535E66" // rgb: 83, 94, 102
-
-			reaction_mob(var/mob/M, var/method=TOUCH, var/volume)
-				src = null
-				if( (prob(10) && method==TOUCH) || method==INGEST)
-					M.contract_disease(new /datum/disease/xeno_transformation(0),1)
-
 //foam precursor
 
 		fluorosurfactant
@@ -1916,13 +1836,6 @@ datum
 						if(T.wet_overlay)
 							T.overlays -= T.wet_overlay
 							T.wet_overlay = null
-				var/hotspot = (locate(/obj/effect/hotspot) in T)
-				if(hotspot)
-					var/datum/gas_mixture/lowertemp = T.remove_air( T:air:total_moles() )
-					lowertemp.temperature = max( min(lowertemp.temperature-2000,lowertemp.temperature / 2) ,0)
-					lowertemp.react()
-					T.assume_air(lowertemp)
-					del(hotspot)
 
 		enzyme
 			name = "Universal Enzyme"

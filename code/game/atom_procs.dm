@@ -748,11 +748,11 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 								if(!border_obstacle.CheckExit(D, src))
 									check_1 = 0
 									// ------- YOU TRIED TO CLICK ON AN ITEM THROUGH A WINDOW (OR SIMILAR THING THAT LIMITS ON BORDERS) ON ONE OF THE DIRECITON TILES -------
-						for(var/obj/border_obstacle in get_turf(src))
-							if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
-								if(!border_obstacle.CanPass(D, D.loc, 1, 0))
-									// ------- YOU TRIED TO CLICK ON AN ITEM THROUGH A WINDOW (OR SIMILAR THING THAT LIMITS ON BORDERS) ON THE TILE YOU'RE ON -------
-									check_1 = 0
+					//	for(var/obj/border_obstacle in get_turf(src))
+					//		if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
+					//			if(!border_obstacle.CanPass(D, D.loc, 1, 0))
+					//				// ------- YOU TRIED TO CLICK ON AN ITEM THROUGH A WINDOW (OR SIMILAR THING THAT LIMITS ON BORDERS) ON THE TILE YOU'RE ON -------
+					//				check_1 = 0
 
 					D.loc = usr.loc
 					if(step_to(D, Step_2))
@@ -762,10 +762,10 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 							if(border_obstacle.flags & ON_BORDER)
 								if(!border_obstacle.CheckExit(D, src))
 									check_2 = 0
-						for(var/obj/border_obstacle in get_turf(src))
-							if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
-								if(!border_obstacle.CanPass(D, D.loc, 1, 0))
-									check_2 = 0
+					//	for(var/obj/border_obstacle in get_turf(src))
+					//		if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
+					//			if(!border_obstacle.CanPass(D, D.loc, 1, 0))
+					//				check_2 = 0
 
 
 					if(check_1 || check_2)
@@ -795,10 +795,10 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 								ok = 0
 
 					//Next, check objects to block entry that are on the border
-					for(var/obj/border_obstacle in get_turf(src))
-						if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
-							if(!border_obstacle.CanPass(D, D.loc, 1, 0))
-								ok = 0
+				//	for(var/obj/border_obstacle in get_turf(src))
+				//		if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
+				//			if(!border_obstacle.CanPass(D, D.loc, 1, 0))
+				//				ok = 0
 				/*
 					See the previous More info, for... more info...
 				*/

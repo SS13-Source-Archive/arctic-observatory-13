@@ -19,11 +19,6 @@
 	if (istype(O, /mob/living/carbon))
 		if (!(O in turretTargets))
 			turretTargets += O
-	else if (istype(O, /obj/mecha))
-		var/obj/mecha/M = O
-		if (M.occupant)
-			if (!(M in turretTargets))
-				turretTargets += M
 	return 1
 
 /area/turret_protected/Exited(O)
@@ -37,10 +32,6 @@
 				turretTargets -= O
 			//else
 				//O << "You aren't in our target list!"
-
-	else if (istype(O, /obj/mecha))
-		if (O in turretTargets)
-			turretTargets -= O
 	..()
 	return 1
 
@@ -138,10 +129,6 @@
 			if(!MC.stat)
 				if(!MC.lying || lasers)
 					return 1
-		else if(istype(T, /obj/mecha))
-			var/obj/mecha/ME = T
-			if(ME.occupant)
-				return 1
 	return 0
 
 /obj/machinery/turret/proc/get_new_target()
@@ -151,9 +138,6 @@
 		if(!M.stat)
 			if(!M.lying || lasers)
 				new_targets += M
-	for(var/obj/mecha/M in protected_area.turretTargets)
-		if(M.occupant)
-			new_targets += M
 	if(new_targets.len)
 		new_target = pick(new_targets)
 	return new_target
@@ -441,10 +425,6 @@
 		del src
 		return
 
-	meteorhit()
-		del src
-		return
-
 	proc/update_health()
 		if(src.health<=0)
 			del src
@@ -513,8 +493,6 @@
 			var/mob/M = target
 			if(!M.stat && !M.lying)//ninjas can't catch you if you're lying
 				return 1
-		else if(istype(target, /obj/mecha))
-			return 1
 		return 0
 
 
@@ -536,21 +514,6 @@
 		var/target = null
 		if(scan_for["human"])
 			for(var/mob/living/carbon/human/M in oview(scan_range,src))
-				if(M.stat || M.lying || M in exclude)
-					continue
-				pos_targets += M
-		if(scan_for["cyborg"])
-			for(var/mob/living/silicon/M in oview(scan_range,src))
-				if(M.stat || M.lying || M in exclude)
-					continue
-				pos_targets += M
-		if(scan_for["mecha"])
-			for(var/obj/mecha/M in oview(scan_range, src))
-				if(M in exclude)
-					continue
-				pos_targets += M
-		if(scan_for["alien"])
-			for(var/mob/living/carbon/alien/M in oview(scan_range,src))
 				if(M.stat || M.lying || M in exclude)
 					continue
 				pos_targets += M

@@ -21,8 +21,6 @@
 
 	usr << "Your message has been broadcast to administrators."
 	log_admin("HELP: [key_name(src)]: [msg]")
-	if(tension_master)
-		tension_master.new_adminhelp()
 	send2irc(usr.ckey, msg)
 	return
 

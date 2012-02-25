@@ -413,16 +413,6 @@ To combat this, I changed the window name. -- Doohl
 	if(usr.stat || usr.restrained())
 		return
 
-	if(istype(usr,/mob/living/silicon))
-		if(istype(usr,/mob/living/silicon/robot))
-			var/mob/living/silicon/robot/R = usr
-			if(!(R.module && istype(R.module,/obj/item/weapon/robot_module/butler) ))
-				usr << "\red The vending machine refuses to interface with you, as you are not in its target demographic!"
-				return
-		else
-			usr << "\red The vending machine refuses to interface with you, as you are not in its target demographic!"
-			return
-
 	if(href_list["remove_coin"])
 		if(!coin)
 			usr << "There is no coin in this machine."

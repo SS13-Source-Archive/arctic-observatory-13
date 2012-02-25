@@ -9,8 +9,6 @@ SYNDICATE UPLINK
 /obj/item/weapon/syndicate_uplink/proc/explode()
 	var/turf/location = get_turf(src.loc)
 	if(location)
-		location.hotspot_expose(700,125)
-
 		explosion(location, 0, 0, 2, 4)
 
 	del(src.master)
@@ -155,10 +153,6 @@ SYNDICATE UPLINK
 						src.uses -= 4
 						new /obj/item/device/chameleon(get_turf(src))
 						feedback_add_details("traitor_uplink_items_bought","CP")
-				if("lawmod")
-					if (src.uses >= 7)
-						src.uses -= 7
-						new /obj/item/weapon/aiModule/syndicate(get_turf(src))
 				if("cloak")
 					if (src.uses >= 4)
 						if (ticker.mode.config_tag!="nuclear" || \

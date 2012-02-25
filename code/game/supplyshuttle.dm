@@ -44,15 +44,6 @@ var/ordernum=0
 	anchored = 1
 	layer = 4
 
-/obj/structure/plasticflaps/CanPass(atom/A, turf/T)
-	if(istype(A) && A.checkpass(PASSGLASS))
-		return prob(60)
-	else if(istype(A, /mob/living)) // You Shall Not Pass!
-		var/mob/living/M = A
-		if(!M.lying || istype(M, /mob/living/carbon/monkey) || istype(M, /mob/living/carbon/metroid))	// unless you're lying down, or a small creature
-			return 0
-	return ..()
-
 /obj/structure/plasticflaps/ex_act(severity)
 	switch(severity)
 		if (1)
@@ -153,17 +144,14 @@ var/ordernum=0
 		//if((locate(/mob/living) in T) && (!locate(/mob/living/carbon/monkey) in T)) return 0  //old check for living excluded monkeys
 		if((locate(/mob/living) in T)) return 0
 		if((locate(/obj/item/device/radio/beacon) in T)) return 0
-		if((locate(/obj/mecha) in T)) return 0
 		if((locate(/obj/structure/closet/body_bag) in T)) return 0
 		for(var/atom/ATM in T)
 			if((locate(/mob/living) in ATM)) return 0
 			if((locate(/obj/item/device/radio/beacon) in ATM)) return 0
-			if((locate(/obj/mecha ) in ATM)) return 0
 			if((locate(/obj/structure/closet/body_bag) in ATM)) return 0
 			for(var/atom/ATMM in ATM) // okay jesus christ how many recursive packaging options are we going to have guys come on - Quarxink
 				if((locate(/mob/living) in ATMM)) return 0
 				if((locate(/obj/item/device/radio/beacon) in ATMM)) return 0
-				if((locate(/obj/mecha ) in ATMM)) return 0
 				if((locate(/obj/structure/closet/body_bag) in ATMM)) return 0
 	return 1
 

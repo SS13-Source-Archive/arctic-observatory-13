@@ -64,28 +64,6 @@
 	density = 1
 	icon_opened = "freezeropen"
 	icon_closed = "freezer"
-	var
-		target_temp = T0C - 40
-		cooling_power = 40
-
-	return_air()
-		var/datum/gas_mixture/gas = (..())
-		if(!gas)	return null
-		var/datum/gas_mixture/newgas = new/datum/gas_mixture()
-		newgas.oxygen = gas.oxygen
-		newgas.carbon_dioxide = gas.carbon_dioxide
-		newgas.nitrogen = gas.nitrogen
-		newgas.toxins = gas.toxins
-		newgas.volume = gas.volume
-		newgas.temperature = gas.temperature
-		if(newgas.temperature <= target_temp)	return
-
-		if((newgas.temperature - cooling_power) > target_temp)
-			newgas.temperature -= cooling_power
-		else
-			newgas.temperature = target_temp
-		return newgas
-
 
 /obj/structure/closet/crate/bin
 	desc = "A large bin."
@@ -297,14 +275,7 @@
 	return attack_hand(user)
 
 /obj/structure/closet/crate/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if (istype(W, /obj/item/weapon/packageWrap))
-		var/obj/item/weapon/packageWrap/O = W
-		if (O.amount > 3)
-			var/obj/effect/bigDelivery/P = new /obj/effect/bigDelivery(get_turf(src.loc))
-			P.wrapped = src
-			src.loc = P
-			O.amount -= 3
-	else if(opened)
+	if(opened)
 		if(isrobot(user))
 			return
 		user.drop_item()

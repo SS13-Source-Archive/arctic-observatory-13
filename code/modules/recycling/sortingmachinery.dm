@@ -249,8 +249,6 @@
 
 		H.init(src)	// copy the contents of disposer to holder
 
-		air_contents = new()		// new empty gas resv.
-
 		sleep(10)
 		playsound(src, 'disposalflush.ogg', 50, 0, 0)
 		sleep(5) // wait for animation to finish

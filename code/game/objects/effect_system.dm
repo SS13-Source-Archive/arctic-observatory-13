@@ -151,25 +151,8 @@ steam.start() -- spawns the effect
 /obj/effect/effect/sparks/New()
 	..()
 	playsound(src.loc, "sparks", 100, 1)
-	var/turf/T = src.loc
-	if (istype(T, /turf))
-		T.hotspot_expose(1000,100)
 	spawn (100)
 		del(src)
-	return
-
-/obj/effect/effect/sparks/Del()
-	var/turf/T = src.loc
-	if (istype(T, /turf))
-		T.hotspot_expose(1000,100)
-	..()
-	return
-
-/obj/effect/effect/sparks/Move()
-	..()
-	var/turf/T = src.loc
-	if (istype(T, /turf))
-		T.hotspot_expose(1000,100)
 	return
 
 /datum/effect/effect/system/spark_spread
@@ -277,107 +260,6 @@ steam.start() -- spawns the effect
 				spawn(75+rand(10,30))
 					del(smoke)
 					src.total_smoke--
-
-
-/////////////////////////////////////////////
-// Bad smoke
-/////////////////////////////////////////////
-
-/obj/effect/effect/bad_smoke
-	name = "smoke"
-	icon_state = "smoke"
-	opacity = 1
-	anchored = 0.0
-	mouse_opacity = 0
-	var/amount = 6.0
-	//Remove this bit to use the old smoke
-	icon = '96x96.dmi'
-	pixel_x = -32
-	pixel_y = -32
-
-/obj/effect/effect/bad_smoke/New()
-	..()
-	spawn (200+rand(10,30))
-		del(src)
-	return
-
-/obj/effect/effect/bad_smoke/Move()
-	..()
-	for(var/mob/living/carbon/M in get_turf(src))
-		if (M.internal != null && M.wear_mask && (M.wear_mask.flags & MASKINTERNALS))
-		else
-			M.drop_item()
-			M.adjustOxyLoss(1)
-			if (M.coughedtime != 1)
-				M.coughedtime = 1
-				M.emote("cough")
-				spawn ( 20 )
-					M.coughedtime = 0
-	return
-
-
-/obj/effect/effect/bad_smoke/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(air_group || (height==0)) return 1
-	if(istype(mover, /obj/item/projectile/beam))
-		var/obj/item/projectile/beam/B = mover
-		B.damage = (B.damage/2)
-	return 1
-
-
-/obj/effect/effect/bad_smoke/HasEntered(mob/living/carbon/M as mob )
-	..()
-	if(istype(M, /mob/living/carbon))
-		if (M.internal != null && M.wear_mask && (M.wear_mask.flags & MASKINTERNALS))
-			return
-		else
-			M.drop_item()
-			M.adjustOxyLoss(1)
-			if (M.coughedtime != 1)
-				M.coughedtime = 1
-				M.emote("cough")
-				spawn ( 20 )
-					M.coughedtime = 0
-	return
-
-/datum/effect/effect/system/bad_smoke_spread
-	var/total_smoke = 0 // To stop it being spammed and lagging!
-	var/direction
-
-	set_up(n = 5, c = 0, loca, direct)
-		if(n > 20)
-			n = 20
-		number = n
-		cardinals = c
-		if(istype(loca, /turf/))
-			location = loca
-		else
-			location = get_turf(loca)
-		if(direct)
-			direction = direct
-
-	start()
-		var/i = 0
-		for(i=0, i<src.number, i++)
-			if(src.total_smoke > 20)
-				return
-			spawn(0)
-				if(holder)
-					src.location = get_turf(holder)
-				var/obj/effect/effect/bad_smoke/smoke = new /obj/effect/effect/bad_smoke(src.location)
-				src.total_smoke++
-				var/direction = src.direction
-				if(!direction)
-					if(src.cardinals)
-						direction = pick(cardinal)
-					else
-						direction = pick(alldirs)
-				for(i=0, i<pick(0,1,1,1,2,2,2,3), i++)
-					sleep(10)
-					step(smoke,direction)
-				spawn(150+rand(10,30))
-					del(smoke)
-					src.total_smoke--
-
 
 /////////////////////////////////////////////
 // Chem smoke
@@ -545,32 +427,25 @@ steam.start() -- spawns the effect
 /obj/effect/effect/sleep_smoke/Move()
 	..()
 	for(var/mob/living/carbon/M in get_turf(src))
-		if (M.internal != null && M.wear_mask && (M.wear_mask.flags & MASKINTERNALS))
-//		if (M.wear_suit, /obj/item/clothing/suit/wizrobe && (M.hat, /obj/item/clothing/head/wizard) && (M.shoes, /obj/item/clothing/shoes/sandal))  // I'll work on it later
-		else
-			M.drop_item()
-			M:sleeping += 1
-			if (M.coughedtime != 1)
-				M.coughedtime = 1
-				M.emote("cough")
-				spawn ( 20 )
-					M.coughedtime = 0
+		M.drop_item()
+		M:sleeping += 1
+		if (M.coughedtime != 1)
+			M.coughedtime = 1
+			M.emote("cough")
+			spawn ( 20 )
+				M.coughedtime = 0
 	return
 
 /obj/effect/effect/sleep_smoke/HasEntered(mob/living/carbon/M as mob )
 	..()
 	if(istype(M, /mob/living/carbon))
-		if (M.internal != null && M.wear_mask && (M.wear_mask.flags & MASKINTERNALS))
-//		if (M.wear_suit, /obj/item/clothing/suit/wizrobe && (M.hat, /obj/item/clothing/head/wizard) && (M.shoes, /obj/item/clothing/shoes/sandal)) // Work on it later
-			return
-		else
-			M.drop_item()
-			M:sleeping += 1
-			if (M.coughedtime != 1)
-				M.coughedtime = 1
-				M.emote("cough")
-				spawn ( 20 )
-					M.coughedtime = 0
+		M.drop_item()
+		M:sleeping += 1
+		if (M.coughedtime != 1)
+			M.coughedtime = 1
+			M.emote("cough")
+			spawn ( 20 )
+				M.coughedtime = 0
 	return
 
 /datum/effect/effect/system/sleep_smoke_spread
@@ -612,94 +487,6 @@ steam.start() -- spawns the effect
 				spawn(150+rand(10,30))
 					del(smoke)
 					src.total_smoke--
-
-/////////////////////////////////////////////
-// Mustard Gas
-/////////////////////////////////////////////
-
-
-/obj/effect/effect/mustard_gas
-	name = "mustard gas"
-	icon_state = "mustard"
-	opacity = 1
-	anchored = 0.0
-	mouse_opacity = 0
-	var/amount = 6.0
-
-/obj/effect/effect/mustard_gas/New()
-	..()
-	spawn (100)
-		del(src)
-	return
-
-/obj/effect/effect/mustard_gas/Move()
-	..()
-	for(var/mob/living/carbon/human/R in get_turf(src))
-		if (R.internal != null && usr.wear_mask && (R.wear_mask.flags & MASKINTERNALS) && R.wear_suit != null && !istype(R.wear_suit, /obj/item/clothing/suit/labcoat) && !istype(R.wear_suit, /obj/item/clothing/suit/straight_jacket) && !istype(R.wear_suit, /obj/item/clothing/suit/straight_jacket && !istype(R.wear_suit, /obj/item/clothing/suit/armor)))
-		else
-			R.burn_skin(0.75)
-			if (R.coughedtime != 1)
-				R.coughedtime = 1
-				R.emote("gasp")
-				spawn (20)
-					R.coughedtime = 0
-			R.updatehealth()
-	return
-
-/obj/effect/effect/mustard_gas/HasEntered(mob/living/carbon/human/R as mob )
-	..()
-	if (istype(R, /mob/living/carbon/human))
-		if (R.internal != null && usr.wear_mask && (R.wear_mask.flags & MASKINTERNALS) && R.wear_suit != null && !istype(R.wear_suit, /obj/item/clothing/suit/labcoat) && !istype(R.wear_suit, /obj/item/clothing/suit/straight_jacket) && !istype(R.wear_suit, /obj/item/clothing/suit/straight_jacket && !istype(R.wear_suit, /obj/item/clothing/suit/armor)))
-			return
-		R.burn_skin(0.75)
-		if (R.coughedtime != 1)
-			R.coughedtime = 1
-			R.emote("gasp")
-			spawn (20)
-				R.coughedtime = 0
-		R.updatehealth()
-	return
-
-/datum/effect/effect/system/mustard_gas_spread
-	var/total_smoke = 0 // To stop it being spammed and lagging!
-	var/direction
-
-	set_up(n = 5, c = 0, loca, direct)
-		if(n > 20)
-			n = 20
-		number = n
-		cardinals = c
-		if(istype(loca, /turf/))
-			location = loca
-		else
-			location = get_turf(loca)
-		if(direct)
-			direction = direct
-
-	start()
-		var/i = 0
-		for(i=0, i<src.number, i++)
-			if(src.total_smoke > 20)
-				return
-			spawn(0)
-				if(holder)
-					src.location = get_turf(holder)
-				var/obj/effect/effect/mustard_gas/smoke = new /obj/effect/effect/mustard_gas(src.location)
-				src.total_smoke++
-				var/direction = src.direction
-				if(!direction)
-					if(src.cardinals)
-						direction = pick(cardinal)
-					else
-						direction = pick(alldirs)
-				for(i=0, i<pick(0,1,1,1,2,2,2,3), i++)
-					sleep(10)
-					step(smoke,direction)
-				spawn(100)
-					del(smoke)
-					src.total_smoke--
-
-
 
 /////////////////////////////////////////////
 //////// Attach an Ion trail to any object, that spawns when it moves (like for the jetpack)
@@ -879,16 +666,6 @@ steam.start() -- spawns the effect
 						F.reagents.add_reagent(R.id,1)
 		sleep(15)
 
-// foam disolves when heated
-// except metal foams
-/obj/effect/effect/foam/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if(!metal && prob(max(0, exposed_temperature - 475)))
-		flick("[icon_state]-disolve", src)
-
-		spawn(5)
-			del(src)
-
-
 /obj/effect/effect/foam/HasEntered(var/atom/movable/AM)
 	if(metal)
 		return
@@ -967,14 +744,12 @@ steam.start() -- spawns the effect
 
 	New()
 		..()
-		update_nearby_tiles(1)
 		spawn(1)
 			sd_NewOpacity(1)
 
 	Del()
 		sd_NewOpacity(0)
 		density = 0
-		update_nearby_tiles(1)
 		..()
 
 	proc/updateicon()
@@ -1031,57 +806,6 @@ steam.start() -- spawns the effect
 			del(src)
 		else
 			user << "\blue You hit the metal foam to no effect."
-
-	CanPass(atom/movable/mover, turf/target, height=1.5, air_group = 0)
-		if(air_group) return 0
-		return !density
-
-
-	// shouldn't this be a general procedure?
-	// not sure if this neccessary or overkill
-	proc/update_nearby_tiles(need_rebuild)
-		if(!air_master) return 0
-
-		var/turf/simulated/source = loc
-		var/turf/simulated/north = get_step(source,NORTH)
-		var/turf/simulated/south = get_step(source,SOUTH)
-		var/turf/simulated/east = get_step(source,EAST)
-		var/turf/simulated/west = get_step(source,WEST)
-
-		if(need_rebuild)
-			if(istype(source)) //Rebuild/update nearby group geometry
-				if(source.parent)
-					air_master.groups_to_rebuild += source.parent
-				else
-					air_master.tiles_to_update += source
-			if(istype(north))
-				if(north.parent)
-					air_master.groups_to_rebuild += north.parent
-				else
-					air_master.tiles_to_update += north
-			if(istype(south))
-				if(south.parent)
-					air_master.groups_to_rebuild += south.parent
-				else
-					air_master.tiles_to_update += south
-			if(istype(east))
-				if(east.parent)
-					air_master.groups_to_rebuild += east.parent
-				else
-					air_master.tiles_to_update += east
-			if(istype(west))
-				if(west.parent)
-					air_master.groups_to_rebuild += west.parent
-				else
-					air_master.tiles_to_update += west
-		else
-			if(istype(source)) air_master.tiles_to_update += source
-			if(istype(north)) air_master.tiles_to_update += north
-			if(istype(south)) air_master.tiles_to_update += south
-			if(istype(east)) air_master.tiles_to_update += east
-			if(istype(west)) air_master.tiles_to_update += west
-
-		return 1
 
 /datum/effect/effect/system/reagents_explosion
 	var/amount 						// TNT equivalent

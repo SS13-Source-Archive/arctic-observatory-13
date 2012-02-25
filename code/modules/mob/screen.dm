@@ -204,17 +204,6 @@
 	var/list/pa = params2list(params)
 
 	switch(name)
-		if("map")
-
-			usr.clearmap()
-		if("maprefresh")
-			var/obj/machinery/computer/security/seccomp = usr.machine
-
-			if(seccomp!=null)
-				seccomp.drawmap(usr)
-			else
-				usr.clearmap()
-
 		if("other")
 			if (usr.hud_used.show_otherinventory)
 				usr.hud_used.show_otherinventory = 0
@@ -366,47 +355,6 @@
 			usr.intent = "13,15"
 		if("Reset Machine")
 			usr.machine = null
-		if("internal")
-			if ((!( usr.stat ) && usr.canmove && !( usr.restrained() )))
-				if (usr.internal)
-					usr.internal = null
-					usr << "\blue No longer running on internals."
-					if (usr.internals)
-						usr.internals.icon_state = "internal0"
-				else
-					if(ishuman(usr))
-						if (!( istype(usr.wear_mask, /obj/item/clothing/mask) ))
-							usr << "\red You are not wearing a mask"
-							return
-						else
-							if (istype(usr.back, /obj/item/weapon/tank))
-								usr << "\blue You are now running on internals from the [usr.back] on your back."
-								usr.internal = usr.back
-							else if (ishuman(usr) && istype(usr:s_store, /obj/item/weapon/tank))
-								usr << "\blue You are now running on internals from the [usr:s_store] on your [usr:wear_suit]."
-								usr.internal = usr:s_store
-							else if (ishuman(usr) && istype(usr:belt, /obj/item/weapon/tank))
-								usr << "\blue You are now running on internals from the [usr:belt] on your belt."
-								usr.internal = usr:belt
-							else if (istype(usr:l_store, /obj/item/weapon/tank))
-								usr << "\blue You are now running on internals from the [usr:l_store] in your left pocket."
-								usr.internal = usr:l_store
-							else if (istype(usr:r_store, /obj/item/weapon/tank))
-								usr << "\blue You are now running on internals from the [usr:r_store] in your right pocket."
-								usr.internal = usr:r_store
-							else if (istype(usr.l_hand, /obj/item/weapon/tank))
-								usr << "\blue You are now running on internals from the [usr.l_hand] on your left hand."
-								usr.internal = usr.l_hand
-							else if (istype(usr.r_hand, /obj/item/weapon/tank))
-								usr << "\blue You are now running on internals from the [usr.r_hand] on your right hand."
-								usr.internal = usr.r_hand
-							if (usr.internal)
-								//for(var/mob/M in viewers(usr, 1))
-								//	M.show_message(text("[] is now running on internals.", usr), 1)
-								if (usr.internals)
-									usr.internals.icon_state = "internal1"
-							else
-								usr << "\blue You don't have an oxygen tank."
 		if("pull")
 			usr.pulling = null
 		if("sleep")
@@ -488,56 +436,6 @@
 							O.show_message(text("\red <B>[] manages to unbuckle themself!</B>", usr), 1)
 						usr << "\blue You successfully unbuckle yourself."
 						usr:buckled.manual_unbuckle(usr)
-		if("module")
-			if(issilicon(usr))
-				if(usr:module)
-					return
-				usr:pick_module()
-
-		if("radio")
-			if(issilicon(usr))
-				usr:radio_menu()
-		if("panel")
-			if(issilicon(usr))
-				usr:installed_modules()
-
-		if("store")
-			if(issilicon(usr))
-				usr:uneq_active()
-
-		if("module1")
-			if(usr:module_state_1)
-				if(usr:module_active != usr:module_state_1)
-					usr:inv1.icon_state = "inv1 +a"
-					usr:inv2.icon_state = "inv2"
-					usr:inv3.icon_state = "inv3"
-					usr:module_active = usr:module_state_1
-				else
-					usr:inv1.icon_state = "inv1"
-					usr:module_active = null
-
-		if("module2")
-			if(usr:module_state_2)
-				if(usr:module_active != usr:module_state_2)
-					usr:inv1.icon_state = "inv1"
-					usr:inv2.icon_state = "inv2 +a"
-					usr:inv3.icon_state = "inv3"
-					usr:module_active = usr:module_state_2
-				else
-					usr:inv2.icon_state = "inv2"
-					usr:module_active = null
-
-		if("module3")
-			if(usr:module_state_3)
-				if(usr:module_active != usr:module_state_3)
-					usr:inv1.icon_state = "inv1"
-					usr:inv2.icon_state = "inv2"
-					usr:inv3.icon_state = "inv3 +a"
-					usr:module_active = usr:module_state_3
-				else
-					usr:inv3.icon_state = "inv3"
-					usr:module_active = null
-
 		else
 			DblClick()
 	return

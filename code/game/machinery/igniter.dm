@@ -16,13 +16,6 @@
 	src.icon_state = text("igniter[]", src.on)
 	return
 
-/obj/machinery/igniter/process()
-	if (src.on && !(stat & NOPOWER) )
-		var/turf/location = src.loc
-		if (isturf(location))
-			location.hotspot_expose(1000,500,1)
-	return 1
-
 /obj/machinery/igniter/New()
 	..()
 	icon_state = "igniter[on]"
@@ -93,9 +86,6 @@
 	s.start()
 	src.last_spark = world.time
 	use_power(1000)
-	var/turf/location = src.loc
-	if (isturf(location))
-		location.hotspot_expose(1000,500,1)
 	return 1
 
 

@@ -96,17 +96,6 @@
 	..()
 	return
 
-/mob/living/carbon/monkey/meteorhit(obj/O as obj)
-	for(var/mob/M in viewers(src, null))
-		M.show_message(text("\red [] has been hit by []", src, O), 1)
-	if (health > 0)
-		var/shielded = 0
-		adjustBruteLoss(30)
-		if ((O.icon_state == "flaming" && !( shielded )))
-			adjustFireLoss(40)
-		health = 100 - getOxyLoss() - getToxLoss() - getFireLoss() - getBruteLoss()
-	return
-
 //mob/living/carbon/monkey/bullet_act(var/obj/item/projectile/Proj)taken care of in living
 
 /mob/living/carbon/monkey/hand_p(mob/M as mob)
@@ -519,15 +508,6 @@
 		. = ..()
 	if ((s_active && !( contents.Find(s_active) )))
 		s_active.close(src)
-
-	for(var/mob/living/carbon/metroid/M in view(1,src))
-		M.UpdateFeed(src)
-	return
-
-/mob/living/carbon/monkey/verb/removeinternal()
-	set name = "Remove Internals"
-	set category = "IC"
-	internal = null
 	return
 
 /mob/living/carbon/monkey/var/co2overloadtime = null
@@ -605,10 +585,6 @@
 				if (!( target.handcuffed ))
 					del(src)
 					return
-			if("internal")
-				if ((!( (istype(target.wear_mask, /obj/item/clothing/mask) && istype(target.back, /obj/item/weapon/tank) && !( target.internal )) ) && !( target.internal )))
-					del(src)
-					return
 
 	if (item)
 		for(var/mob/O in viewers(target, null))
@@ -630,11 +606,6 @@
 				message = text("\red <B>[] is trying to take off a [] from []'s back!</B>", source, target.back, target)
 			if("handcuff")
 				message = text("\red <B>[] is trying to unhandcuff []!</B>", source, target)
-			if("internal")
-				if (target.internal)
-					message = text("\red <B>[] is trying to remove []'s internals</B>", source, target)
-				else
-					message = text("\red <B>[] is trying to set on []'s internals.</B>", source, target)
 			else
 		for(var/mob/M in viewers(target, null))
 			M.show_message(message, 1)
@@ -741,22 +712,6 @@
 					source.drop_item()
 					target.handcuffed = item
 					item.loc = target
-		if("internal")
-			if (target.internal)
-				target.internal.add_fingerprint(source)
-				target.internal = null
-			else
-				if (target.internal)
-					target.internal = null
-				if (!( istype(target.wear_mask, /obj/item/clothing/mask) ))
-					return
-				else
-					if (istype(target.back, /obj/item/weapon/tank))
-						target.internal = target.back
-						target.internal.add_fingerprint(source)
-						for(var/mob/M in viewers(target, 1))
-							if ((M.client && !( M.blinded )))
-								M.show_message(text("[] is now running on internals.", target), 1)
 		else
 	source.update_clothing()
 	target.update_clothing()

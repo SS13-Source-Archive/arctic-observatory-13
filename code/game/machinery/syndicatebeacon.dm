@@ -129,9 +129,6 @@
 
 
 	proc/Deactivate(mob/user = null)
-		for(var/obj/machinery/singularity/singulo in world)
-			if(singulo.target == src)
-				singulo.target = null
 		icon_state = "[icontype]0"
 		active = 0
 		if(user) user << "\blue You deactivate the beacon."

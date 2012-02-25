@@ -48,10 +48,6 @@
 		if(M.mind && (M.mind.assigned_role == "Chaplain"))
 			user << "\red You can't heal yourself!"
 			return
-		if((M.mind in ticker.mode.cult) && (prob(20)))
-			M << "\red The power of [src.deity_name] clears your mind of heresy!"
-			user << "\red You see how [M]'s eyes become clear, the cult no longer holds control over him!"
-			ticker.mode.remove_cultist(M.mind)
 		if ((istype(M, /mob/living/carbon/human) && prob(60)))
 			bless(M)
 			for(var/mob/O in viewers(M, null))
@@ -72,10 +68,6 @@
 	return
 
 /obj/item/weapon/storage/bible/afterattack(atom/A, mob/user as mob)
-	if (istype(A, /turf/simulated/floor))
-		user << "\blue You hit the floor with the bible."
-		if(user.mind && (user.mind.assigned_role == "Chaplain"))
-			call(/obj/effect/rune/proc/revealrunes)(src)
 	if(user.mind && (user.mind.assigned_role == "Chaplain"))
 		if(A.reagents && A.reagents.has_reagent("water")) //blesses all the water in the holder
 			user << "\blue You bless [A]."

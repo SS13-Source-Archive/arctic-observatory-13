@@ -106,17 +106,6 @@ Contains the procs that control attacking critters
 				return
 		return
 
-
-	meteorhit()
-		src.Die()
-		return
-
-
-	blob_act()
-		if(prob(25))
-			src.Die()
-		return
-
 	attack_animal(mob/living/simple_animal/M as mob)
 		if(M.melee_damage_upper == 0)
 			M.emote("[M.friendly] [src]")

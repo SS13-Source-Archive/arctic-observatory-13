@@ -33,20 +33,6 @@ THERMAL GLASSES
 	..()
 	return
 
-/obj/item/clothing/gloves/latex/attackby(obj/item/weapon/cable_coil/O as obj, loc)
-	if (istype(O) && O.amount==1)
-		var/obj/item/latexballon/LB = new
-		if (usr.get_inactive_hand()==src)
-			usr.before_take_item(src)
-			usr.put_in_inactive_hand(LB)
-		else
-			LB.loc = src.loc
-		del(O)
-		del(src)
-	else
-		return ..()
-
-
 /obj/item/clothing/shoes/orange/attack_self(mob/user as mob)
 	if (src.chained)
 		src.chained = null
@@ -84,10 +70,6 @@ THERMAL GLASSES
 		var/mob/living/carbon/human/M = location
 		if(M.l_hand == src || M.r_hand == src || M.head == src)
 			location = M.loc
-
-	if (istype(location, /turf))
-		location.hotspot_expose(700, 1)
-
 
 /obj/item/clothing/head/cakehat/attack_self(mob/user as mob)
 	if(status > 1)	return

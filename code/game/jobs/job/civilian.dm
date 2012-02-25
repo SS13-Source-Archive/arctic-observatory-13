@@ -18,7 +18,6 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_if_possible(new /obj/item/weapon/storage/backpack(H), H.slot_back)
-		H.equip_if_possible(new /obj/item/weapon/storage/box/survival(H.back), H.slot_in_backpack)
 		H.equip_if_possible(new /obj/item/clothing/under/rank/bartender(H), H.slot_w_uniform)
 		H.equip_if_possible(new /obj/item/clothing/shoes/black(H), H.slot_shoes)
 		H.equip_if_possible(new /obj/item/clothing/suit/armor/vest(H), H.slot_wear_suit)
@@ -160,7 +159,6 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_if_possible(new /obj/item/weapon/storage/backpack/clown(H), H.slot_back)
-		H.equip_if_possible(new /obj/item/weapon/storage/box/survival(H.back), H.slot_in_backpack)
 		H.equip_if_possible(new /obj/item/clothing/under/rank/clown(H), H.slot_w_uniform)
 		H.equip_if_possible(new /obj/item/clothing/shoes/clown_shoes(H), H.slot_shoes)
 		H.equip_if_possible(new /obj/item/device/pda/clown(H), H.slot_belt)
@@ -189,7 +187,6 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_if_possible(new /obj/item/weapon/storage/backpack(H), H.slot_back)
-		H.equip_if_possible(new /obj/item/weapon/storage/box/survival(H.back), H.slot_in_backpack)
 		H.equip_if_possible(new /obj/item/clothing/under/mime(H), H.slot_w_uniform)
 		H.equip_if_possible(new /obj/item/clothing/shoes/black(H), H.slot_shoes)
 		H.equip_if_possible(new /obj/item/device/pda/mime(H), H.slot_belt)
@@ -199,11 +196,6 @@
 		H.equip_if_possible(new /obj/item/clothing/suit/suspenders(H), H.slot_wear_suit)
 		H.equip_if_possible(new /obj/item/toy/crayon/mime(H), H.slot_in_backpack)
 		H.equip_if_possible(new /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing(H), H.slot_in_backpack)
-		H.verbs += /client/proc/mimespeak
-		H.verbs += /client/proc/mimewall
-		H.mind.special_verbs += /client/proc/mimespeak
-		H.mind.special_verbs += /client/proc/mimewall
-		H.miming = 1
 		return 1
 
 
@@ -264,7 +256,6 @@ var/global/lawyer = 0//Checks for another lawyer
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
 		H.equip_if_possible(new /obj/item/weapon/storage/backpack(H), H.slot_back)
-		H.equip_if_possible(new /obj/item/weapon/storage/box/survival(H.back), H.slot_in_backpack)
 		if(!lawyer)
 			lawyer = 1
 			H.equip_if_possible(new /obj/item/clothing/under/lawyer/bluesuit(H), H.slot_w_uniform)

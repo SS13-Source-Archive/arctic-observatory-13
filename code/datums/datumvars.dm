@@ -429,18 +429,6 @@ client
 				return
 			src.holder.show_player_panel(MOB)
 			href_list["datumrefresh"] = href_list["mob_player_panel"]
-		else if (href_list["give_spell"])
-			if(!href_list["give_spell"])
-				return
-			var/mob/MOB = locate(href_list["give_spell"])
-			if(!MOB)
-				return
-			if(!ismob(MOB))
-				return
-			if(!src.holder)
-				return
-			src.give_spell(MOB)
-			href_list["datumrefresh"] = href_list["give_spell"]
 		else if (href_list["godmode"])
 			if(!href_list["godmode"])
 				return

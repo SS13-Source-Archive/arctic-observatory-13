@@ -700,68 +700,6 @@
 			alert("You cannot perform this action. You must be of a higher administrative rank!", null, null, null, null, null)
 			return
 
-	if (href_list["makeai"]) //Yes, im fucking lazy, so what? it works ... hopefully
-		if (src.level>=3)
-			var/mob/M = locate(href_list["makeai"])
-			if(istype(M, /mob/living/carbon/human))
-				var/mob/living/carbon/human/H = M
-				message_admins("\red Admin [key_name_admin(usr)] AIized [key_name_admin(M)]!", 1)
-//				if (ticker.mode.name  == "AI malfunction")
-//					var/obj/O = locate("landmark*ai")
-//					M << "\blue <B>You have been teleported to your new starting location!</B>"
-//					M.loc = O.loc
-//					M.buckled = null
-//				else
-//					var/obj/S = locate(text("start*AI"))
-//					if ((istype(S, /obj/effect/landmark/start) && istype(S.loc, /turf)))
-//						M << "\blue <B>You have been teleported to your new starting location!</B>"
-//						M.loc = S.loc
-//						M.buckled = null
-				//	world << "<b>[M.real_name] is the AI!</b>"
-				log_admin("[key_name(usr)] AIized [key_name(M)]")
-				H.AIize()
-			else
-				alert("I cannot allow this.")
-				return
-		else
-			alert("You cannot perform this action. You must be of a higher administrative rank!", null, null, null, null, null)
-			return
-
-	if (href_list["makealien"])
-		if (src.level>=3)
-			var/mob/M = locate(href_list["makealien"])
-			if(istype(M, /mob/living/carbon/human))
-				usr.client.cmd_admin_alienize(M)
-			else
-				alert("Wrong mob. Must be human.")
-				return
-		else
-			alert("You cannot perform this action. You must be of a higher administrative rank!")
-			return
-
-	if (href_list["makemetroid"])
-		if (src.level>=3)
-			var/mob/M = locate(href_list["makemetroid"])
-			if(istype(M, /mob/living/carbon/human))
-				usr.client.cmd_admin_metroidize(M)
-			else
-				alert("Wrong mob. Must be human.")
-				return
-		else
-			alert("You cannot perform this action. You must be of a higher administrative rank!")
-			return
-
-	if (href_list["makerobot"])
-		if (src.level>=3)
-			var/mob/M = locate(href_list["makerobot"])
-			if(istype(M, /mob/living/carbon/human))
-				usr.client.cmd_admin_robotize(M)
-			else
-				alert("Wrong mob. Must be human.")
-				return
-		else
-			alert("You cannot perform this action. You must be of a higher administrative rank!")
-			return
 /***************** BEFORE**************
 
 	if (href_list["l_players"])
@@ -1060,8 +998,6 @@
 						removed_paths += dirty_path
 					else if (ispath(path, /obj/item/weapon/melee/energy/blade))//Not an item one should be able to spawn./N
 						removed_paths += dirty_path
-					else if (ispath(path, /obj/effect/bhole) && !(src.rank in list("Game Admin", "Game Master")))
-						removed_paths += dirty_path
 					else if (ispath(path, /mob) && !(src.rank in list("Badmin", "Game Admin", "Game Master")))
 						removed_paths += dirty_path
 
@@ -1259,46 +1195,6 @@
 					for(var/obj/machinery/computer/prison_shuttle/PS in world)
 						PS.allowedtocall = !(PS.allowedtocall)
 						message_admins("\blue [key_name_admin(usr)] toggled status of prison shuttle to [PS.allowedtocall].", 1)
-				if("prisonwarp")
-					if(!ticker)
-						alert("The game hasn't started yet!", null, null, null, null, null)
-						return
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","PW")
-					message_admins("\blue [key_name_admin(usr)] teleported all players to the prison station.", 1)
-					for(var/mob/living/carbon/human/H in world)
-						var/turf/loc = find_loc(H)
-						var/security = 0
-						if(loc.z > 1 || prisonwarped.Find(H))
-	//don't warp them if they aren't ready or are already there
-							continue
-						H.Paralyse(5)
-						if(H.wear_id)
-							var/obj/item/weapon/card/id/id = H.get_idcard()
-							for(var/A in id.access)
-								if(A == access_security)
-									security++
-						if(!security)
-							//strip their stuff before they teleport into a cell :downs:
-							for(var/obj/item/weapon/W in H)
-								if(istype(W, /datum/organ/external))
-									continue
-									//don't strip organs
-								H.u_equip(W)
-								if (H.client)
-									H.client.screen -= W
-								if (W)
-									W.loc = H.loc
-									W.dropped(H)
-									W.layer = initial(W.layer)
-							//teleport person to cell
-							H.loc = pick(prisonwarp)
-							H.equip_if_possible(new /obj/item/clothing/under/color/orange(H), H.slot_w_uniform)
-							H.equip_if_possible(new /obj/item/clothing/shoes/orange(H), H.slot_shoes)
-						else
-							//teleport security person
-							H.loc = pick(prisonsecuritywarp)
-						prisonwarped += H
 				if("traitor_all")
 					if ((src.rank in list( "Admin Candidate", "Trial Admin", "Badmin", "Game Admin", "Game Master"  )))
 						if(!ticker)
@@ -1471,61 +1367,6 @@
 						spawn(0)
 							sleep(rand(30,400))
 							Wall.ex_act(rand(2,1)) */
-				if("wave")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","MW")
-					if ((src.rank in list("Trial Admin", "Badmin", "Game Admin", "Game Master"  )))
-						meteor_wave()
-						message_admins("[key_name_admin(usr)] has spawned meteors", 1)
-						command_alert("Meteors have been detected on collision course with the station.", "Meteor Alert")
-						world << sound('meteors.ogg')
-					else
-						alert("You cannot perform this action. You must be of a higher administrative rank!", null, null, null, null, null)
-						return
-				if("gravanomalies")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","GA")
-					command_alert("Gravitational anomalies detected on the station. There is no additional data.", "Anomaly Alert")
-					world << sound('granomalies.ogg')
-					var/turf/T = pick(blobstart)
-					var/obj/effect/bhole/bh = new /obj/effect/bhole( T.loc, 30 )
-					spawn(rand(50, 300))
-						del(bh)
-				if("timeanomalies")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","STA")
-					command_alert("Space-time anomalies detected on the station. There is no additional data.", "Anomaly Alert")
-					world << sound('spanomalies.ogg')
-					var/list/turfs = list(	)
-					var/turf/picked
-					for(var/turf/T in world)
-						if(T.z == 1 && istype(T,/turf/simulated/floor) && !istype(T,/turf/space))
-							turfs += T
-					for(var/turf/T in world)
-						set background = 1
-						if(prob(20) && T.z == 1 && istype(T,/turf/simulated/floor))
-							spawn(50+rand(0,3000))
-								picked = pick(turfs)
-								var/obj/effect/portal/P = new /obj/effect/portal( T )
-								P.target = picked
-								P.creator = null
-								P.icon = 'objects.dmi'
-								P.failchance = 0
-								P.icon_state = "anom"
-								P.name = "wormhole"
-								spawn(rand(300,600))
-									del(P)
-				if("goblob")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","BL")
-					mini_blob_event()
-					message_admins("[key_name_admin(usr)] has spawned blob", 1)
-				if("aliens")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","AL")
-					if(aliens_allowed)
-						alien_infestation()
-						message_admins("[key_name_admin(usr)] has spawned aliens", 1)
 				if("carp")
 					feedback_inc("admin_secrets_fun_used",1)
 					feedback_add_details("admin_secrets_fun_used","C")
@@ -1538,16 +1379,6 @@
 					feedback_add_details("admin_secrets_fun_used","R")
 					message_admins("[key_name_admin(usr)] has has irradiated the station", 1)
 					high_radiation_event()
-				if("immovable")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","IR")
-					message_admins("[key_name_admin(usr)] has sent an immovable rod to the station", 1)
-					immovablerod()
-				if("prison_break")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","PB")
-					message_admins("[key_name_admin(usr)] has allowed a prison break", 1)
-					prison_break()
 				if("lightsout")
 					feedback_inc("admin_secrets_fun_used",1)
 					feedback_add_details("admin_secrets_fun_used","LO")
@@ -1599,7 +1430,7 @@
 						feedback_inc("admin_secrets_fun_used",1)
 						feedback_add_details("admin_secrets_fun_used","FG")
 						for(var/obj/item/W in world)
-							if(istype(W, /obj/item/clothing) || istype(W, /obj/item/weapon/card/id) || istype(W, /obj/item/weapon/disk) || istype(W, /obj/item/weapon/tank))
+							if(istype(W, /obj/item/clothing) || istype(W, /obj/item/weapon/card/id) || istype(W, /obj/item/weapon/disk))
 								continue
 							W.icon = 'gun.dmi'
 							W.icon_state = "revolver"
@@ -1632,24 +1463,6 @@
 					else
 						alert("You cannot perform this action. You must be of a higher administrative rank!")
 						return
-				if("ionstorm")
-					if (src.rank in list("Badmin","Game Admin", "Game Master"))
-						feedback_inc("admin_secrets_fun_used",1)
-						feedback_add_details("admin_secrets_fun_used","I")
-						IonStorm()
-						message_admins("[key_name_admin(usr)] triggered an ion storm")
-						var/show_log = alert(usr, "Show ion message?", "Message", "Yes", "No")
-						if(show_log == "Yes")
-							command_alert("Ion storm detected near the station. Please check all AI-controlled equipment for errors.", "Anomaly Alert")
-							world << sound('ionstorm.ogg')
-					else
-						alert("You cannot perform this action. You must be of a higher administrative rank!")
-						return
-				if("spacevines")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","K")
-					spacevine_infestation()
-					message_admins("[key_name_admin(usr)] has spawned spacevines", 1)
 			if (usr)
 				log_admin("[key_name(usr)] used secret [href_list["secretsfun"]]")
 				if (ok)
@@ -1704,56 +1517,6 @@
 								if(1)
 									dat += "ETA: <a href='?src=\ref[src];edit_shuttle_time=1'>[(timeleft / 60) % 60]:[add_zero(num2text(timeleft % 60), 2)]</a><BR>"
 
-						if(ticker.mode.syndicates.len)
-							dat += "<br><table cellspacing=5><tr><td><B>Syndicates</B></td><td></td></tr>"
-							for(var/datum/mind/N in ticker.mode.syndicates)
-								var/mob/M = N.current
-								if(M)
-									dat += "<tr><td><a href='?src=\ref[src];adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(logged out)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-									dat += "<td><A href='?src=\ref[usr];priv_msg=\ref[M]'>PM</A></td></tr>"
-								else
-									dat += "<tr><td><i>Nuclear Operative not found!</i></td></tr>"
-							dat += "</table><br><table><tr><td><B>Nuclear Disk(s)</B></td></tr>"
-							for(var/obj/item/weapon/disk/nuclear/N in world)
-								dat += "<tr><td>[N.name], "
-								var/atom/disk_loc = N.loc
-								while(!istype(disk_loc, /turf))
-									if(istype(disk_loc, /mob))
-										var/mob/M = disk_loc
-										dat += "carried by <a href='?src=\ref[src];adminplayeropts=\ref[M]'>[M.real_name]</a> "
-									if(istype(disk_loc, /obj))
-										var/obj/O = disk_loc
-										dat += "in \a [O.name] "
-									disk_loc = disk_loc.loc
-								dat += "in [disk_loc.loc] at ([disk_loc.x], [disk_loc.y], [disk_loc.z])</td></tr>"
-							dat += "</table>"
-
-						if(ticker.mode.head_revolutionaries.len || ticker.mode.revolutionaries.len)
-							dat += "<br><table cellspacing=5><tr><td><B>Revolutionaries</B></td><td></td></tr>"
-							for(var/datum/mind/N in ticker.mode.head_revolutionaries)
-								var/mob/M = N.current
-								if(!M)
-									dat += "<tr><td><i>Head Revolutionary not found!</i></td></tr>"
-								else
-									dat += "<tr><td><a href='?src=\ref[src];adminplayeropts=\ref[M]'>[M.real_name]</a> <b>(Leader)</b>[M.client ? "" : " <i>(logged out)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-									dat += "<td><A href='?src=\ref[usr];priv_msg=\ref[M]'>PM</A></td></tr>"
-							for(var/datum/mind/N in ticker.mode.revolutionaries)
-								var/mob/M = N.current
-								if(M)
-									dat += "<tr><td><a href='?src=\ref[src];adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(logged out)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-									dat += "<td><A href='?src=\ref[usr];priv_msg=\ref[M]'>PM</A></td></tr>"
-							dat += "</table><table cellspacing=5><tr><td><B>Target(s)</B></td><td></td><td><B>Location</B></td></tr>"
-							for(var/datum/mind/N in ticker.mode.get_living_heads())
-								var/mob/M = N.current
-								if(M)
-									dat += "<tr><td><a href='?src=\ref[src];adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(logged out)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-									dat += "<td><A href='?src=\ref[usr];priv_msg=\ref[M]'>PM</A></td>"
-									var/turf/mob_loc = get_turf_loc(M)
-									dat += "<td>[mob_loc.loc]</td></tr>"
-								else
-									dat += "<tr><td><i>Head not found!</i></td></tr>"
-							dat += "</table>"
-
 						if(ticker.mode.changelings.len > 0)
 							dat += "<br><table cellspacing=5><tr><td><B>Changelings</B></td><td></td><td></td></tr>"
 							for(var/datum/mind/changeling in ticker.mode.changelings)
@@ -1764,27 +1527,6 @@
 									dat += "<td><A HREF='?src=\ref[src];traitor=\ref[M]'>Show Objective</A></td></tr>"
 								else
 									dat += "<tr><td><i>Changeling not found!</i></td></tr>"
-							dat += "</table>"
-
-						if(ticker.mode.wizards.len > 0)
-							dat += "<br><table cellspacing=5><tr><td><B>Wizards</B></td><td></td><td></td></tr>"
-							for(var/datum/mind/wizard in ticker.mode.wizards)
-								var/mob/M = wizard.current
-								if(M)
-									dat += "<tr><td><a href='?src=\ref[src];adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(logged out)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-									dat += "<td><A href='?src=\ref[usr];priv_msg=\ref[M]'>PM</A></td>"
-									dat += "<td><A HREF='?src=\ref[src];traitor=\ref[M]'>Show Objective</A></td></tr>"
-								else
-									dat += "<tr><td><i>Wizard not found!</i></td></tr>"
-							dat += "</table>"
-
-						if(ticker.mode.cult.len)
-							dat += "<br><table cellspacing=5><tr><td><B>Cultists</B></td><td></td></tr>"
-							for(var/datum/mind/N in ticker.mode.cult)
-								var/mob/M = N.current
-								if(M)
-									dat += "<tr><td><a href='?src=\ref[src];adminplayeropts=\ref[M]'>[M.real_name]</a>[M.client ? "" : " <i>(logged out)</i>"][M.stat == 2 ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-									dat += "<td><A href='?src=\ref[usr];priv_msg=\ref[M]'>PM</A></td></tr>"
 							dat += "</table>"
 
 						if(ticker.mode.traitors.len > 0)
@@ -1803,13 +1545,6 @@
 						usr << browse(dat, "window=roundstatus;size=400x500")
 					else
 						alert("The game hasn't started yet!")
-				if("showailaws")
-					for(var/mob/living/silicon/ai/ai in world)
-						usr << "[key_name(ai, usr)]'s Laws:"
-						if (ai.laws == null)
-							usr << "[key_name(ai, usr)]'s Laws are null??"
-						else
-							ai.laws.show_laws(usr)
 				if("showgm")
 					if(!ticker)
 						alert("The game hasn't started yet!")
@@ -2466,26 +2201,6 @@
 		return 0
 	if (!istype(M))
 		return 0
-	if((M.mind in ticker.mode.head_revolutionaries) || (M.mind in ticker.mode.revolutionaries))
-		if (ticker.mode.config_tag == "revolution")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.cult)
-		if (ticker.mode.config_tag == "cult")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.malf_ai)
-		if (ticker.mode.config_tag == "malfunction")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.syndicates)
-		if (ticker.mode.config_tag == "nuclear")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.wizards)
-		if (ticker.mode.config_tag == "wizard")
-			return 2
-		return 1
 	if(M.mind in ticker.mode.changelings)
 		if (ticker.mode.config_tag == "changeling")
 			return 2

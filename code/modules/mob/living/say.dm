@@ -200,18 +200,6 @@
 			whisper(message)
 			return
 
-		if ("binary")
-			if(robot_talk_understand || binarycheck())
-			//message = trim(copytext(sanitize(message), 1, MAX_MESSAGE_LEN)) //seems redundant
-				robot_talk(message)
-			return
-
-		if ("alientalk")
-			if(alien_talk_understand || hivecheck())
-			//message = trim(copytext(sanitize(message), 1, MAX_MESSAGE_LEN)) //seems redundant
-				alien_talk(message)
-			return
-
 		if ("department")
 			if (src:ears)
 				src:ears.talk_into(src, message, message_mode)

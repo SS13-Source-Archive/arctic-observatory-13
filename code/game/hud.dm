@@ -89,18 +89,6 @@ obj/hud/New(var/type = 0)
 	else if(isbrain(mymob))
 		brain_hud(mymob.UI)
 
-	else if(islarva(mymob))
-		larva_hud()
-
-	else if(isalien(mymob))
-		alien_hud()
-
-	else if(isAI(mymob))
-		ai_hud()
-
-	else if(isrobot(mymob))
-		robot_hud()
-
 //	else if(ishivebot(mymob))
 //		hivebot_hud()
 

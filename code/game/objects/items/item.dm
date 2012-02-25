@@ -182,20 +182,6 @@
 	user.update_clothing()
 	return
 
-/obj/item/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if (istype(W, /obj/item/weapon/packageWrap))
-		var/obj/item/weapon/packageWrap/O = W
-		if(src.anchored)	return
-		if(!istype(loc,/turf))
-			user << "\red You need to place the item on the ground before wrapping it!"
-			return
-		else if (O.amount > 1)
-			var/obj/item/smallDelivery/P = new /obj/item/smallDelivery(get_turf(src.loc))
-			P.wrapped = src
-
-			src.loc = P
-			O.amount -= 1
-
 /obj/item/attack_self(mob/user as mob)
 	..()
 	if(twohanded)
@@ -233,10 +219,6 @@
 
 	if (!istype(M)) // not sure if this is the right thing...
 		return
-	var/messagesource = M
-
-	if (istype(M,/mob/living/carbon/brain))
-		messagesource = M:container
 	if (src.hitsound)
 		playsound(src.loc, hitsound, 50, 1, -1)
 	/////////////////////////
@@ -253,75 +235,6 @@
 	/////////////////////////
 
 	var/power = src.force
-	if(!istype(M, /mob/living/carbon/human))
-		if(istype(M, /mob/living/carbon/metroid))
-			var/mob/living/carbon/metroid/Metroid = M
-			if(prob(25))
-				user << "\red [src] passes right through [M]!"
-				return
-
-			if(power > 0)
-				Metroid.attacked += 10
-
-			if(Metroid.Discipline && prob(50))	// wow, buddy, why am I getting attacked??
-				Metroid.Discipline = 0
-
-			if(power >= 3)
-				if(istype(Metroid, /mob/living/carbon/metroid/adult))
-					if(prob(5 + round(power/2)))
-
-						if(Metroid.Victim)
-							if(prob(80) && !Metroid.client)
-								Metroid.Discipline++
-						Metroid.Victim = null
-						Metroid.anchored = 0
-
-						spawn()
-							if(Metroid)
-								Metroid.SStun = 1
-								sleep(rand(5,20))
-								Metroid.SStun = 0
-
-						spawn(0)
-							Metroid.canmove = 0
-							step_away(Metroid, user)
-							if(prob(25 + power))
-								sleep(2)
-								step_away(Metroid, user)
-							Metroid.canmove = 1
-
-				else
-					if(prob(10 + power*2))
-
-						if(Metroid.Victim)
-							if(prob(80) && !Metroid.client)
-								Metroid.Discipline++
-
-								if(Metroid.Discipline == 1)
-									Metroid.attacked = 0
-
-							spawn()
-								Metroid.SStun = 1
-								sleep(rand(5,20))
-								Metroid.SStun = 0
-
-						Metroid.Victim = null
-						Metroid.anchored = 0
-
-
-						spawn(0)
-							step_away(Metroid, user)
-							Metroid.canmove = 0
-							if(prob(25 + power*4))
-								sleep(2)
-								step_away(Metroid, user)
-							Metroid.canmove = 1
-
-
-		for(var/mob/O in viewers(messagesource, null))
-			O.show_message(text("\red <B>[] has been attacked with [][] </B>", M, src, (user ? text(" by [].", user) : ".")), 1)
-
-
 
 	if(istype(M, /mob/living/carbon/human))
 		M:attacked_by(src, user, def_zone)

@@ -1,16 +1,3 @@
-/mob/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(air_group || (height==0)) return 1
-
-	if(ismob(mover))
-		var/mob/moving_mob = mover
-		if ((other_mobs && moving_mob.other_mobs))
-			return 1
-		return (!mover.density || !density || lying)
-	else
-		return (!mover.density || !density || lying)
-	return
-
-
 /client/North()
 	..()
 
@@ -150,8 +137,6 @@
 				return
 
 	if(mob.stat==2)	return
-
-	if(isAI(mob))	return AIMove(n,direct,mob)
 
 	if(mob.monkeyizing)	return//This is sota the goto stop mobs from moving var
 

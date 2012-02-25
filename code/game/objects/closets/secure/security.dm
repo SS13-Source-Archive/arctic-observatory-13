@@ -71,7 +71,6 @@
 		new /obj/item/clothing/glasses/sunglasses/sechud(src)
 		new /obj/item/weapon/shield/riot(src)
 		new /obj/item/weapon/storage/flashbang_kit(src)
-		new /obj/item/weapon/storage/lockbox/loyalty(src)
 		new /obj/item/weapon/melee/baton(src)
 		new /obj/item/weapon/gun/energy/gun(src)
 		new /obj/item/device/flash(src)

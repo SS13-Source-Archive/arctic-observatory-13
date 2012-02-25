@@ -102,16 +102,3 @@
 	src.imp = new /obj/item/weapon/implant/chem( src )
 	..()
 	return
-
-
-/obj/item/weapon/implantcase/loyalty
-	name = "Glass Case- 'Loyalty'"
-	desc = "A case containing a loyalty implant."
-	icon = 'items.dmi'
-	icon_state = "implantcase-r"
-
-
-	New()
-		src.imp = new /obj/item/weapon/implant/loyalty( src )
-		..()
-		return

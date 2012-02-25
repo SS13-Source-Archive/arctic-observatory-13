@@ -39,19 +39,6 @@
 			src.icon_state = "implanter0"
 		return
 
-
-
-/obj/item/weapon/implanter/loyalty
-	name = "implanter-loyalty"
-
-	New()
-		src.imp = new /obj/item/weapon/implant/loyalty( src )
-		..()
-		update()
-		return
-
-
-
 /obj/item/weapon/implanter/explosive
 	name = "implanter-explosive"
 

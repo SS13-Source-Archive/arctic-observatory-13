@@ -77,7 +77,6 @@ TABLE AND RACK OBJECT INTERATIONS
 	del(src)
 	return
 
-
 /obj/structure/table/attack_animal(mob/living/simple_animal/user as mob) //Removed code for larva since it doesn't work. Previous code is now a larva ability. /N
 	if(user.wall_smash)
 		usr << text("\red You destroy the table.")
@@ -94,9 +93,6 @@ TABLE AND RACK OBJECT INTERATIONS
 		del(src)
 	return
 
-
-
-
 /obj/structure/table/attack_hand(mob/user as mob)
 	if ((usr.mutations & HULK))
 		usr << text("\blue You destroy the table.")
@@ -112,16 +108,6 @@ TABLE AND RACK OBJECT INTERATIONS
 		src.density = 0
 		del(src)
 	return
-
-
-/obj/structure/table/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(air_group || (height==0)) return 1
-
-	if(istype(mover) && mover.checkpass(PASSTABLE))
-		return 1
-	else
-		return 0
-
 
 /obj/structure/table/MouseDrop_T(obj/O as obj, mob/user as mob)
 
@@ -314,15 +300,6 @@ TABLE AND RACK OBJECT INTERATIONS
 		del(src)
 		return
 
-/obj/structure/rack/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(air_group || (height==0)) return 1
-	if(src.density == 0) //Because broken racks -Agouri |TODO: SPRITE!|
-		return 1
-	if(istype(mover) && mover.checkpass(PASSTABLE))
-		return 1
-	else
-		return 0
-
 /obj/structure/rack/MouseDrop_T(obj/O as obj, mob/user as mob)
 	if ((!( istype(O, /obj/item/weapon) ) || user.equipped() != O))
 		return
@@ -345,6 +322,3 @@ TABLE AND RACK OBJECT INTERATIONS
 	user.drop_item()
 	if(W && W.loc)	W.loc = src.loc
 	return
-
-/obj/structure/rack/meteorhit(obj/O as obj)
-	del(src)

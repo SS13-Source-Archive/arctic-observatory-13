@@ -49,13 +49,6 @@
 				bumpopen(M)
 			return
 
-		if(istype(AM, /obj/machinery/bot))
-			var/obj/machinery/bot/bot = AM
-			if(src.check_access(bot.botcard))
-				if(density)
-					open()
-			return
-
 		if(istype(AM, /obj/effect/critter))
 			var/obj/effect/critter/critter = AM
 			if(critter.opensdoors)	return
@@ -63,24 +56,7 @@
 				if(density)
 					open()
 			return
-
-		if(istype(AM, /obj/mecha))
-			var/obj/mecha/mecha = AM
-			if(density)
-				if(mecha.occupant && (src.allowed(mecha.occupant) || src.check_access_list(mecha.operation_req_access)))
-					open()
-				else
-					flick("door_deny", src)
-			return
 		return
-
-
-	CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-		if(air_group) return 0
-		if(istype(mover) && mover.checkpass(PASSGLASS))
-			return !opacity
-		return !density
-
 
 	bumpopen(mob/user as mob)
 		if(operating)	return
@@ -93,11 +69,6 @@
 		else if(density)
 			flick("door_deny", src)
 		return
-
-	meteorhit(obj/M as obj)
-		src.open()
-		return
-
 
 	attack_ai(mob/user as mob)
 		return src.attack_hand(user)
@@ -229,51 +200,6 @@
 		operating = 0
 		update_nearby_tiles()
 		return
-
-
-	update_nearby_tiles(need_rebuild)
-		if(!air_master) return 0
-
-		var/turf/simulated/source = loc
-		var/turf/simulated/north = get_step(source,NORTH)
-		var/turf/simulated/south = get_step(source,SOUTH)
-		var/turf/simulated/east = get_step(source,EAST)
-		var/turf/simulated/west = get_step(source,WEST)
-
-		if(need_rebuild)
-			if(istype(source)) //Rebuild/update nearby group geometry
-				if(source.parent)
-					air_master.groups_to_rebuild += source.parent
-				else
-					air_master.tiles_to_update += source
-			if(istype(north))
-				if(north.parent)
-					air_master.groups_to_rebuild += north.parent
-				else
-					air_master.tiles_to_update += north
-			if(istype(south))
-				if(south.parent)
-					air_master.groups_to_rebuild += south.parent
-				else
-					air_master.tiles_to_update += south
-			if(istype(east))
-				if(east.parent)
-					air_master.groups_to_rebuild += east.parent
-				else
-					air_master.tiles_to_update += east
-			if(istype(west))
-				if(west.parent)
-					air_master.groups_to_rebuild += west.parent
-				else
-					air_master.tiles_to_update += west
-		else
-			if(istype(source)) air_master.tiles_to_update += source
-			if(istype(north)) air_master.tiles_to_update += north
-			if(istype(south)) air_master.tiles_to_update += south
-			if(istype(east)) air_master.tiles_to_update += east
-			if(istype(west)) air_master.tiles_to_update += west
-		return 1
-
 
 /obj/machinery/door/proc/autoclose()
 	var/obj/machinery/door/airlock/A = src

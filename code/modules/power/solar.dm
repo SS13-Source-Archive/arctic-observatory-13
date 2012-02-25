@@ -371,12 +371,6 @@
 		stat |= BROKEN
 		updateicon()
 
-
-	meteorhit()
-		broken()
-		return
-
-
 	ex_act(severity)
 		switch(severity)
 			if(1.0)

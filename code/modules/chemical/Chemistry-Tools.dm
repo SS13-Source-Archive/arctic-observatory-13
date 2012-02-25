@@ -29,7 +29,6 @@
 		R.my_atom = src
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)//TODO:Have grenades use the new assembly things
-		wrap(W, user)
 		if(istype(W,/obj/item/device/assembly_holder) && !stage && path != 2)
 			path = 1
 			user << "\blue You add [W] to the metal casing."
@@ -161,10 +160,7 @@
 							playsound(src.loc, 'Screwdriver.ogg', 50, 1)
 							user << "\blue You connect the lense."
 							var/B
-							if(motion == 1)
-								B = new /obj/machinery/camera/motion( src.loc )
-							else
-								B = new /obj/machinery/camera( src.loc )
+							B = new /obj/machinery/camera( src.loc )
 							B:network = "SS13"
 							B:network = input(usr, "Which network would you like to connect this camera to?", "Set Network", "SS13")
 							direct = input(user, "Direction?", "Assembling Camera", null) in list( "NORTH", "EAST", "SOUTH", "WEST" )
@@ -345,8 +341,7 @@
 		usr << "\blue [grenades] / [max_grenades] Grenades."
 
 	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
-		if((istype(I, /obj/item/weapon/chem_grenade)) || (istype(I, /obj/item/weapon/flashbang)) || (istype(I, /obj/item/weapon/smokebomb)) || (istype(I, /obj/item/weapon/mustardbomb)) || (istype(I, /obj/item/weapon/empgrenade)))
+		if((istype(I, /obj/item/weapon/chem_grenade)) || (istype(I, /obj/item/weapon/flashbang)) || (istype(I, /obj/item/weapon/empgrenade)))
 			if(grenades.len < max_grenades)
 				user.drop_item()
 				I.loc = src
@@ -399,24 +394,6 @@
 				playsound(user.loc, 'armbomb.ogg', 75, 1, -3)
 				spawn(15)
 					F.prime()
-			else if (istype(grenades[1], /obj/item/weapon/smokebomb))
-				var/obj/item/weapon/smokebomb/F = grenades[1]
-				grenades -= F
-				F.loc = user.loc
-				F.throw_at(target, 30, 2)
-				F.icon_state = "flashbang1"
-				playsound(user.loc, 'armbomb.ogg', 75, 1, -3)
-				spawn(15)
-					F.prime()
-			else if (istype(grenades[1], /obj/item/weapon/mustardbomb))
-				var/obj/item/weapon/mustardbomb/F = grenades[1]
-				grenades -= F
-				F.loc = user.loc
-				F.throw_at(target, 30, 2)
-				F.icon_state = "flashbang1"
-				playsound(user.loc, 'armbomb.ogg', 75, 1, -3)
-				spawn(15)
-					F.prime()
 			else if (istype(grenades[1], /obj/item/weapon/empgrenade))
 				var/obj/item/weapon/empgrenade/F = grenades[1]
 				grenades -= F
@@ -455,24 +432,6 @@
 					playsound(user.loc, 'armbomb.ogg', 75, 1, -3)
 					spawn(15)
 						F.prime()
-				else if (istype(grenades[1], /obj/item/weapon/smokebomb))
-					var/obj/item/weapon/smokebomb/F = grenades[1]
-					grenades -= F
-					F.loc = user.loc
-					F.throw_at(target, 30, 2)
-					F.icon_state = "flashbang1"
-					playsound(user.loc, 'armbomb.ogg', 75, 1, -3)
-					spawn(15)
-						F.prime()
-				else if (istype(grenades[1], /obj/item/weapon/mustardbomb))
-					var/obj/item/weapon/mustardbomb/F = grenades[1]
-					grenades -= F
-					F.loc = user.loc
-					F.throw_at(target, 30, 2)
-					F.icon_state = "flashbang1"
-					playsound(user.loc, 'armbomb.ogg', 75, 1, -3)
-					spawn(15)
-						F.prime()
 				else if (istype(grenades[1], /obj/item/weapon/empgrenade))
 					var/obj/item/weapon/empgrenade/F = grenades[1]
 					grenades -= F
@@ -506,7 +465,6 @@
 		usr << "\blue [syringes.len] / [max_syringes] syringes."
 
 	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
 		if(istype(I, /obj/item/weapon/reagent_containers/syringe))
 			if(syringes.len < max_syringes)
 				user.drop_item()
@@ -579,7 +537,6 @@
 	density = 1
 	anchored = 0
 	flags = FPRINT
-	pressure_resistance = 2*ONE_ATMOSPHERE
 
 	var/amount_per_transfer_from_this = 10
 	var/possible_transfer_amounts = list(10,25,50,100)
@@ -666,14 +623,12 @@
 		R.my_atom = src
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		wrap(W, user)
 		return
 	attack_self(mob/user as mob)
 		return
 	attack(mob/M as mob, mob/user as mob, def_zone)
 		return
 	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
 		return
 	afterattack(obj/target, mob/user , flag)
 		return
@@ -701,12 +656,9 @@
 		/obj/structure/closet,
 		/obj/machinery/sink,
 		/obj/item/weapon/storage,
-		/obj/machinery/atmospherics/unary/cryo_cell,
 		/obj/item/weapon/chem_grenade,
-		/obj/machinery/bot/medbot,
 		/obj/machinery/computer/pandemic,
 		/obj/item/weapon/secstorage/ssafe,
-		/obj/machinery/disposal
 	)
 
 	examine()
@@ -874,7 +826,6 @@
 		return attack_hand()
 
 	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
 		return
 
 	afterattack(obj/target, mob/user , flag)
@@ -1080,7 +1031,6 @@
 		return attack_hand()
 
 	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
 		return
 
 	afterattack(obj/target, mob/user , flag)
@@ -1277,7 +1227,6 @@
 		return
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		wrap(W, user)
 		return
 	attack_self(mob/user as mob)
 		return
@@ -1351,7 +1300,6 @@
 		return 0
 
 	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
 		return
 	afterattack(obj/target, mob/user , flag)
 		return
@@ -1374,7 +1322,6 @@
 	var/slices_num
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		wrap(W, user)
 		if((slices_num <= 0 || !slices_num) || !slice_path)
 			return 1
 		var/inaccurate = 0
@@ -1582,7 +1529,6 @@
 			icon_state = "pill[rand(1,20)]"
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		wrap(W, user)
 		return
 	attack_self(mob/user as mob)
 		return
@@ -1626,12 +1572,7 @@
 
 		return 0
 
-	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
-		return
-
 	afterattack(obj/target, mob/user , flag)
-
 		if(target.is_open_container() == 1 && target.reagents)
 			if(!target.reagents.total_volume)
 				user << "\red [target] is empty. Cant dissolve pill."
@@ -1667,21 +1608,6 @@
 	possible_transfer_amounts = list(10,20,30,50,70)
 	volume = 70
 	flags = FPRINT | OPENCONTAINER
-
-	attackby(var/obj/D, mob/user as mob)
-		if(isprox(D))
-			var/obj/item/weapon/bucket_sensor/B = new /obj/item/weapon/bucket_sensor
-			B.loc = user
-			if (user.r_hand == D)
-				user.u_equip(D)
-				user.r_hand = B
-			else
-				user.u_equip(D)
-				user.l_hand = B
-			B.layer = 20
-			user << "You add the sensor to the bucket"
-			del(D)
-			del(src)
 
 /obj/item/weapon/reagent_containers/glass/cantister
 	desc = "It's a canister. Mainly used for transporting fuel."
@@ -2061,19 +1987,6 @@
 		var/list/data = list("viruses"= list(F))
 		reagents.add_reagent("blood", 20, data)
 
-
-/obj/item/weapon/reagent_containers/glass/bottle/wizarditis
-	name = "Wizarditis culture bottle"
-	desc = "A small bottle. Contains a sample of Rincewindus Vulgaris."
-	icon = 'chemical.dmi'
-	icon_state = "bottle3"
-	New()
-		..()
-		var/datum/disease/F = new /datum/disease/wizarditis(0)
-		var/list/data = list("viruses"= list(F))
-		reagents.add_reagent("blood", 20, data)
-
-
 /obj/item/weapon/reagent_containers/glass/beaker/cryoxadone
 	name = "beaker"
 	desc = "A beaker. Can hold up to 50 units."
@@ -2184,7 +2097,6 @@
 	volume = 50
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		wrap(W, user)
 		return
 	attack_self(mob/user as mob)
 		return
@@ -2228,7 +2140,6 @@
 		return 0
 
 	attackby(obj/item/I as obj, mob/user as mob)
-		wrap(I, user)
 		return
 
 	afterattack(obj/target, mob/user , flag)

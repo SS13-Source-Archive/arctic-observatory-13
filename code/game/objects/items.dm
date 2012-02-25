@@ -255,14 +255,8 @@
 	del(src)
 	return
 
-
 //What the fuck is this code
 /mob/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	if (user.intent != "harm")
-		if (istype(src.l_hand,/obj/item/latexballon) && src.l_hand:air_contents && is_sharp(W))
-			return src.l_hand.attackby(W)
-		if (istype(src.r_hand,/obj/item/latexballon) && src.r_hand:air_contents && is_sharp(W))
-			return src.r_hand.attackby(W)
 	var/shielded = 0
 	if (locate(/obj/item/weapon/grab, src))
 		var/mob/safe = null
@@ -306,10 +300,6 @@
 		return 1
 	if ((usr.contents.Find(src) || (in_range(src, usr) && istype(src.loc, /turf))))
 		usr.machine = src
-		if (href_list["spell_teleport"])
-			if (src.uses >= 1)
-				src.uses -= 1
-				usr.teleportscroll()
 		if (istype(src.loc, /mob))
 			attack_self(src.loc)
 		else
@@ -403,55 +393,6 @@
 			continue
 		else
 			O.show_message(text("\red [user] has thrown a [src]. It lands on [result]. [comment]"), 1)
-
-/obj/item/latexballon
-	name = "Latex glove"
-	desc = "" //todo
-	icon_state = "latexballon"
-	item_state = "lgloves"
-	force = 0
-	throwforce = 0
-	w_class = 1.0
-	throw_speed = 1
-	throw_range = 15
-	var/state
-	var/datum/gas_mixture/air_contents = null
-
-/obj/item/latexballon/proc/blow(obj/item/weapon/tank/tank)
-	if (icon_state == "latexballon_bursted")
-		return
-	src.air_contents = tank.remove_air_volume(3)
-	icon_state = "latexballon_blow"
-	item_state = "latexballon"
-
-/obj/item/latexballon/proc/burst()
-	if (!air_contents)
-		return
-	playsound(src, 'Gunshot.ogg', 100, 1)
-	icon_state = "latexballon_bursted"
-	item_state = "lgloves"
-	loc.assume_air(air_contents)
-
-/obj/item/latexballon/ex_act(severity)
-	burst()
-	switch(severity)
-		if (1)
-			del(src)
-		if (2)
-			if (prob(50))
-				del(src)
-
-/obj/item/latexballon/bullet_act()
-	burst()
-
-/obj/item/latexballon/temperature_expose(datum/gas_mixture/air, temperature, volume)
-	if(temperature > T0C+100)
-		burst()
-	return
-
-/obj/item/latexballon/attackby(obj/item/W as obj, mob/user as mob)
-	if (is_sharp(W))
-		burst()
 
 /proc/is_sharp(obj/item/W as obj)
 	return ( \

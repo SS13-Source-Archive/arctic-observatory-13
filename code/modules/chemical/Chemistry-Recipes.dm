@@ -333,21 +333,6 @@ datum
 			result = null
 			required_reagents = list("aluminum" = 1, "plasma" = 1, "acid" = 1 )
 			result_amount = 1
-			on_reaction(var/datum/reagents/holder, var/created_volume)
-				var/turf/location = get_turf(holder.my_atom.loc)
-				for(var/turf/simulated/floor/target_tile in range(0,location))
-					if(target_tile.parent && target_tile.parent.group_processing)
-						target_tile.parent.suspend_group_processing()
-
-					var/datum/gas_mixture/napalm = new
-
-					napalm.toxins = created_volume
-					napalm.temperature = 400+T0C
-
-					target_tile.assume_air(napalm)
-					spawn (0) target_tile.hotspot_expose(700, 400)
-				holder.del_reagent("napalm")
-				return
 
 		/*
 		smoke

@@ -18,19 +18,6 @@
 	// replaced by OPENCONTAINER flags and atom/proc/is_open_container()
 	///Chemistry.
 
-	proc/assume_air(datum/air_group/giver)
-		del(giver)
-		return null
-
-	proc/remove_air(amount)
-		return null
-
-	proc/return_air()
-		if(loc)
-			return loc.return_air()
-		else
-			return null
-
 
 
 // Convenience proc to see if a container is open for chemistry handling
@@ -47,29 +34,6 @@
 	proc/can_add_container()
 		return flags & INSERT_CONTAINER
 */
-
-obj
-	assume_air(datum/air_group/giver)
-		if(loc)
-			return loc.assume_air(giver)
-		else
-			return null
-
-	remove_air(amount)
-		if(loc)
-			return loc.remove_air(amount)
-		else
-			return null
-
-	return_air()
-		if(loc)
-			return loc.return_air()
-		else
-			return null
-
-/atom/proc/meteorhit(obj/effect/meteor as obj)
-	return
-
 /atom/proc/allow_drop()
 	return 1
 

@@ -157,8 +157,6 @@ ZIPPO
 			processing_objects.Remove(src)
 			del(src)
 			return
-		if(location)
-			location.hotspot_expose(700, 5)
 		return
 
 
@@ -348,14 +346,6 @@ ZIPPO
 				M.wear_mask:light("\red [user] whips the [src.name] out and holds it for [M]. Their arm is as steady as the unflickering flame they light the [M.wear_mask.name] with.")
 		else
 			..()
-
-
-	process()
-		var/turf/location = get_turf(src)
-		if(location)
-			location.hotspot_expose(700, 5)
-		return
-
 
 	pickup(mob/user)
 		if(lit)

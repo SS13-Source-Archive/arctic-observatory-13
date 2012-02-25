@@ -93,27 +93,6 @@ WELDINGTOOOL
 			src.add_fingerprint(user)
 			return
 
-		if((!status) && (istype(W,/obj/item/stack/rods)))
-			var/obj/item/stack/rods/R = W
-			R.use(1)
-			var/obj/item/weapon/flamethrower/F = new/obj/item/weapon/flamethrower(user.loc)
-			src.loc = F
-			F.weldtool = src
-			if (user.client)
-				user.client.screen -= src
-			if (user.r_hand == src)
-				user.u_equip(src)
-			else
-				user.u_equip(src)
-			src.master = F
-			src.layer = initial(src.layer)
-			user.u_equip(src)
-			if (user.client)
-				user.client.screen -= src
-			src.loc = F
-			src.add_fingerprint(user)
-			return
-
 		..()
 		return
 
@@ -136,9 +115,6 @@ WELDINGTOOOL
 			var/mob/M = location
 			if(M.l_hand == src || M.r_hand == src)
 				location = get_turf(M)
-		if (istype(location, /turf))
-			location.hotspot_expose(700, 5)
-
 
 	afterattack(obj/O as obj, mob/user as mob)
 		if (istype(O, /obj/structure/reagent_dispensers/fueltank) && get_dist(src,O) <= 1 && !src.welding)
@@ -156,9 +132,6 @@ WELDINGTOOOL
 			return
 		if (src.welding)
 			remove_fuel(1)
-			var/turf/location = get_turf(user)
-			if (istype(location, /turf))
-				location.hotspot_expose(700, 50, 1)
 		return
 
 

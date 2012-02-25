@@ -248,18 +248,11 @@
 			return 0
 
 		var/mob/living/carbon/human/character = create_character()
-		var/icon/char_icon = getFlatIcon(character,0)//We're creating out own cache so it's not needed.
 		job_master.AssignRole(character, rank, 1)
 		job_master.EquipRank(character, rank, 1)
 		character.loc = pick(latejoin)
 		character.lastarea = get_area(loc)
 		AnnounceArrival(character, rank)
-
-		if(character.mind.assigned_role != "Cyborg")
-			ManifestLateSpawn(character,char_icon)
-			ticker.minds += character.mind//Cyborgs and AIs handle this in the transform proc.
-		else
-			character.Robotize()
 		del(src)
 
 

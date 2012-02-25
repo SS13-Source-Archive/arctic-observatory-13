@@ -223,10 +223,6 @@
 						dat += "<ul>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=45'><img src=pda_cuffs.png> Security Records</A></li>"
 						dat += "<li><a href='byond://?src=\ref[src];choice=Forensic Scan'><img src=pda_scanner.png> [scanmode == 2 ? "Disable" : "Enable"] Forensic Scanner</a></li>"
-					if(istype(cartridge.radio, /obj/item/radio/integrated/beepsky))
-						dat += "<li><a href='byond://?src=\ref[src];choice=46'><img src=pda_cuffs.png> Security Bot Access</a></li>"
-						dat += "</ul>"
-					else	dat += "</ul>"
 					if(cartridge.access_quartermaster)
 						dat += "<h4>Quartermaster Functions:</h4>"
 						dat += "<ul>"
@@ -250,12 +246,6 @@
 						dat += "<li><a href='byond://?src=\ref[src];choice=Toggle Door'><img src=pda_rdoor.png> Toggle Remote Door</a></li>"
 				dat += "<li><a href='byond://?src=\ref[src];choice=3'><img src=pda_atmos.png> Atmospheric Scan</a></li>"
 				dat += "<li><a href='byond://?src=\ref[src];choice=Light'><img src=pda_flashlight.png> [fon ? "Disable" : "Enable"] Flashlight</a></li>"
-				if (pai)
-					if(pai.loc != src)
-						pai = null
-					else
-						dat += "<li><a href='byond://?src=\ref[src];choice=pai;option=1'>pAI Device Configuration</a></li>"
-						dat += "<li><a href='byond://?src=\ref[src];choice=pai;option=2'>Eject pAI Device</a></li>"
 				dat += "</ul>"
 
 			if (1)
@@ -309,35 +299,6 @@
 				dat += "<h4><img src=pda_mail.png> Messages</h4>"
 
 				dat += tnote
-				dat += "<br>"
-
-			if (3)
-				dat += "<h4><img src=pda_atmos.png> Atmospheric Readings</h4>"
-
-				var/turf/T = get_turf_or_move(user.loc)
-				if (isnull(T))
-					dat += "Unable to obtain a reading.<br>"
-				else
-					var/datum/gas_mixture/environment = T.return_air()
-
-					var/pressure = environment.return_pressure()
-					var/total_moles = environment.total_moles()
-
-					dat += "Air Pressure: [round(pressure,0.1)] kPa<br>"
-
-					if (total_moles)
-						var/o2_level = environment.oxygen/total_moles
-						var/n2_level = environment.nitrogen/total_moles
-						var/co2_level = environment.carbon_dioxide/total_moles
-						var/plasma_level = environment.toxins/total_moles
-						var/unknown_level =  1-(o2_level+n2_level+co2_level+plasma_level)
-						dat += "Nitrogen: [round(n2_level*100)]%<br>"
-						dat += "Oxygen: [round(o2_level*100)]%<br>"
-						dat += "Carbon Dioxide: [round(co2_level*100)]%<br>"
-						dat += "Plasma: [round(plasma_level*100)]%<br>"
-						if(unknown_level > 0.01)
-							dat += "OTHER: [round(unknown_level)]%<br>"
-					dat += "Temperature: [round(environment.temperature-T0C)]&deg;C<br>"
 				dat += "<br>"
 			else//Else it links to the cart menu proc. Although, it really uses menu hub 4--menu 4 doesn't really exist as it simply redirects to hub.
 				dat += cart
@@ -622,16 +583,6 @@
 						U << browse(null, "window=pda")
 						return
 
-//pAI FUNCTIONS===================================
-				if("pai")
-					switch(href_list["option"])
-						if("1")		// Configure pAI device
-							pai.attack_self(U)
-						if("2")		// Eject pAI device
-							var/turf/T = get_turf_or_move(src.loc)
-							if(T)
-								pai.loc = T
-
 //LINK FUNCTIONS===================================
 
 				else//Cartridge menu linking
@@ -722,12 +673,6 @@
 					updateSelfDialog()//Update self dialog on success.
 			return//Return in case of failed check or when successful.
 		updateSelfDialog()//For the non-input related code.
-	else if (istype(C, /obj/item/device/paicard) && !src.pai)
-		user.drop_item()
-		C.loc = src
-		pai = C
-		user << "\blue You slot \the [C] into [src]."
-		updateUsrDialog()
 	return
 
 /obj/item/device/pda/attack(mob/C as mob, mob/user as mob)
@@ -822,8 +767,6 @@
 		M.show_message("\red Your [src] explodes!", 1)
 
 	if(T)
-		T.hotspot_expose(700,125)
-
 		explosion(T, -1, -1, 2, 3)
 
 	del(src)

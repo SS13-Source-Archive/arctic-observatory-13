@@ -34,8 +34,6 @@
 			else
 				trunk.linked = src	// link the pipe trunk to self
 
-			air_contents = new/datum/gas_mixture()
-			//gas.volume = 1.05 * CELLSTANDARD
 			update()
 
 
@@ -509,7 +507,6 @@
 	// initialize a holder from the contents of a disposal unit
 	proc/init(var/obj/machinery/disposal/D)
 		if(!istype(D, /obj/machinery/disposal/toilet))//So it does not drain gas from a toilet which does not function on it.
-			gas = D.air_contents// transfer gas resv. into holder object
 
 		// now everything inside the disposal gets put into the holder
 		// note AM since can contain mobs or objs
@@ -609,9 +606,6 @@
 		playsound(src.loc, 'clang.ogg', 50, 0, 0)
 
 	// called to vent all gas in holder to a location
-	proc/vent_gas(var/atom/location)
-		location.assume_air(gas)  // vent all gas to turf
-		return
 
 // Disposal pipes
 
@@ -744,7 +738,6 @@
 				spawn(1)
 					if(AM)
 						AM.throw_at(target, 100, 1)
-			H.vent_gas(T)
 			del(H)
 
 		else	// no specified direction, so throw in random direction
@@ -758,8 +751,6 @@
 				spawn(1)
 					if(AM)
 						AM.throw_at(target, 5, 1)
-
-			H.vent_gas(T)	// all gas vent to turf
 			del(H)
 
 		return
@@ -1180,7 +1171,6 @@
 			AM.pipe_eject(dir)
 			spawn(1)
 				AM.throw_at(target, 3, 1)
-		H.vent_gas(src.loc)
 		del(H)
 
 		return

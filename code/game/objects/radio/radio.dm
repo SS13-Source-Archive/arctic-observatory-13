@@ -119,13 +119,7 @@ var/GLOBAL_RADIO_TYPE = 1 // radio type to use
 		usr << browse(null, "window=radio")
 		return
 	usr.machine = src
-	if (href_list["track"])
-		var/mob/target = locate(href_list["track"])
-		var/mob/living/silicon/ai/A = locate(href_list["track2"])
-		if(A && target)
-			A.ai_actual_track(target)
-		return
-	else if (href_list["freq"])
+	if (href_list["freq"])
 		var/new_frequency = (frequency + text2num(href_list["freq"]))
 		if (!freerange || (frequency < 1200 || frequency > 1600))
 			new_frequency = sanitize_frequency(new_frequency)

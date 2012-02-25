@@ -320,7 +320,6 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 								files.RefreshResearch()
 								server_processed = 1
 							if(!istype(S, /obj/machinery/r_n_d/server/centcom) && server_processed)
-								S.produce_heat(100)
 						screen = 1.6
 						updateUsrDialog()
 

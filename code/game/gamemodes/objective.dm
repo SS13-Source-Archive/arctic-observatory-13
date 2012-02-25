@@ -265,21 +265,17 @@ datum/objective/steal
 		"the captain's antique laser gun" = /obj/item/weapon/gun/energy/laser/captain,
 		"a hand teleporter" = /obj/item/weapon/hand_tele,
 		"an RCD" = /obj/item/weapon/rcd,
-		"a jetpack" = /obj/item/weapon/tank/jetpack,
 		"a captains jumpsuit" = /obj/item/clothing/under/rank/captain,
-		"a functional AI" = /obj/item/device/aicard,
 		"a pair of magboots" = /obj/item/clothing/shoes/magboots,
 		"the station blueprints" = /obj/item/blueprints,
 		"thermal optics" = /obj/item/clothing/glasses/thermal,
 		"a nasa voidsuit" = /obj/item/clothing/suit/space/nasavoid,
-		"28 moles of plasma (full tank)" = /obj/item/weapon/tank,
 	)
 
 	var/global/possible_items_special[] = list(
 		"nuclear authentication disk" = /obj/item/weapon/disk/nuclear,
 		"nuclear gun" = /obj/item/weapon/gun/energy/gun/nuclear,
 		"diamond drill" = /obj/item/weapon/pickaxe/diamonddrill,
-		"bag of holding" = /obj/item/weapon/storage/backpack/holding,
 		"hyper-capacity cell" = /obj/item/weapon/cell/hyper,
 		"10 diamonds" = /obj/item/stack/sheet/diamond,
 		"50 gold bars" = /obj/item/stack/sheet/gold,
@@ -325,13 +321,6 @@ datum/objective/steal
 		if(!isliving(owner.current))	return 0
 		var/list/all_items = owner.current.get_contents()
 		switch (target_name)
-			if("28 moles of plasma (full tank)","10 diamonds","50 gold bars","25 refined uranium bars")
-				var/target_amount = text2num(target_name)//Non-numbers are ignored.
-				var/found_amount = 0.0//Always starts as zero.
-				for(var/obj/item/I in all_items)
-					if(!istype(I, steal_target))	continue//If it's not actually that item.
-					found_amount += (target_name=="28 moles of plasma (full tank)" ? (I:air_contents:toxins) : (I:amount))
-				return found_amount>=target_amount
 			if("50 coins (in bag)")
 				var/obj/item/weapon/moneybag/B = locate() in all_items
 				if(B)
@@ -340,15 +329,6 @@ datum/objective/steal
 					for(var/obj/item/weapon/coin/C in B)
 						found_amount++
 					return found_amount>=target
-			if("a functional AI")
-//						world << "dude's after an AI, time to check for one."
-				for(var/obj/item/device/aicard/C in all_items)
-//							world << "Found an intelicard, checking it for an AI"
-					for(var/mob/living/silicon/ai/M in C)
-//								world << "Found an AI, checking if it's alive"
-						if(istype(M, /mob/living/silicon/ai) && M.stat != 2)
-//									world << "yay, you win!"
-							return 1
 			else
 				for(var/obj/I in all_items)
 					if(istype(I, steal_target))

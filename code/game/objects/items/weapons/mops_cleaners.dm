@@ -22,8 +22,6 @@
 /obj/item/weapon/cleaner/afterattack(atom/A as mob|obj, mob/user as mob)
 	if (istype(A, /obj/item/weapon/storage ))
 		return
-	if (istype(A, /obj/effect/proc_holder/spell ))
-		return
 	else if (src.reagents.total_volume < 1)
 		user << "\blue [src] is empty!"
 		return
@@ -118,8 +116,6 @@
 
 /obj/item/weapon/chemsprayer/afterattack(atom/A as mob|obj, mob/user as mob)
 	if (istype(A, /obj/item/weapon/storage ))
-		return
-	if (istype(A, /obj/effect/proc_holder/spell ))
 		return
 	else if (src.reagents.total_volume < 1)
 		user << "\blue [src] is empty!"
@@ -242,8 +238,6 @@
 		src.setting = 1
 	if (istype(A, /obj/item/weapon/storage ))
 		return
-	if (istype(A, /obj/effect/proc_holder/spell ))
-		return
 	else if (istype(A, /obj/structure/reagent_dispensers/peppertank) && get_dist(src,A) <= 1)
 		A.reagents.trans_to(src, 45)
 		user << "\blue Pepper spray refilled"
@@ -355,8 +349,6 @@
 obj/item/weapon/mop/proc/clean(turf/simulated/A as turf)
 	src.reagents.reaction(A,1,10)
 	A.clean_blood()
-	for(var/obj/effect/rune/R in A)
-		del(R)
 	for(var/obj/effect/decal/cleanable/R in A)
 		del(R)
 	for(var/obj/effect/overlay/R in A)
@@ -382,7 +374,7 @@ obj/item/weapon/mop/proc/clean(turf/simulated/A as turf)
 			clean(A)
 		user << "\blue You have finished mopping!"
 		mopcount++
-	else if (istype(A, /obj/effect/decal/cleanable) || istype(A, /obj/effect/overlay) || istype(A, /obj/effect/rune))
+	else if(istype(A, /obj/effect/decal/cleanable) || istype(A, /obj/effect/overlay))
 		for(var/mob/O in viewers(user, null))
 			O.show_message("\red <B>[user] begins to clean \the [get_turf(A)]</B>", 1)
 		sleep(40)

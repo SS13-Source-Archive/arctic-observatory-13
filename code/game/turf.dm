@@ -1,18 +1,4 @@
 /turf/DblClick()
-	if(istype(usr, /mob/living/silicon/ai))
-		return move_camera_by_click()
-	if(usr.stat || usr.restrained() || usr.lying)
-		return ..()
-
-	if(usr.hand && istype(usr.l_hand, /obj/item/weapon/flamethrower))
-		var/turflist = getline(usr,src)
-		var/obj/item/weapon/flamethrower/F = usr.l_hand
-		F.flame_turf(turflist)
-	else if(!usr.hand && istype(usr.r_hand, /obj/item/weapon/flamethrower))
-		var/turflist = getline(usr,src)
-		var/obj/item/weapon/flamethrower/F = usr.r_hand
-		F.flame_turf(turflist)
-
 	return ..()
 
 /turf/New()
@@ -59,23 +45,19 @@
 				return 0
 
 	//Next, check objects to block entry that are on the border
-	for(var/obj/border_obstacle in src)
-		if(border_obstacle.flags & ON_BORDER)
-			if(!border_obstacle.CanPass(mover, mover.loc, 1, 0) && (forget != border_obstacle))
-				mover.Bump(border_obstacle, 1)
-				return 0
-
-	//Then, check the turf itself
-	if (!src.CanPass(mover, src))
-		mover.Bump(src, 1)
-		return 0
+//	for(var/obj/border_obstacle in src)
+//		if(border_obstacle.flags & ON_BORDER)
+//			if(!border_obstacle.CanPass(mover, mover.loc, 1, 0) && (forget != border_obstacle))
+//				mover.Bump(border_obstacle, 1)
+//				return 0
 
 	//Finally, check objects/mobs to block entry that are not on the border
-	for(var/atom/movable/obstacle in src)
-		if(obstacle.flags & ~ON_BORDER)
-			if(!obstacle.CanPass(mover, mover.loc, 1, 0) && (forget != obstacle))
-				mover.Bump(obstacle, 1)
-				return 0
+//	for(var/atom/movable/obstacle in src)
+//		if(obstacle.flags & ~ON_BORDER)
+//			if(!obstacle.CanPass(mover, mover.loc, 1, 0) && (forget != obstacle))
+//				mover.Bump(obstacle, 1)
+//				return 0
+
 	return 1 //Nothing found to block so return success!
 
 
@@ -664,16 +646,6 @@
 		return attack_hand(user)
 	return
 
-/turf/simulated/wall/meteorhit(obj/M as obj)
-	if (prob(15))
-		dismantle_wall()
-	else if(prob(70))
-		ReplaceWithPlating()
-	else
-		ReplaceWithLattice()
-	return 0
-
-
 //This is so damaged or burnt tiles or platings don't get remembered as the default tile
 var/list/icons_to_ignore_at_floor_init = list("damaged1","damaged2","damaged3","damaged4",
 				"damaged5","panelscorched","floorscorched1","floorscorched2","platingdmg1","platingdmg2",
@@ -763,18 +735,6 @@ var/list/plating_icons = list("plating","platingdmg1","platingdmg2","platingdmg3
 	thermal_conductivity = 0.025
 	heat_capacity = 325000
 
-/turf/simulated/floor/engine/n20
-	New()
-		..()
-		var/datum/gas_mixture/adding = new
-		var/datum/gas/sleeping_agent/trace_gas = new
-
-		trace_gas.moles = 2000
-		adding.trace_gases += trace_gas
-		adding.temperature = T20C
-
-		assume_air(adding)
-
 /turf/simulated/floor/engine/vacuum
 	name = "vacuum floor"
 	icon_state = "engine"
@@ -833,12 +793,10 @@ var/list/plating_icons = list("plating","platingdmg1","platingdmg2","platingdmg3
 						src.break_tile_to_plating()
 					else
 						src.break_tile()
-					src.hotspot_expose(1000,CELL_VOLUME)
 					if(prob(33)) new /obj/item/stack/sheet/metal(src)
 		if(3.0)
 			if (prob(50))
 				src.break_tile()
-				src.hotspot_expose(1000,CELL_VOLUME)
 	return
 
 /turf/simulated/floor/blob_act()
@@ -875,10 +833,6 @@ turf/simulated/floor/proc/update_icon()
 		if(!broken && !burnt)
 			if(!(icon_state in list("grass1","grass2","grass3","grass4")))
 				icon_state = "grass[pick("1","2","3","4")]"
-	spawn(1)
-		if(istype(src,/turf/simulated/floor)) //Was throwing runtime errors due to a chance of it changing to space halfway through.
-			if(air)
-				update_visuals(air)
 
 turf/simulated/floor/return_siding_icon_state()
 	..()
@@ -966,8 +920,6 @@ turf/simulated/floor/return_siding_icon_state()
 
 /turf/simulated/floor/proc/break_tile()
 	if(istype(src,/turf/simulated/floor/engine)) return
-	if(istype(src,/turf/simulated/floor/mech_bay_recharge_floor))
-		src.ReplaceWithPlating()
 	if(broken) return
 	if(is_plasteel_floor())
 		src.icon_state = "damaged[pick(1,2,3,4,5)]"
@@ -1273,13 +1225,8 @@ turf/simulated/floor/return_siding_icon_state()
 					MM << "\red Something you are carrying is preventing you from leaving. Don't play stupid; you know exactly what it is."
 			return
 
-		else if(ticker.mode.name == "extended"||ticker.mode.name == "sandbox")	Sandbox_Spacemove(A)
-
 		else
 			if (src.x <= 2 || A.x >= (world.maxx - 1) || src.y <= 2 || A.y >= (world.maxy - 1))
-				if(istype(A, /obj/effect/meteor)||istype(A, /obj/effect/space_dust))
-					del(A)
-					return
 
 				var/move_to_z_str = pickweight(accessable_z_levels)
 
@@ -1308,115 +1255,6 @@ turf/simulated/floor/return_siding_icon_state()
 
 //				if(istype(A, /obj/structure/closet/coffin))
 //					coffinhandler.Add(A)
-
-/turf/space/proc/Sandbox_Spacemove(atom/movable/A as mob|obj)
-	var/cur_x
-	var/cur_y
-	var/next_x
-	var/next_y
-	var/target_z
-	var/list/y_arr
-
-	if(src.x <= 1)
-		if(istype(A, /obj/effect/meteor)||istype(A, /obj/effect/space_dust))
-			del(A)
-			return
-
-		var/list/cur_pos = src.get_global_map_pos()
-		if(!cur_pos) return
-		cur_x = cur_pos["x"]
-		cur_y = cur_pos["y"]
-		next_x = (--cur_x||global_map.len)
-		y_arr = global_map[next_x]
-		target_z = y_arr[cur_y]
-/*
-		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Target Z = [target_z]"
-		world << "Next X = [next_x]"
-		//debug
-*/
-		if(target_z)
-			A.z = target_z
-			A.x = world.maxx - 2
-			spawn (0)
-				if ((A && A.loc))
-					A.loc.Entered(A)
-	else if (src.x >= world.maxx)
-		if(istype(A, /obj/effect/meteor))
-			del(A)
-			return
-
-		var/list/cur_pos = src.get_global_map_pos()
-		if(!cur_pos) return
-		cur_x = cur_pos["x"]
-		cur_y = cur_pos["y"]
-		next_x = (++cur_x > global_map.len ? 1 : cur_x)
-		y_arr = global_map[next_x]
-		target_z = y_arr[cur_y]
-/*
-		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Target Z = [target_z]"
-		world << "Next X = [next_x]"
-		//debug
-*/
-		if(target_z)
-			A.z = target_z
-			A.x = 3
-			spawn (0)
-				if ((A && A.loc))
-					A.loc.Entered(A)
-	else if (src.y <= 1)
-		if(istype(A, /obj/effect/meteor))
-			del(A)
-			return
-		var/list/cur_pos = src.get_global_map_pos()
-		if(!cur_pos) return
-		cur_x = cur_pos["x"]
-		cur_y = cur_pos["y"]
-		y_arr = global_map[cur_x]
-		next_y = (--cur_y||y_arr.len)
-		target_z = y_arr[next_y]
-/*
-		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Next Y = [next_y]"
-		world << "Target Z = [target_z]"
-		//debug
-*/
-		if(target_z)
-			A.z = target_z
-			A.y = world.maxy - 2
-			spawn (0)
-				if ((A && A.loc))
-					A.loc.Entered(A)
-
-	else if (src.y >= world.maxy)
-		if(istype(A, /obj/effect/meteor)||istype(A, /obj/effect/space_dust))
-			del(A)
-			return
-		var/list/cur_pos = src.get_global_map_pos()
-		if(!cur_pos) return
-		cur_x = cur_pos["x"]
-		cur_y = cur_pos["y"]
-		y_arr = global_map[cur_x]
-		next_y = (++cur_y > y_arr.len ? 1 : cur_y)
-		target_z = y_arr[next_y]
-/*
-		//debug
-		world << "Src.z = [src.z] in global map X = [cur_x], Y = [cur_y]"
-		world << "Next Y = [next_y]"
-		world << "Target Z = [target_z]"
-		//debug
-*/
-		if(target_z)
-			A.z = target_z
-			A.y = 3
-			spawn (0)
-				if ((A && A.loc))
-					A.loc.Entered(A)
-	return
 
 /obj/effect/vaultspawner
 	var/maxX = 6
@@ -1451,9 +1289,6 @@ turf/simulated/floor/return_siding_icon_state()
 		if(M==U)	continue//Will not harm U. Since null != M, can be excluded to kill everyone.
 		spawn(0)
 			M.gib()
-	for(var/obj/mecha/M in src)//Mecha are not gibbed but are damaged.
-		spawn(0)
-			M.take_damage(100, "brute")
 	for(var/obj/effect/critter/M in src)
 		spawn(0)
 			M.Die()

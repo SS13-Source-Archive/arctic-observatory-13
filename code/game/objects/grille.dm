@@ -6,7 +6,6 @@
 	density = 1
 	anchored = 1.0
 	flags = FPRINT | CONDUCT
-	pressure_resistance = 5*ONE_ATMOSPHERE
 	layer = 2.9
 	var
 		health = 10
@@ -29,19 +28,6 @@
 					src.health -= 11
 					healthcheck()
 		return
-
-
-	blob_act()
-		del(src)
-		return
-
-
-	meteorhit(var/obj/M)
-		if (M.icon_state == "flaming")
-			src.health -= 2
-			healthcheck()
-		return
-
 
 	attack_hand(var/mob/user)
 		playsound(src.loc, 'grillehit.ogg', 80, 1)
@@ -90,17 +76,6 @@
 		src.health -= rand(4)
 		healthcheck()
 		return
-
-	CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-		if(air_group || (height==0)) return 1
-		if(istype(mover) && mover.checkpass(PASSGRILLE))
-			return 1
-		else
-			if (istype(mover, /obj/item/projectile))
-				return prob(30)
-			else
-				return !src.density
-
 
 	attackby(obj/item/weapon/W, mob/user)
 		if(iswirecutter(W))

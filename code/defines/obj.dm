@@ -17,7 +17,7 @@
 		//		datum/air_group to tell lifeform to process using that breath return
 		//DEFAULT: Take air from turf to give to have mob process
 		if(breath_request>0)
-			return remove_air(breath_request)
+			return 1
 		else
 			return null
 
@@ -287,7 +287,6 @@
 	var/force_wielded = 0
 	flags = FPRINT | TABLEPASS
 	pass_flags = PASSTABLE
-	pressure_resistance = 50
 //	causeerrorheresoifixthis
 	var/obj/item/master = null
 
@@ -606,7 +605,7 @@
 	icon_state = "stool"
 	anchored = 1.0
 	flags = FPRINT
-	pressure_resistance = 3*ONE_ATMOSPHERE
+
 
 /obj/structure/stool/bed
 	name = "bed"
@@ -781,7 +780,6 @@
 	icon_state = "mopbucket"
 	density = 1
 	flags = FPRINT
-	pressure_resistance = ONE_ATMOSPHERE
 	flags = FPRINT | TABLEPASS | OPENCONTAINER
 	var/amount_per_transfer_from_this = 5 //shit I dunno, adding this so syringes stop runtime erroring. --NeoFite
 

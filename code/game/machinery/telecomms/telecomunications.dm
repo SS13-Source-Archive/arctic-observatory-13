@@ -151,9 +151,6 @@
 		else
 			on = 1
 
-		// Check heat and generate some
-		checkheat()
-
 		// Update the icon
 		update_icon()
 
@@ -171,45 +168,6 @@
 						icon_state = "bus3"
 
 		// Check heat and generate some
-
-	proc/checkheat()
-		// Checks heat from the environment and applies any integrity damage
-		var/datum/gas_mixture/environment = loc.return_air()
-		switch(environment.temperature)
-			if(T0C to (T20C + 20))
-				integrity = between(0, integrity, 100)
-			if((T20C + 20) to (T0C + 70))
-				integrity = max(0, integrity - 1)
-		if(delay)
-			delay--
-		else
-			// If the machine is on, ready to produce heat, and has positive traffic, genn some heat
-			if(on && traffic > 0)
-				produce_heat(heatgen)
-				delay = initial(delay)
-
-	proc/produce_heat(heat_amt)
-		if(heatgen == 0)
-			return
-
-		if(!(stat & (NOPOWER|BROKEN))) //Blatently stolen from space heater.
-			var/turf/simulated/L = loc
-			if(istype(L))
-				var/datum/gas_mixture/env = L.return_air()
-				if(env.temperature < (heat_amt+T0C))
-
-					var/transfer_moles = 0.25 * env.total_moles()
-
-					var/datum/gas_mixture/removed = env.remove(transfer_moles)
-
-					if(removed)
-
-						var/heat_capacity = removed.heat_capacity()
-						if(heat_capacity == 0 || heat_capacity == null)
-							heat_capacity = 1
-						removed.temperature = min((removed.temperature*heat_capacity + heating_power)/heat_capacity, 1000)
-
-					env.merge(removed)
 /*
 	The receiver idles and receives messages from subspace-compatible radio equipment;
 	primarily headsets. They then just relay this information to all linked devices,

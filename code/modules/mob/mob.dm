@@ -2,25 +2,6 @@
 	ghostize(1)
 	..()
 
-/mob/proc/Cell()
-	set category = "Admin"
-	set hidden = 1
-
-	if(!loc) return 0
-
-	var/datum/gas_mixture/environment = loc.return_air()
-
-	var/t = "\blue Coordinates: [x],[y] \n"
-	t+= "\red Temperature: [environment.temperature] \n"
-	t+= "\blue Nitrogen: [environment.nitrogen] \n"
-	t+= "\blue Oxygen: [environment.oxygen] \n"
-	t+= "\blue Plasma : [environment.toxins] \n"
-	t+= "\blue Carbon Dioxide: [environment.carbon_dioxide] \n"
-	for(var/datum/gas/trace_gas in environment.trace_gases)
-		usr << "\blue [trace_gas.type]: [trace_gas.moles] \n"
-
-	usr.show_message(t, 1)
-
 /atom/proc/relaymove()
 	return
 
@@ -277,7 +258,7 @@
 
 /mob/proc/show_inv(mob/user as mob)
 	user.machine = src
-	var/dat = text("<TT>\n<B><FONT size=3>[]</FONT></B><BR>\n\t<B>Head(Mask):</B> <A href='?src=\ref[];item=mask'>[]</A><BR>\n\t<B>Left Hand:</B> <A href='?src=\ref[];item=l_hand'>[]</A><BR>\n\t<B>Right Hand:</B> <A href='?src=\ref[];item=r_hand'>[]</A><BR>\n\t<B>Back:</B> <A href='?src=\ref[];item=back'>[]</A><BR>\n\t[]<BR>\n\t[]<BR>\n\t[]<BR>\n\t<A href='?src=\ref[];item=pockets'>Empty Pockets</A><BR>\n<A href='?src=\ref[];mach_close=mob[]'>Close</A><BR>\n</TT>", name, src, (wear_mask ? text("[]", wear_mask) : "Nothing"), src, (l_hand ? text("[]", l_hand) : "Nothing"), src, (r_hand ? text("[]", r_hand) : "Nothing"), src, (back ? text("[]", back) : "Nothing"), ((istype(wear_mask, /obj/item/clothing/mask) && istype(back, /obj/item/weapon/tank) && !( internal )) ? text(" <A href='?src=\ref[];item=internal'>Set Internal</A>", src) : ""), (internal ? text("<A href='?src=\ref[];item=internal'>Remove Internal</A>", src) : ""), (handcuffed ? text("<A href='?src=\ref[];item=handcuff'>Handcuffed</A>", src) : text("<A href='?src=\ref[];item=handcuff'>Not Handcuffed</A>", src)), src, user, name)
+	var/dat = text("<TT>\n<B><FONT size=3>[]</FONT></B><BR>\n\t<B>Head(Mask):</B> <A href='?src=\ref[];item=mask'>[]</A><BR>\n\t<B>Left Hand:</B> <A href='?src=\ref[];item=l_hand'>[]</A><BR>\n\t<B>Right Hand:</B> <A href='?src=\ref[];item=r_hand'>[]</A><BR>\n\t<B>Back:</B> <A href='?src=\ref[];item=back'>[]</A><BR>\n\t[]<BR>\n\t<A href='?src=\ref[];item=pockets'>Empty Pockets</A><BR>\n<A href='?src=\ref[];mach_close=mob[]'>Close</A><BR>\n</TT>", name, src, (wear_mask ? text("[]", wear_mask) : "Nothing"), src, (l_hand ? text("[]", l_hand) : "Nothing"), src, (r_hand ? text("[]", r_hand) : "Nothing"), src, (back ? text("[]", back) : "Nothing"), (handcuffed ? text("<A href='?src=\ref[];item=handcuff'>Handcuffed</A>", src) : text("<A href='?src=\ref[];item=handcuff'>Not Handcuffed</A>", src)), src, user, name)
 	user << browse(dat, text("window=mob[];size=325x500", name))
 	onclose(user, "mob[name]")
 	return
@@ -503,39 +484,7 @@
 	if (is_admin && stat == 2)
 		is_admin = 0
 
-	var/list/names = list()
-	var/list/namecounts = list()
 	var/list/creatures = list()
-
-	for (var/obj/item/weapon/disk/nuclear/D in world)
-		var/name = "Nuclear Disk"
-		if (name in names)
-			namecounts[name]++
-			name = "[name] ([namecounts[name]])"
-		else
-			names.Add(name)
-			namecounts[name] = 1
-		creatures[name] = D
-
-	for (var/obj/machinery/singularity/S in world)
-		var/name = "Singularity"
-		if (name in names)
-			namecounts[name]++
-			name = "[name] ([namecounts[name]])"
-		else
-			names.Add(name)
-			namecounts[name] = 1
-		creatures[name] = S
-
-	for (var/obj/machinery/bot/B in world)
-		var/name = "BOT: [B.name]"
-		if (name in names)
-			namecounts[name]++
-			name = "[name] ([namecounts[name]])"
-		else
-			names.Add(name)
-			namecounts[name] = 1
-		creatures[name] = B
 /*
 	for (var/mob/living/silicon/decoy/D in world)
 		var/name = "[D.name]"
@@ -577,22 +526,10 @@
 		else
 			reset_view(null)
 			client.adminobs = 0
+	if (eye)
+		client.eye = eye
 	else
-		if(ticker)
-//		 world << "there's a ticker"
-			if(ticker.mode.name == "AI malfunction")
-//				world << "ticker says its malf"
-				var/datum/game_mode/malfunction/malf = ticker.mode
-				for (var/datum/mind/B in malf.malf_ai)
-//					world << "comparing [B.current] to [eye]"
-					if (B.current == eye)
-						for (var/mob/living/silicon/decoy/D in world)
-							if (eye)
-								eye = D
-		if (eye)
-			client.eye = eye
-		else
-			client.eye = client.mob
+		client.eye = client.mob
 
 /mob/verb/cancel_camera()
 	set name = "Cancel Camera View"
@@ -743,9 +680,6 @@
 		holder = new /obj/admins(src)
 		holder.rank = admins[ckey]
 		update_admins(admins[ckey])
-
-	if(ticker && ticker.mode && ticker.mode.name =="sandbox" && authenticated)
-		mob.CanBuild()
 
 /client/Del()
 	spawn(0)
@@ -956,18 +890,6 @@ note dizziness decrements automatically in the mob's Life() proc.
 		//if (master_controller)
 		//	stat(null, "Loop: [master_controller.loop_freq]")
 
-	if (spell_list.len)
-
-		for(var/obj/effect/proc_holder/spell/S in spell_list)
-			switch(S.charge_type)
-				if("recharge")
-					statpanel("Spells","[S.charge_counter/10.0]/[S.charge_max/10]",S)
-				if("charges")
-					statpanel("Spells","[S.charge_counter]/[S.charge_max]",S)
-				if("holdervar")
-					statpanel("Spells","[S.holder_var_type] [S.holder_var_amount]",S)
-
-
 /client/proc/station_explosion_cinematic(var/station_missed)
 	if(!mob || !ticker)	return
 	if(!mob.client || !mob.hud_used || !ticker.mode)	return
@@ -976,14 +898,7 @@ note dizziness decrements automatically in the mob's Life() proc.
 	if(!istype(boom))	return
 
 	mob.client.screen += boom
-
-	switch(ticker.mode.name)
-		if("nuclear emergency")
-			flick("start_nuke", boom)
-		if("AI malfunction")
-			flick("start_malf", boom)
-		else
-			boom.icon_state = "start"
+	boom.icon_state = "start"
 
 	sleep(40)
 	mob << sound('explosionfar.ogg')

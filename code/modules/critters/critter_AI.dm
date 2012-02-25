@@ -152,26 +152,6 @@
 					T = C
 					break
 
-			if(!src.attack)
-				for(var/obj/mecha/C in view(src.seekrange,src))
-					if(!C.occupant) continue
-
-					if(atkreq && C.occupant)
-						if(src.allowed(C.occupant)) continue
-
-					if(!atksynd && C.occupant)
-						if(C.occupant.mind)
-							var/datum/mind/synd_mind = C.occupant.mind
-							if( synd_mind.special_role == "Syndicate" || synd_mind.special_role == "traitor" )
-								continue
-
-					if(!src.atkmech) continue
-					if(C.health <= 0) continue
-					if(src.atkmech)	src.attack = 1
-					if(src.attack)
-						T = C
-						break
-
 		if(src.attack)
 			src.target = T
 			src.oldtarget_name = T:name
@@ -209,11 +189,7 @@
 
 
 		if(isobj(src.target))
-			if(istype(target, /obj/mecha))
-				//src.target:take_damage(rand(melee_damage_lower,melee_damage_upper))
-				src.target:attack_critter(src)
-			else
-				src.target:TakeDamage(rand(melee_damage_lower,melee_damage_upper))
+			src.target:TakeDamage(rand(melee_damage_lower,melee_damage_upper))
 		spawn(attack_speed)
 			src.attacking = 0
 		return

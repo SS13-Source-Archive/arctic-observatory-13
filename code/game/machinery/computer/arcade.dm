@@ -130,15 +130,7 @@
 		src.gameover = 1
 		src.temp = "[src.enemy_name] has fallen! Rejoice!"
 
-		if(emagged)
-			new /obj/effect/spawner/newbomb/timer/syndicate(src.loc)
-			new /obj/item/clothing/head/collectable/petehat(src.loc)
-			message_admins("[key_name_admin(usr)] has outbombed Cuban Pete and been awarded a bomb.")
-			log_game("[key_name_admin(usr)] has outbombed Cuban Pete and been awarded a bomb.")
-			src.New()
-			emagged = 0
-
-		else if(!contents.len)
+		if(!contents.len)
 			var/prizeselect = pick(1,2,3,4,5,6,7,8,9)
 			switch(prizeselect)
 				if(1)

@@ -197,21 +197,11 @@
 					new /obj/item/clothing/suit/space/syndicate(get_turf(hostpda))
 					new /obj/item/clothing/head/helmet/space/syndicate(get_turf(hostpda))
 					feedback_add_details("traitor_uplink_items_bought","SS")
-			if("lawmod")
-				if (uses >= 7)
-					uses -= 7
-					new /obj/item/weapon/aiModule/syndicate(get_turf(hostpda))
-					feedback_add_details("traitor_uplink_items_bought","AI")
 			if("botchat")
 				if (uses >= 3)
 					uses -= 3
 					new /obj/item/device/radio/headset/binary(get_turf(hostpda))
 					feedback_add_details("traitor_uplink_items_bought","BT")
-			if("singubeacon")
-				if(uses >= 7)
-					uses -= 7
-					new /obj/machinery/singularity_beacon/syndicate(get_turf(hostpda))
-					feedback_add_details("traitor_uplink_items_bought","SB")
 			if("toolbox")
 				if(uses)
 					uses--

@@ -8,30 +8,6 @@
 	flags = ON_BORDER
 	opacity = 0
 
-
-/obj/machinery/door/window/update_nearby_tiles(need_rebuild)
-	if(!air_master) return 0
-
-	var/turf/simulated/source = loc
-	var/turf/simulated/target = get_step(source,dir)
-
-	if(need_rebuild)
-		if(istype(source)) //Rebuild/update nearby group geometry
-			if(source.parent)
-				air_master.groups_to_rebuild += source.parent
-			else
-				air_master.tiles_to_update += source
-		if(istype(target))
-			if(target.parent)
-				air_master.groups_to_rebuild += target.parent
-			else
-				air_master.tiles_to_update += target
-	else
-		if(istype(source)) air_master.tiles_to_update += source
-		if(istype(target)) air_master.tiles_to_update += target
-
-	return 1
-
 /obj/machinery/door/window/New()
 	..()
 
@@ -41,21 +17,6 @@
 	return
 
 /obj/machinery/door/window/Bumped(atom/movable/AM as mob|obj)
-	if (!( ismob(AM) ))
-		var/obj/machinery/bot/bot = AM
-		if(istype(bot))
-			if(density && src.check_access(bot.botcard))
-				open()
-				sleep(50)
-				close()
-		else if(istype(AM, /obj/mecha))
-			var/obj/mecha/mecha = AM
-			if(density)
-				if(mecha.occupant && src.allowed(mecha.occupant))
-					open()
-					sleep(50)
-					close()
-		return
 	if (!( ticker ))
 		return
 	if (src.operating)
@@ -68,15 +29,6 @@
 			sleep(20)
 		close()
 	return
-
-/obj/machinery/door/window/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(istype(mover) && mover.checkpass(PASSGLASS))
-		return 1
-	if(get_dir(loc, target) == dir) //Make sure looking at appropriate border
-		if(air_group) return 0
-		return !density
-	else
-		return 1
 
 /obj/machinery/door/window/CheckExit(atom/movable/mover as mob|obj, turf/target as turf)
 	if(istype(mover) && mover.checkpass(PASSGLASS))
