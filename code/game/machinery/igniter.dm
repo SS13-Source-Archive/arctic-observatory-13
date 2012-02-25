@@ -1,6 +1,3 @@
-/obj/machinery/igniter/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/igniter/attack_paw(mob/user as mob)
 	if ((ticker && ticker.mode.name == "monkey"))
 		return src.attack_hand(user)
@@ -66,12 +63,6 @@
 			else
 				icon_state = "[base_state]-p"
 
-/obj/machinery/sparker/attack_ai()
-	if (src.anchored)
-		return src.ignite()
-	else
-		return
-
 /obj/machinery/sparker/proc/ignite()
 	if (!(powered()))
 		return
@@ -87,10 +78,6 @@
 	src.last_spark = world.time
 	use_power(1000)
 	return 1
-
-
-/obj/machinery/ignition_switch/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
 
 /obj/machinery/ignition_switch/attack_paw(mob/user as mob)
 	return src.attack_hand(user)

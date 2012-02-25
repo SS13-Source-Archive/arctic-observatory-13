@@ -9,7 +9,6 @@
 	for(var/mob/M in nearby)
 		if ((M.client && M.machine == src))
 			src.attack_hand(M)
-	AutoUpdateAI(src)
 
 /obj/proc/update_icon()
 	return

@@ -15,9 +15,6 @@
 		temp = null
 		printing = null
 
-/obj/machinery/computer/med_data/attack_ai(user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/computer/med_data/attack_paw(user as mob)
 	return src.attack_hand(user)
 

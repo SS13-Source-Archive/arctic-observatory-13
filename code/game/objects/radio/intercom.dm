@@ -8,12 +8,6 @@
 	var/anyai = 1
 	var/mob/living/silicon/ai/ai = list()
 
-
-	attack_ai(mob/user as mob)
-		src.add_fingerprint(user)
-		spawn (0)
-			attack_self(user)
-
 	attack_paw(mob/user as mob)
 		if ((ticker && ticker.mode.name == "monkey"))
 			return src.attack_hand(user)

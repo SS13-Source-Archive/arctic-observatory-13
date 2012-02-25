@@ -440,15 +440,6 @@
 		onclose(user, "turret")
 		return
 
-	attack_ai(mob/user as mob)
-		return attack_hand(user)
-
-
-	attack_alien(mob/user as mob)
-		user.visible_message("[user] slashes at [src]", "You slash at [src]")
-		src.take_damage(15)
-		return
-
 	Topic(href, href_list)
 		if(href_list["power"])
 			src.on = !src.on

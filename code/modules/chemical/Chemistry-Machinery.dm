@@ -122,9 +122,6 @@
 			if (player.machine == src && player.client)
 				updateWindow(player)
 
-	attack_ai(mob/user as mob)
-		return src.attack_hand(user)
-
 	attack_paw(mob/user as mob)
 		return src.attack_hand(user)
 
@@ -264,9 +261,6 @@
 		src.updateUsrDialog()
 		src.add_fingerprint(usr)
 		return
-
-	attack_ai(mob/user as mob)
-		return src.attack_hand(user)
 
 	attack_paw(mob/user as mob)
 		return src.attack_hand(user)
@@ -431,9 +425,6 @@
 
 		src.add_fingerprint(usr)
 		return
-
-	attack_ai(mob/user as mob)
-		return src.attack_hand(user)
 
 	attack_paw(mob/user as mob)
 		return src.attack_hand(user)
@@ -606,9 +597,6 @@
 
 /obj/machinery/reagentgrinder/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
-
-/obj/machinery/reagentgrinder/attack_ai(mob/user as mob)
-	return 0
 
 /obj/machinery/reagentgrinder/attack_hand(mob/user as mob)
 	user.machine = src

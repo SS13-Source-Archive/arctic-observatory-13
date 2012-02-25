@@ -10,11 +10,6 @@
 		network = "SS13"
 		mapping = 0//For the overview file, interesting bit of code.
 
-
-	attack_ai(var/mob/user as mob)
-		return attack_hand(user)
-
-
 	attack_paw(var/mob/user as mob)
 		return attack_hand(user)
 

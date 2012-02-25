@@ -13,9 +13,6 @@
 	var/toner = 30 //how much toner is left! woooooo~
 	var/maxcopies = 10	//how many copies can be copied at once- idea shamelessly stolen from bs12's copier!
 
-/obj/machinery/photocopier/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/photocopier/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 

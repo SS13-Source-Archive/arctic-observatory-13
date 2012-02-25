@@ -20,10 +20,6 @@
 	active_power_usage = 6
 	power_channel = ENVIRON
 
-/obj/machinery/keycard_auth/attack_ai(mob/user as mob)
-	user << "The station AI is not to interact with these devices"
-	return
-
 /obj/machinery/keycard_auth/attack_paw(mob/user as mob)
 	user << "You are too primitive to use this device"
 	return

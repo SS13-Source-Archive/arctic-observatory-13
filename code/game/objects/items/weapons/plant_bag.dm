@@ -136,9 +136,6 @@
 /obj/machinery/smartfridge/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-/obj/machinery/smartfridge/attack_ai(mob/user as mob)
-	return 0
-
 /obj/machinery/smartfridge/attack_hand(mob/user as mob)
 	user.machine = src
 	interact(user)

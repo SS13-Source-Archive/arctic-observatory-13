@@ -136,9 +136,6 @@ var/list/obj/machinery/newscaster/allCasters = list() //list that will contain r
 			return
 	return
 
-/obj/machinery/newscaster/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/newscaster/attack_hand(mob/user as mob)
 	if(!src.ispowered || src.isbroken)
 		return
@@ -646,10 +643,6 @@ var/list/obj/machinery/newscaster/allCasters = list() //list that will contain r
 		else
 			user << "<FONT COLOR='blue'>This does nothing.</FONT>"
 	src.update_icon()
-
-/obj/machinery/newscaster/attack_ai(mob/user as mob)
-	return src.attack_hand(user) //or maybe it'll have some special functions? No idea.
-
 
 /obj/machinery/newscaster/attack_paw(mob/user as mob)
 	user << "<font color='blue'>The newscaster controls are far too complicated for your tiny brain!</font>"

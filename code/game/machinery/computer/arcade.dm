@@ -30,10 +30,6 @@
 	src.enemy_name = dd_replacetext((name_part1 + name_part2), "the ", "")
 	src.name = (name_action + name_part1 + name_part2)
 
-
-/obj/machinery/computer/arcade/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/computer/arcade/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 

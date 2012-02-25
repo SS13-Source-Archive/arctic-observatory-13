@@ -121,7 +121,6 @@
 		for(var/mob/M in viewers(1, src))
 			if ((M.client && M.machine == src))
 				src.interact(M)
-		AutoUpdateAI(src)
 		return
 
 // called after all power processes are finished
@@ -159,13 +158,6 @@
 	add_load(var/amount)
 		if(terminal && terminal.powernet)
 			terminal.powernet.newload += amount
-
-
-	attack_ai(mob/user)
-		add_fingerprint(user)
-		if(stat & BROKEN) return
-		interact(user)
-
 
 	attack_hand(mob/user)
 		add_fingerprint(user)

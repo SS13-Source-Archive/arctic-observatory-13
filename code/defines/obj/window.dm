@@ -8,8 +8,6 @@
 	var/ini_dir = null
 	var/state = 0
 	var/reinf = 0
-	var/silicate = 0 // number of units of silicate
-	var/icon/silicateIcon = null // the silicated icon
 	anchored = 1.0
 	flags = ON_BORDER
 
@@ -24,16 +22,16 @@
 
 // Reinforced
 
-/obj/structure/window/reinforced
+/obj/structure/window/reniforced
 	reinf = 1
 	icon_state = "rwindow"
 	name = "reinforced window"
 
-/obj/structure/window/reinforced/tinted
+/obj/structure/window/reniforced/tinted
 	name = "tinted window"
 	icon_state = "twindow"
 	opacity = 1
 
-/obj/structure/window/reinforced/tinted/frosted
+/obj/structure/window/reniforced/tinted/frosted
 	icon_state = "fwindow"
 	name = "frosted window"

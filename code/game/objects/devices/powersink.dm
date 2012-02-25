@@ -62,9 +62,6 @@
 	attack_paw()
 		return
 
-	attack_ai()
-		return
-
 	attack_hand(var/mob/user)
 		switch(mode)
 			if(0)

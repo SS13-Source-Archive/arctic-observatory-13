@@ -43,9 +43,6 @@
 		chargelevel = -1
 		updateicon()
 
-/obj/machinery/cell_charger/attack_ai(mob/user)
-	return
-
 /obj/machinery/cell_charger/process()
 	//world << "ccpt [charging] [stat]"
 	if(!charging || (stat & (BROKEN|NOPOWER)) )

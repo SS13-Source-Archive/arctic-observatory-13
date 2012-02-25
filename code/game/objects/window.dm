@@ -36,7 +36,6 @@
 	return 1
 
 /obj/structure/window/hitby(AM as mob|obj)
-
 	..()
 	for(var/mob/O in viewers(src, null))
 		O.show_message(text("\red <B>[src] was hit by [AM].</B>"), 1)
@@ -176,19 +175,6 @@
 	src.dir = turn(src.dir, 270)
 	src.ini_dir = src.dir
 	return
-
-/obj/structure/window/proc/updateSilicate()
-	if(silicateIcon && silicate)
-		src.icon = initial(icon)
-
-		var/icon/I = icon(icon,icon_state,dir)
-
-		var/r = (silicate / 100) + 1
-		var/g = (silicate / 70) + 1
-		var/b = (silicate / 50) + 1
-		I.SetIntensity(r,g,b)
-		icon = I
-		silicateIcon = I
 
 /obj/structure/window/New(Loc,re=0)
 	..()

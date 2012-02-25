@@ -13,12 +13,6 @@
 		tracked = list()
 		..()
 
-
-	attack_ai(mob/user)
-		attack_hand(user)
-		interact(user)
-
-
 	attack_hand(mob/user)
 		add_fingerprint(user)
 		if(stat & (BROKEN|NOPOWER))

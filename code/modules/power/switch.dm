@@ -29,10 +29,6 @@
 		else
 			usr << "The switch is in the off position"
 
-	attack_ai(mob/user)
-		user << "\red You're an AI. This is a manual switch. It's not going to work."
-		return
-
 	attack_hand(mob/user)
 
 		if(busy)

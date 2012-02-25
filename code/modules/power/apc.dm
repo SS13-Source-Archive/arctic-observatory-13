@@ -84,7 +84,6 @@
 	for(var/mob/M in nearby)
 		if (M.client && M.machine == src)
 			src.interact(M)
-	AutoUpdateAI(src)
 
 /obj/machinery/power/apc/New(turf/loc, var/ndir, var/building=0)
 	..()

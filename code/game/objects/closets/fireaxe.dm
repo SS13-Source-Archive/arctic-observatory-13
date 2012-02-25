@@ -170,18 +170,6 @@
 		attack_hand(user)
 		return
 
-	attack_ai(mob/user as mob)
-		if(src.smashed)
-			user << "\red The security of the cabinet is compromised."
-			return
-		else
-			locked = !locked
-			if(locked)
-				user << "\red Cabinet locked."
-			else
-				user << "\blue Cabinet unlocked."
-			return
-
 	update_icon() //Template: fireaxe[has fireaxe][is opened][hits taken][is smashed]. If you want the opening or closing animations, add "opening" or "closing" right after the numbers
 		var/hasaxe = 0
 		if(fireaxe)

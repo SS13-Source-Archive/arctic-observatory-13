@@ -224,13 +224,7 @@ var/ordernum=0
 
 	return
 
-/obj/machinery/computer/ordercomp/attack_ai(var/mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/computer/ordercomp/attack_paw(var/mob/user as mob)
-	return src.attack_hand(user)
-
-/obj/machinery/computer/supplycomp/attack_ai(var/mob/user as mob)
 	return src.attack_hand(user)
 
 /obj/machinery/computer/supplycomp/attack_paw(var/mob/user as mob)

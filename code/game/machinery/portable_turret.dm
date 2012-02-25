@@ -59,10 +59,6 @@
 		del(cover)
 		..()
 
-
-/obj/machinery/porta_turret/attack_ai(mob/user as mob)
-	return attack_hand(user)
-
 /obj/machinery/porta_turret/attack_hand(mob/user as mob)
 	. = ..()
 	if (.)
@@ -761,39 +757,6 @@ Neutralize All Unidentified Life Signs: []<BR>"},
 
 
 // The below code is pretty much just recoded from the initial turret object. It's necessary but uncommented because it's exactly the same!
-
-/obj/machinery/porta_turret_cover/attack_ai(mob/user as mob)
-	. = ..()
-	if (.)
-		return
-	var/dat
-
-	dat += text({"
-<TT><B>Automatic Portable Turret Installation</B></TT><BR><BR>
-Status: []<BR>
-Behaviour controls are [Parent_Turret.locked ? "locked" : "unlocked"]"},
-
-"<A href='?src=\ref[src];power=1'>[Parent_Turret.on ? "On" : "Off"]</A>" )
-
-
-	dat += text({"<BR>
-Check for Weapon Authorization: []<BR>
-Check Security Records: []<BR>
-Neutralize Identified Criminals: []<BR>
-Neutralize All Non-Security and Non-Command Personnel: []<BR>
-Neutralize All Unidentified Life Signs: []<BR>"},
-
-"<A href='?src=\ref[src];operation=authweapon'>[Parent_Turret.auth_weapons ? "Yes" : "No"]</A>",
-"<A href='?src=\ref[src];operation=checkrecords'>[Parent_Turret.check_records ? "Yes" : "No"]</A>",
-"<A href='?src=\ref[src];operation=shootcrooks'>[Parent_Turret.criminals ? "Yes" : "No"]</A>",
-"<A href='?src=\ref[src];operation=shootall'>[Parent_Turret.stun_all ? "Yes" : "No"]</A>" ,
-"<A href='?src=\ref[src];operation=checkxenos'>[Parent_Turret.check_anomalies ? "Yes" : "No"]</A>" )
-
-
-	user << browse("<HEAD><TITLE>Automatic Portable Turret Installation</TITLE></HEAD>[dat]", "window=autosec")
-	onclose(user, "autosec")
-	return
-
 /obj/machinery/porta_turret_cover/attack_hand(mob/user as mob)
 	. = ..()
 	if (.)

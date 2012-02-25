@@ -6,15 +6,6 @@
 	circuit = "/obj/item/weapon/circuitboard/stationalert"
 	var/alarms = list("Fire"=list(), "Atmosphere"=list(), "Power"=list())
 
-
-	attack_ai(mob/user)
-		add_fingerprint(user)
-		if(stat & (BROKEN|NOPOWER))
-			return
-		interact(user)
-		return
-
-
 	attack_hand(mob/user)
 		add_fingerprint(user)
 		if(stat & (BROKEN|NOPOWER))

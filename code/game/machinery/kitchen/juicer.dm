@@ -55,9 +55,6 @@
 /obj/machinery/juicer/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-/obj/machinery/juicer/attack_ai(mob/user as mob)
-	return 0
-
 /obj/machinery/juicer/attack_hand(mob/user as mob)
 	user.machine = src
 	interact(user)

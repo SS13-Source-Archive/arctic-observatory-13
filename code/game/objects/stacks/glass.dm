@@ -40,7 +40,7 @@ SHARDS
 					dir_to_set = 2
 			var/obj/structure/window/W
 			if(reinf)
-				W = new /obj/structure/window/reinforced( user.loc, reinf )
+				W = new /obj/structure/window/reniforced( user.loc, reinf )
 				W.state = 0
 			else
 				W = new /obj/structure/window/basic( user.loc, reinf )
@@ -56,7 +56,7 @@ SHARDS
 				return 1
 			var/obj/structure/window/W
 			if(reinf)
-				W = new /obj/structure/window/reinforced( user.loc, reinf )
+				W = new /obj/structure/window/reniforced( user.loc, reinf )
 				W.state = 0
 			else
 				W = new /obj/structure/window/basic( user.loc, reinf )

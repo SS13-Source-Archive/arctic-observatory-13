@@ -46,13 +46,6 @@
 		if (!src.disable)
 			user.visible_message("\red [user] has connected the [src]'s flashbulb!", "\red You connect the [src]'s flashbulb!")
 
-//Let the AI trigger them directly.
-/obj/machinery/flasher/attack_ai()
-	if (src.anchored)
-		return src.flash()
-	else
-		return
-
 /obj/machinery/flasher/proc/flash()
 	if (!(powered()))
 		return

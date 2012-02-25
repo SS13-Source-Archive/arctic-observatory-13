@@ -163,9 +163,6 @@ Class Procs:
 	src.add_fingerprint(usr)
 	return 0
 
-/obj/machinery/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 

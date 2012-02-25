@@ -135,9 +135,6 @@
 /obj/machinery/microwave/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 
-/obj/machinery/microwave/attack_ai(mob/user as mob)
-	return 0
-
 /obj/machinery/microwave/attack_hand(mob/user as mob)
 	user.machine = src
 	interact(user)

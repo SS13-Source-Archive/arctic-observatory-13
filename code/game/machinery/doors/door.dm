@@ -70,10 +70,6 @@
 			flick("door_deny", src)
 		return
 
-	attack_ai(mob/user as mob)
-		return src.attack_hand(user)
-
-
 	attack_paw(mob/user as mob)
 		return src.attack_hand(user)
 

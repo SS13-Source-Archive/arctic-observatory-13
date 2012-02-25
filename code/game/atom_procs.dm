@@ -31,13 +31,6 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 /atom/proc/attack_paw(mob/user as mob)
 	return
 
-/atom/proc/attack_ai(mob/user as mob)
-	return
-
-/atom/proc/attack_robot(mob/user as mob)
-	attack_ai(user)
-	return
-
 /atom/proc/attack_animal(mob/user as mob)
 	return
 
@@ -56,31 +49,11 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 	src.attack_paw(user)
 	return
 
-
-// for metroids
-/atom/proc/attack_metroid(mob/user as mob)
-	return
-
 /atom/proc/hand_h(mob/user as mob)			//human (hand) - restrained
 	return
 
 /atom/proc/hand_p(mob/user as mob)			//monkey (paw) - restrained
 	return
-
-/atom/proc/hand_a(mob/user as mob)			//AI - restrained
-	return
-
-/atom/proc/hand_r(mob/user as mob)			//Cyborg (robot) - restrained
-	src.hand_a(user)
-	return
-
-/atom/proc/hand_al(mob/user as mob)			//alien - restrained
-	src.hand_p(user)
-	return
-
-/atom/proc/hand_m(mob/user as mob)			//metroid - restrained
-	return
-
 
 /atom/proc/hitby(atom/movable/AM as mob|obj)
 	return

@@ -232,9 +232,6 @@ display round(lastgen) and plasmatank amount
 
 		interact(user)
 
-	attack_ai(mob/user as mob)
-		interact(user)
-
 	attack_paw(mob/user as mob)
 		interact(user)
 

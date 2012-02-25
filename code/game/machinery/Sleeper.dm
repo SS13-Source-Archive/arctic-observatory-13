@@ -38,9 +38,6 @@
 		return
 	return
 
-/obj/machinery/sleep_console/attack_ai(mob/user as mob)
-	return src.attack_hand(user)
-
 /obj/machinery/sleep_console/attack_paw(mob/user as mob)
 	return src.attack_hand(user)
 

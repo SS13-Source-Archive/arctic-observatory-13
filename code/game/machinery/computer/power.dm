@@ -1,12 +1,5 @@
 // the power monitoring computer
 // for the moment, just report the status of all APCs in the same powernet
-/obj/machinery/power/monitor/attack_ai(mob/user)
-	add_fingerprint(user)
-
-	if(stat & (BROKEN|NOPOWER))
-		return
-	interact(user)
-
 /obj/machinery/power/monitor/attack_hand(mob/user)
 	add_fingerprint(user)
 
