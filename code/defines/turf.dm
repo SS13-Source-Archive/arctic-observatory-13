@@ -36,7 +36,7 @@
 		return 0
 
 /turf/space
-	icon = 'space.dmi'
+	icon = 'snow.dmi'
 	name = "\proper space"
 	icon_state = "snow0"
 
@@ -61,7 +61,7 @@
 	var/max_fire_temperature_sustained = 0 //The max temperature of the fire which it was subjected to
 
 /turf/snow
-	icon = 'space.dmi'
+	icon = 'snow.dmi'
 	name = "\proper Snow"
 	icon_state = "snow0"
 
