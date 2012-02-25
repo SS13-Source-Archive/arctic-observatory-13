@@ -698,21 +698,6 @@
 	if(user.lying)
 		user << "\red You must stand to use this [src]!"
 		return 0
-	if (istype(user, /mob/living/silicon))
-		var/mob/living/silicon/ai/AI = user
-		var/mob/living/silicon/robot/robot = user
-		if (                                                             \
-			src.aidisabled ||                                            \
-			malfhack && istype(malfai) &&                                \
-			(                                                            \
-				(istype(AI) && (malfai!=AI && malfai != AI.parent)) ||   \
-				(istype(robot) && (robot in malfai.connected_robots))    \
-			)                                                            \
-		)
-			user << "\red \The [src] have AI control disabled!"
-			user << browse(null, "window=apc")
-			user.machine = null
-			return 0
 	else
 		if ((!in_range(src, user) || !istype(src.loc, /turf)))
 			user << browse(null, "window=apc")

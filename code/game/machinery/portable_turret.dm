@@ -304,35 +304,29 @@ Neutralize All Unidentified Life Signs: []<BR>"},
 				targets += L
 
 	for (var/mob/living/carbon/C in view(12,src)) // loops through all living carbon-based lifeforms in view(12)
-		if(istype(C, /mob/living/carbon/alien) && src.check_anomalies) // git those fukken xenos
-			if(!C.stat) // if it's dead/dying, there's no need to keep shooting at it.
-				targets += C
-
+		if(emagged) // if emagged, HOLY SHIT EVERYONE IS DANGEROUS beep boop beep
+			targets += C
 		else
-			if(emagged) // if emagged, HOLY SHIT EVERYONE IS DANGEROUS beep boop beep
-				targets += C
-			else
 
+			if (C.stat || C.handcuffed) // if the perp is handcuffed or dead/dying, no need to bother really
+				continue // move onto next potential victim!
 
-				if (C.stat || C.handcuffed) // if the perp is handcuffed or dead/dying, no need to bother really
-					continue // move onto next potential victim!
+			if (istype(C, /mob/living/carbon/human)) // if the target is a human, analyze threat level
+				if(src.assess_perp(C)<4)
+					continue // if threat level < 4, keep going
 
-				if (istype(C, /mob/living/carbon/human)) // if the target is a human, analyze threat level
-					if(src.assess_perp(C)<4)
-						continue // if threat level < 4, keep going
+			else if (istype(C, /mob/living/carbon/monkey) || istype(C, /mob/living/silicon))
+				continue // Don't target monkeys or borgs/AIs you dumb shit
 
-				else if (istype(C, /mob/living/carbon/monkey) || istype(C, /mob/living/silicon))
-					continue // Don't target monkeys or borgs/AIs you dumb shit
+			var/dst = get_dist(src, C) // if it's too far away, why bother?
+			if (dst > 12)
+				continue
 
-				var/dst = get_dist(src, C) // if it's too far away, why bother?
-				if (dst > 12)
-					continue
+			if (C.lying) // if the perp is lying down, it's still a target but a less-important target
+				secondarytargets += C
+				continue
 
-				if (C.lying) // if the perp is lying down, it's still a target but a less-important target
-					secondarytargets += C
-					continue
-
-				targets += C // if the perp has passed all previous tests, congrats, it is now a "shoot-me!" nominee
+			targets += C // if the perp has passed all previous tests, congrats, it is now a "shoot-me!" nominee
 
 	if (targets.len>0) // if there are targets to shoot
 
@@ -492,13 +486,6 @@ Neutralize All Unidentified Life Signs: []<BR>"},
 			A = new /obj/item/projectile/beam/pulse( loc )
 			A.original = target.loc
 			icon_state = "orange_target_prism"
-			if(!emagged) use_power(700)
-			else use_power(1400)
-
-		else if(istype(E, /obj/item/weapon/gun/energy/staff))
-			A = new /obj/item/projectile/change( loc )
-			A.original = target.loc
-			icon_state = "target_prism"
 			if(!emagged) use_power(700)
 			else use_power(1400)
 

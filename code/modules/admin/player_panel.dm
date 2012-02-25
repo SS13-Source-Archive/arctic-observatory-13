@@ -248,22 +248,10 @@
 				M_job = "Living"
 			if(isobserver(M))
 				M_job = "Ghost"
-			if(isalien(M))
-				M_job = "Alien"
-			if(islarva(M))
-				M_job = "Alien larva"
 			if(ishuman(M))
 				M_job = M.job
-			if(ismetroid(M))
-				M_job = "Metroid"
 			if(ismonkey(M))
 				M_job = "Moneky"
-			if(isAI(M))
-				M_job = "AI"
-			if(ispAI(M))
-				M_job = "pAI"
-			if(isrobot(M))
-				M_job = "Cyborg"
 			if(isanimal(M))
 				M_job = "Animal"
 			if(iscorgi(M))
@@ -345,22 +333,14 @@
 		if(!M.ckey)	continue
 
 		dat += "<tr><td>[M.name]</td>"
-		if(isAI(M))
-			dat += "<td>AI</td>"
-		else if(isrobot(M))
-			dat += "<td>Cyborg</td>"
-		else if(ishuman(M))
+		if(ishuman(M))
 			dat += "<td>[M.real_name]</td>"
-		else if(istype(M, /mob/living/silicon/pai))
-			dat += "<td>pAI</td>"
 		else if(istype(M, /mob/new_player))
 			dat += "<td>New Player</td>"
 		else if(isobserver(M))
 			dat += "<td>Ghost</td>"
 		else if(ismonkey(M))
 			dat += "<td>Monkey</td>"
-		else if(isalien(M))
-			dat += "<td>Alien</td>"
 		else
 			dat += "<td>Unknown</td>"
 

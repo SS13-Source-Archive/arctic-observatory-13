@@ -1065,19 +1065,16 @@ About the new airlock wires panel:
 			return
 
 	for(var/mob/M in get_turf(src))
-		if(isrobot(M))
-			M.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
-		else
-			M.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
-			M.SetStunned(5)
-			M.SetWeakened(5)
-			var/obj/effect/stop/S
-			S = new /obj/effect/stop
-			S.victim = M
-			S.loc = src.loc
-			spawn(20)
-				del(S)
-			M.emote("scream")
+		M.adjustBruteLoss(DOOR_CRUSH_DAMAGE)
+		M.SetStunned(5)
+		M.SetWeakened(5)
+		var/obj/effect/stop/S
+		S = new /obj/effect/stop
+		S.victim = M
+		S.loc = src.loc
+		spawn(20)
+			del(S)
+		M.emote("scream")
 		var/turf/location = src.loc
 		if(istype(location, /turf/simulated))
 			location.add_blood(M)

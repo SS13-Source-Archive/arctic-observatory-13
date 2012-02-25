@@ -50,7 +50,7 @@ datum/objective/assassinate
 
 	check_completion()
 		if(target && target.current)
-			if(target.current.stat == 2 || issilicon(target.current) || isbrain(target.current)) //Assuming this works, people in the thunderdome and borgs now count as dead for traitor objectives. --NeoFite
+			if(target.current.stat == 2 || isbrain(target.current)) //Assuming this works, people in the thunderdome and borgs now count as dead for traitor objectives. --NeoFite
 				return 1
 			else
 				return 0
@@ -148,7 +148,7 @@ datum/objective/protect//The opposite of killing a dude.
 		if(!target)//If it's a free objective.
 			return 1
 		if(target.current)
-			if(target.current.stat == 2 || issilicon(target.current) || isbrain(target.current))
+			if(target.current.stat == 2 || isbrain(target.current))
 				return 0
 			else
 				return 1
@@ -169,9 +169,7 @@ datum/objective/hijack
 		if(!owner.current || owner.current.stat)
 			return 0
 		var/area/shuttle = locate(/area/shuttle/escape/centcom)
-		var/protected_mobs[] = list(/mob/living/silicon/ai, /mob/living/silicon/pai)
 		for(var/mob/living/player in world)
-			if(player.type in protected_mobs)	continue
 			if (player.mind && (player.mind != owner))
 				if (!player.stat) //they're not dead or in crit
 					if (get_turf(player) in shuttle)
@@ -192,9 +190,7 @@ datum/objective/block
 		if(!owner.current)
 			return 0
 		var/area/shuttle = locate(/area/shuttle/escape/centcom)
-		var/protected_mobs[] = list(/mob/living/silicon/ai, /mob/living/silicon/pai, /mob/living/silicon/robot)
 		for(var/mob/living/player in world)
-			if(player.type in protected_mobs)	continue
 			if (player.mind)
 				if (player.stat != 2)
 					if (get_turf(player) in shuttle)
@@ -208,8 +204,6 @@ datum/objective/escape
 
 
 	check_completion()
-		if(issilicon(owner.current))
-			return 0
 		if(isbrain(owner.current))
 			return 0
 		if(emergency_shuttle.location<2)
@@ -244,8 +238,6 @@ datum/objective/survive
 
 
 	check_completion()
-		if(issilicon(owner.current) && owner.current != owner.original)
-			return 0
 		if(!owner.current || owner.current.stat == 2 || isbrain(owner.current)) //Brains no longer win survive objectives. --NEO
 			return 0
 		return 1
@@ -264,12 +256,10 @@ datum/objective/steal
 	var/global/possible_items[] = list(
 		"the captain's antique laser gun" = /obj/item/weapon/gun/energy/laser/captain,
 		"a hand teleporter" = /obj/item/weapon/hand_tele,
-		"an RCD" = /obj/item/weapon/rcd,
 		"a captains jumpsuit" = /obj/item/clothing/under/rank/captain,
 		"a pair of magboots" = /obj/item/clothing/shoes/magboots,
 		"the station blueprints" = /obj/item/blueprints,
 		"thermal optics" = /obj/item/clothing/glasses/thermal,
-		"a nasa voidsuit" = /obj/item/clothing/suit/space/nasavoid,
 	)
 
 	var/global/possible_items_special[] = list(
@@ -352,22 +342,6 @@ datum/objective/capture
 			captured_amount+=1
 		for(var/mob/living/carbon/monkey/M in A)//Monkeys are almost worthless, you failure.
 			captured_amount+=0.1
-		for(var/mob/living/carbon/alien/larva/M in A)//Larva are important for research.
-			if(M.stat==2)
-				captured_amount+=0.5
-				continue
-			captured_amount+=1
-		for(var/mob/living/carbon/alien/humanoid/M in A)//Aliens are worth twice as much as humans.
-			if(istype(M, /mob/living/carbon/alien/humanoid/queen))//Queens are worth three times as much as humans.
-				if(M.stat==2)
-					captured_amount+=1.5
-				else
-					captured_amount+=3
-				continue
-			if(M.stat==2)
-				captured_amount+=1
-				continue
-			captured_amount+=2
 		if(captured_amount<target_amount)
 			return 0
 		return 1

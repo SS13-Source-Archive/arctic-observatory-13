@@ -121,9 +121,6 @@
 			del(src)
 			return
 
-		if(isrobot(user))
-			return
-
 		usr.drop_item()
 
 		if(W)

@@ -21,10 +21,6 @@
 		spawn(900)
 			network = initial(network)
 			icon_state = initial(icon_state)
-		for(var/mob/living/silicon/ai/O in world)
-			if (O.current == src)
-				O.cancel_camera()
-				O << "Your connection to the camera has been lost."
 		for(var/mob/O in world)
 			if (istype(O.machine, /obj/machinery/computer/security))
 				var/obj/machinery/computer/security/S = O.machine
@@ -44,17 +40,6 @@
 	else
 		..(severity)
 	return
-
-/obj/machinery/camera/blob_act()
-	return
-
-/obj/machinery/camera/attack_ai(var/mob/living/silicon/ai/user as mob)
-	if (!istype(user))
-		return
-	if (src.network != user.network || !(src.status))
-		return
-	user.current = src
-	user.reset_view(src)
 
 /obj/machinery/camera/attackby(W as obj, user as mob)
 	..()
@@ -137,10 +122,6 @@
 	// now disconnect anyone using the camera
 	//Apparently, this will disconnect anyone even if the camera was re-activated.
 	//I guess that doesn't matter since they can't use it anyway?
-	for(var/mob/living/silicon/ai/O in world)
-		if (O.current == src)
-			O.cancel_camera()
-			O << "Your connection to the camera has been lost."
 	for(var/mob/O in world)
 		if (istype(O.machine, /obj/machinery/computer/security))
 			var/obj/machinery/computer/security/S = O.machine

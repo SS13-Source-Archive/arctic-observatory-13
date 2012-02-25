@@ -74,13 +74,6 @@
 						race = "Monkey"
 						language = race
 
-					else if(issilicon(M) || C.parameters["job"] == "AI") // sometimes M gets deleted prematurely for AIs... just check the job
-						race = "Artificial Life"
-
-					else if(ismetroid(M)) // NT knows a lot about metroids, but not aliens. Can identify metroids
-						race = "Metroid"
-						language = race
-
 					else if(isanimal(M))
 						race = "Domestic Animal"
 						language = race

@@ -45,28 +45,6 @@
 	attack_paw(var/mob/user)
 		attack_hand(user)
 
-
-	attack_alien(var/mob/user)
-		if (istype(usr, /mob/living/carbon/alien/larva))	return
-		playsound(src.loc, 'grillehit.ogg', 80, 1)
-		user.visible_message("[user.name] mangles the [src.name].", \
-							"You mangle the [src.name].", \
-							"You hear a noise")
-		if(!shock(usr, 70))
-			src.health -= 5
-			healthcheck()
-			return
-
-	attack_metroid(var/mob/user)
-		if(!istype(usr, /mob/living/carbon/metroid/adult))	return
-		playsound(src.loc, 'grillehit.ogg', 80, 1)
-		user.visible_message("[user.name] smashes against the [src.name].", \
-							"You smash against the [src.name].", \
-							"You hear a noise")
-		src.health -= rand(2,3)
-		healthcheck()
-		return
-
 	attack_animal(var/mob/living/simple_animal/M as mob)
 		if(M.melee_damage_upper == 0)	return
 		playsound(src.loc, 'grillehit.ogg', 80, 1)

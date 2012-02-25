@@ -66,11 +66,6 @@
 		process(loc, what)
 			..()
 
-
-		metroid
-			input = /mob/living/carbon/metroid
-			output = /obj/item/weapon/reagent_containers/food/drinks/jar
-
 		monkey
 			process(loc, what)
 				var/mob/living/carbon/monkey/O = what

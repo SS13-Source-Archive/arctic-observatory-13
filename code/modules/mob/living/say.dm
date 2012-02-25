@@ -1,22 +1,3 @@
-/mob/living/proc/binarycheck()
-	if (istype(src, /mob/living/silicon/pai)) return
-	if (issilicon(src)) return 1
-	if (!ishuman(src)) return
-	var/mob/living/carbon/human/H = src
-	if (H.ears)
-		var/obj/item/device/radio/headset/dongle = H.ears
-		if(!istype(dongle)) return
-		if(dongle.translate_binary) return 1
-
-/mob/living/proc/hivecheck()
-	if (isalien(src)) return 1
-	if (!ishuman(src)) return
-	var/mob/living/carbon/human/H = src
-	if (H.ears)
-		var/obj/item/device/radio/headset/dongle = H.ears
-		if(!istype(dongle)) return
-		if(dongle.translate_hive) return 1
-
 /mob/living/say(var/message)
 	message = trim(copytext(sanitize(message), 1, MAX_MESSAGE_LEN))
 
@@ -67,8 +48,6 @@
 	else if (copytext(message, 1, 2) == ";")
 		if (ishuman(src))
 			message_mode = "headset"
-		else if(istype(src, /mob/living/silicon/pai) || istype(src, /mob/living/silicon/robot))
-			message_mode = "pAI"
 		message = copytext(message, 2)
 
 	else if (length(message) >= 2)
@@ -204,12 +183,6 @@
 			if (src:ears)
 				src:ears.talk_into(src, message, message_mode)
 				used_radios += src:ears
-			message_range = 1
-			italics = 1
-		if ("pAI")
-			if (src:radio)
-				src:radio.talk_into(src, message)
-				used_radios += src:radio
 			message_range = 1
 			italics = 1
 		if("changeling")

@@ -182,12 +182,6 @@ SYNDICATE UPLINK
 					 src.uses -= 3
 					 new /obj/item/weapon/cartridge/syndicate(get_turf(src))
 					 feedback_add_details("traitor_uplink_items_bought","DC")
-				if("space")
-					if (src.uses >= 3)
-					 src.uses -= 3
-					 new /obj/item/clothing/suit/space/syndicate(get_turf(src))
-					 new /obj/item/clothing/head/helmet/space/syndicate(get_turf(src))
-					 feedback_add_details("traitor_uplink_items_bought","SS")
 				if("botchat")
 					if (src.uses >= 3)
 						src.uses -= 3

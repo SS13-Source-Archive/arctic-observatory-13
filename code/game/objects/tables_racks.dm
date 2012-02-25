@@ -113,8 +113,6 @@ TABLE AND RACK OBJECT INTERATIONS
 
 	if ((!( istype(O, /obj/item/weapon) ) || user.equipped() != O))
 		return
-	if(isrobot(user))
-		return
 	user.drop_item()
 	if (O.loc != src.loc)
 		step(O, get_dir(O, src))
@@ -143,9 +141,6 @@ TABLE AND RACK OBJECT INTERATIONS
 			playsound(src.loc, 'Deconstruct.ogg', 50, 1)
 			//SN src = null
 			del(src)
-		return
-
-	if(isrobot(user))
 		return
 
 	if(istype(W, /obj/item/weapon/melee/energy/blade))
@@ -187,8 +182,6 @@ TABLE AND RACK OBJECT INTERATIONS
 		new /obj/item/weapon/table_parts/wood( src.loc )
 		playsound(src.loc, 'Deconstruct.ogg', 50, 1)
 		del(src)
-		return
-	if(isrobot(user))
 		return
 	if(istype(W, /obj/item/weapon/melee/energy/blade))
 		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
@@ -242,8 +235,6 @@ TABLE AND RACK OBJECT INTERATIONS
 					src.status = 2
 					W:welding = 1
 			return
-		if(isrobot(user))
-			return
 		user.drop_item(src)
 		//if(W && W.loc)	W.loc = src.loc
 		return
@@ -257,8 +248,6 @@ TABLE AND RACK OBJECT INTERATIONS
 				playsound(src.loc, 'Deconstruct.ogg', 50, 1)
 				del(src)
 			return
-	if(isrobot(user))
-		return
 
 	if(istype(W, /obj/item/weapon/melee/energy/blade))
 		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
@@ -303,8 +292,6 @@ TABLE AND RACK OBJECT INTERATIONS
 /obj/structure/rack/MouseDrop_T(obj/O as obj, mob/user as mob)
 	if ((!( istype(O, /obj/item/weapon) ) || user.equipped() != O))
 		return
-	if(isrobot(user))
-		return
 	user.drop_item()
 	if (O.loc != src.loc)
 		step(O, get_dir(O, src))
@@ -316,8 +303,6 @@ TABLE AND RACK OBJECT INTERATIONS
 		playsound(src.loc, 'Ratchet.ogg', 50, 1)
 		//SN src = null
 		del(src)
-		return
-	if(isrobot(user))
 		return
 	user.drop_item()
 	if(W && W.loc)	W.loc = src.loc

@@ -20,18 +20,6 @@
 
 			else
 				user << "\red The spike already has something on it, finish collecting its meat first!"
-		else if(istype(G.affecting, /mob/living/carbon/alien))
-			if(src.occupied == 0)
-				src.icon_state = "spikebloodygreen"
-				src.occupied = 1
-				src.meat = 5
-				src.meattype = 2
-				for(var/mob/O in viewers(src, null))
-					O.show_message(text("\red [user] has forced [G.affecting] onto the spike, killing them instantly!"))
-				del(G.affecting)
-				del(G)
-			else
-				user << "\red The spike already has something on it, finish collecting its meat first!"
 		else
 			user << "\red They are too big for the spike, try something smaller!"
 			return

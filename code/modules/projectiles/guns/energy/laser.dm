@@ -48,20 +48,6 @@ obj/item/weapon/gun/energy/laser/retro
 		update_icon()
 		return 1
 
-
-
-/obj/item/weapon/gun/energy/laser/cyborg/load_into_chamber()
-	if(in_chamber)	return 1
-	if(isrobot(src.loc))
-		var/mob/living/silicon/robot/R = src.loc
-		if(R && R.cell)
-			R.cell.use(100)
-			in_chamber = new/obj/item/projectile/beam(src)
-			return 1
-	return 0
-
-
-
 /obj/item/weapon/gun/energy/lasercannon
 	name = "laser cannon"
 	desc = "With the L.A.S.E.R. cannon, the lasing medium is enclosed in a tube lined with uranium-235 and subjected to high neutron flux in a nuclear reactor core. This incredible technology may help YOU achieve high excitation rates with small laser volumes!"

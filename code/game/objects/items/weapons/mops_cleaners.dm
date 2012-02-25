@@ -68,13 +68,6 @@
 			sleep(3)
 		del(D)
 
-	if(isrobot(user)) //Cyborgs can clean forever if they keep charged
-		var/mob/living/silicon/robot/janitor = user
-		janitor.cell.charge -= 20
-		var/refill = src.reagents.get_master_reagent_id()
-		spawn(600)
-			src.reagents.add_reagent(refill, 10)
-
 	if(src.reagents.has_reagent("pacid"))
 		message_admins("[key_name_admin(user)] fired Polyacid from a Cleaner bottle.")
 		log_game("[key_name(user)] fired Polyacid from a Cleaner bottle.")
@@ -177,13 +170,6 @@
 				sleep(2)
 			del(D)
 	sleep(1)
-
-	if(isrobot(user)) //Cyborgs can clean forever if they keep charged
-		var/mob/living/silicon/robot/janitor = user
-		janitor.cell.charge -= 20
-		var/refill = src.reagents.get_master_reagent_id()
-		spawn(600)
-			src.reagents.add_reagent(refill, 10)
 
 	if((src.reagents.has_reagent("pacid")) || (src.reagents.has_reagent("lube")))  				// Messages admins if someone sprays polyacid or space lube from a Chem Sprayer.
 		message_admins("[key_name_admin(user)] fired Polyacid/Space lube from a Chem Sprayer.")			// Polymorph
@@ -307,12 +293,6 @@
 			del(D)
 	sleep(1)
 
-	if(isrobot(user)) //Cyborgs can clean forever if they keep charged
-		var/mob/living/silicon/robot/janitor = user
-		janitor.cell.charge -= 20
-		var/refill = src.reagents.get_master_reagent_id()
-		spawn(600)
-			src.reagents.add_reagent(refill, 45)
 	return
 
 

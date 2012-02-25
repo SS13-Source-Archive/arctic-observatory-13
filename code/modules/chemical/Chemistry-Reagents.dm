@@ -161,21 +161,6 @@ datum
 							newVirus.spread_type = CONTACT_HANDS
 						*/
 
-				else if(istype(self.data["donor"], /mob/living/carbon/alien))
-					var/obj/effect/decal/cleanable/xenoblood/blood_prop = locate() in T
-					if(!blood_prop)
-						blood_prop = new(T)
-						blood_prop.blood_DNA = self.data["blood_DNA"]
-					for(var/datum/disease/D in self.data["viruses"])
-						var/datum/disease/newVirus = new D.type
-						blood_prop.viruses += newVirus
-						newVirus.holder = blood_prop
-						/*
-						if(T.density==0)
-							newVirus.spread_type = CONTACT_FEET
-						else
-							newVirus.spread_type = CONTACT_HANDS
-						*/
 				return
 
 /* Must check the transfering of reagents and their data first. They all can point to one disease datum.
@@ -231,9 +216,6 @@ datum
 						if(T.wet_overlay)
 							T.overlays -= T.wet_overlay
 							T.wet_overlay = null
-
-				for(var/mob/living/carbon/metroid/M in T)
-					M.adjustToxLoss(rand(15,20))
 
 			reaction_obj(var/obj/O, var/volume)
 				if(istype(O,/obj/item/weapon/reagent_containers/food/snacks/monkeycube))
@@ -796,7 +778,6 @@ datum
 
 			reaction_mob(var/mob/M, var/method=TOUCH, var/volume)
 				if(!..())	return
-				if(isrobot(M) || isAI(M)) return // Mutagen doesn't do anything to robutts!
 				src = null
 				if((method==TOUCH && prob(33)) || method==INGEST)
 					randmuti(M)
@@ -808,7 +789,6 @@ datum
 					updateappearance(M,M.dna.uni_identity)
 				return
 			on_mob_life(var/mob/living/M as mob)
-				if(isrobot(M) || isAI(M)) return // Mutagen doesn't do anything to robutts!
 				if(!M) M = holder.my_atom
 				M.radiation += 3
 				..()
@@ -948,9 +928,6 @@ datum
 				T.clean_blood()
 				for(var/obj/effect/decal/cleanable/C in src)
 					del(C)
-
-				for(var/mob/living/carbon/metroid/M in T)
-					M.adjustToxLoss(rand(5,10))
 
 			reaction_mob(var/mob/M, var/method=TOUCH, var/volume)
 				M.clean_blood()
@@ -1597,11 +1574,7 @@ datum
 			on_mob_life(var/mob/living/M as mob)
 				if(!M) M = holder.my_atom
 				M:bodytemperature += 5
-				if(prob(40) && !istype(M, /mob/living/carbon/metroid))
-					M.take_organ_damage(0, 1)
 
-				if(istype(M, /mob/living/carbon/metroid))
-					M:bodytemperature += rand(5,20)
 				..()
 				return
 
@@ -1674,15 +1647,8 @@ datum
 				M:bodytemperature -= 5
 				if(prob(40))
 					M.take_organ_damage(0, 1)
-				if(prob(80) && istype(M, /mob/living/carbon/metroid))
-					M.adjustFireLoss(rand(5,20))
-					M << "\red You feel a terrible chill inside your body!"
 				..()
 				return
-
-			reaction_turf(var/turf/simulated/T, var/volume)
-				for(var/mob/living/carbon/metroid/M in T)
-					M.adjustToxLoss(rand(15,30))
 
 		sodiumchloride
 			name = "Table Salt"

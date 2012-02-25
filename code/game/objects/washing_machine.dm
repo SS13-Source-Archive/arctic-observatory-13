@@ -183,18 +183,6 @@
 	else if(istype(W,/obj/item/clothing/under) || istype(W,/obj/item/clothing/mask) || istype(W,/obj/item/clothing/head) || istype(W,/obj/item/clothing/gloves) || istype(W,/obj/item/clothing/shoes) || istype(W,/obj/item/clothing/suit) || istype(W,/obj/item/weapon/bedsheet))
 
 		//YES, it's hardcoded... saves a var/can_be_washed for every single clothing item.
-		if ( istype(W,/obj/item/clothing/suit/space ) )
-			user << "This item does not fit."
-			return
-		if ( istype(W,/obj/item/clothing/suit/syndicatefake ) )
-			user << "This item does not fit."
-			return
-//		if ( istype(W,/obj/item/clothing/suit/powered ) )
-//			user << "This item does not fit."
-//			return
-		if ( istype(W,/obj/item/clothing/suit/cyborg_suit ) )
-			user << "This item does not fit."
-			return
 		if ( istype(W,/obj/item/clothing/suit/bomb_suit ) )
 			user << "This item does not fit."
 			return
@@ -210,12 +198,6 @@
 		if ( istype(W,/obj/item/clothing/mask/cigarette ) )
 			user << "This item does not fit."
 			return
-		if ( istype(W,/obj/item/clothing/head/syndicatefake ) )
-			user << "This item does not fit."
-			return
-//		if ( istype(W,/obj/item/clothing/head/powered ) )
-//			user << "This item does not fit."
-//			return
 		if ( istype(W,/obj/item/clothing/head/helmet ) )
 			user << "This item does not fit."
 			return

@@ -245,16 +245,11 @@
 	return
 
 /mob/proc/equipped()
-	if(issilicon(src))
-		if(isrobot(src))
-			if(src:module_active)
-				return src:module_active
+	if (hand)
+		return l_hand
 	else
-		if (hand)
-			return l_hand
-		else
-			return r_hand
-		return
+		return r_hand
+	return
 
 /mob/proc/show_inv(mob/user as mob)
 	user.machine = src
@@ -714,8 +709,6 @@
 	if (istype(src, /mob/dead/observer))
 		gibs(loc, viruses)
 		return
-	if(!isrobot(src))//Cyborgs no-longer "die" when gibbed.
-		death(1)
 	var/atom/movable/overlay/animation = null
 	monkeyizing = 1
 	canmove = 0
@@ -730,27 +723,18 @@
 		flick("gibbed-h", animation)
 	else if(ismonkey(src))
 		flick("gibbed-m", animation)
-	else if(ismetroid(src))
-		flick("gibbed-m", animation)
 	else if(iscrab(src))
 		flick("gibbed-m", animation)
 	else if(iscorgi(src))
 		flick("gibbed-m", animation)
 	else if(iscat(src))
 		flick("gibbed-m", animation)   //New-has monkey gib effect versus robogib
-	else if(isalien(src))
-		flick("gibbed-a", animation)
 	else
 		flick("gibbed-r", animation)
 
 	spawn()
 		if(key)
-			if(istype(src, /mob/living/silicon))
-				robogibs(loc, viruses)
-			else if (istype(src, /mob/living/carbon/alien))
-				xgibs(loc, viruses)
-			else
-				gibs(loc, viruses)
+			gibs(loc, viruses)
 
 /*		else if(key)
 			if(istype(src, /mob/living/simple_animals))     //Should gib all simple_animals like a monkey
@@ -761,12 +745,7 @@ Currently doesn't work, but should be useful later or at least as a template
 */
 
 		else
-			if(istype(src, /mob/living/silicon))
-				robogibs(loc, viruses)
-			else if(istype(src, /mob/living/carbon/alien))
-				xgibs(loc, viruses)
-			else
-				gibs(loc, viruses)
+			gibs(loc, viruses)
 		sleep(15)
 		del(src)
 
@@ -793,16 +772,11 @@ Dusting robots does not eject the MMI, so it's a bit more powerful than gib() /N
 	else if(ismonkey(src))
 		flick("dust-m", animation)
 		new /obj/effect/decal/remains/human(loc)
-	else if(isalien(src))
-		flick("dust-a", animation)
-		new /obj/effect/decal/remains/xeno(loc)
 	else
 		flick("dust-r", animation)
 		new /obj/effect/decal/remains/robot(loc)
 
 	sleep(15)
-	if(isrobot(src)&&src:mmi)//Is a robot and it has an mmi.
-		del(src:mmi)//Delete the MMI first so that it won't go popping out.
 	del(src)
 
 /*
@@ -971,10 +945,6 @@ note dizziness decrements automatically in the mob's Life() proc.
 /mob/proc/Stun(amount)
 	if(canstun)
 		stunned = max(max(stunned,amount),0) //can't go below 0, getting a low amount of stun doesn't lower your current stun
-	else
-		if(istype(src, /mob/living/carbon/alien))	// add some movement delay
-			var/mob/living/carbon/alien/Alien = src
-			Alien.move_delay_add = min(Alien.move_delay_add + round(amount / 5), 10) // a maximum delay of 10
 	return
 
 /mob/proc/SetStunned(amount) //if you REALLY need to set stun to a set amount without the whole "can't go below current stunned"

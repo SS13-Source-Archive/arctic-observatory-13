@@ -206,31 +206,6 @@
 					else
 						M.inertia_dir = 0
 						return
-				else if(!istype(M, /mob/living/carbon/metroid))
-					if (M.m_intent == "run")
-						M.pulling = null
-						step(M, M.dir)
-						M << "\blue You slipped on the wet floor!"
-						playsound(src.loc, 'slip.ogg', 50, 1, -3)
-						M.Stun(8)
-						M.Weaken(5)
-					else
-						M.inertia_dir = 0
-						return
-
-			if(2) //lube
-				if(!istype(M, /mob/living/carbon/metroid))
-					M.pulling = null
-					step(M, M.dir)
-					spawn(1) step(M, M.dir)
-					spawn(2) step(M, M.dir)
-					spawn(3) step(M, M.dir)
-					spawn(4) step(M, M.dir)
-					M.take_organ_damage(2) // Was 5 -- TLE
-					M << "\blue You slipped on the floor!"
-					playsound(src.loc, 'slip.ogg', 50, 1, -3)
-					M.Weaken(10)
-
 	..()
 
 /turf/proc/ReplaceWithSpace()

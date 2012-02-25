@@ -839,9 +839,6 @@
 					return
 
 				if(ismob(target))//Blood!
-					if(istype(target, /mob/living/carbon/metroid))
-						user << "\red You are unable to locate any blood."
-						return
 					if(src.reagents.has_reagent("blood"))
 						user << "\red There is already a blood sample in this syringe"
 						return
@@ -1249,30 +1246,29 @@
 				if (fullness > (550 * (1 + M.overeatduration / 2000)))	// The more you eat - the more you can eat
 					M << "\red You cannot force any more of [src] to go down your throat."
 					return 0
-			else
-				if(!istype(M, /mob/living/carbon/metroid))		//If you're feeding it to someone else.
-					var/fullness = M.nutrition + (M.reagents.get_reagent_amount("nutriment") * 25)
-					if (fullness <= (550 * (1 + M.overeatduration / 1000)))
-						for(var/mob/O in viewers(world.view, user))
-							O.show_message("\red [user] attempts to feed [M] [src].", 1)
-					else
-						for(var/mob/O in viewers(world.view, user))
-							O.show_message("\red [user] cannot force anymore of [src] down [M]'s throat.", 1)
-							return 0
-
-					if(!do_mob(user, M)) return
-
-					M.attack_log += text("\[[time_stamp()]\] <font color='orange'>Has been fed [src.name] by [user.name] ([user.ckey]) Reagents: \ref[reagents]</font>")
-					user.attack_log += text("\[[time_stamp()]\] <font color='red'>Fed [M.name] by [M.name] ([M.ckey]) Reagents: \ref[reagents]</font>")
-
-					log_attack("<font color='red'>[user.name] ([user.ckey]) fed [M.name] ([M.ckey]) with [src.name] (INTENT: [uppertext(user.a_intent)])</font>")
-
+			else	//If you're feeding it to someone else.
+				var/fullness = M.nutrition + (M.reagents.get_reagent_amount("nutriment") * 25)
+				if (fullness <= (550 * (1 + M.overeatduration / 1000)))
 					for(var/mob/O in viewers(world.view, user))
-						O.show_message("\red [user] feeds [M] [src].", 1)
-
+						O.show_message("\red [user] attempts to feed [M] [src].", 1)
 				else
-					user << "This creature does not seem to have a mouth!"
-					return
+					for(var/mob/O in viewers(world.view, user))
+						O.show_message("\red [user] cannot force anymore of [src] down [M]'s throat.", 1)
+						return 0
+
+				if(!do_mob(user, M)) return
+
+				M.attack_log += text("\[[time_stamp()]\] <font color='orange'>Has been fed [src.name] by [user.name] ([user.ckey]) Reagents: \ref[reagents]</font>")
+				user.attack_log += text("\[[time_stamp()]\] <font color='red'>Fed [M.name] by [M.name] ([M.ckey]) Reagents: \ref[reagents]</font>")
+
+				log_attack("<font color='red'>[user.name] ([user.ckey]) fed [M.name] ([M.ckey]) with [src.name] (INTENT: [uppertext(user.a_intent)])</font>")
+
+				for(var/mob/O in viewers(world.view, user))
+					O.show_message("\red [user] feeds [M] [src].", 1)
+
+		else
+			user << "This creature does not seem to have a mouth!"
+			return
 
 			if(reagents)								//Handle ingestion of the reagent.
 				if(reagents.total_volume)
@@ -1409,7 +1405,6 @@
 
 	attack(mob/M as mob, mob/user as mob, def_zone)
 		var/datum/reagents/R = src.reagents
-		var/fillevel = gulp_size
 
 		if(!R.total_volume || !R)
 			user << "\red None of [src] left, oh no!"
@@ -1443,14 +1438,6 @@
 				spawn(5)
 					reagents.trans_to(M, gulp_size)
 
-			if(isrobot(user)) //Cyborg modules that include drinks automatically refill themselves, but drain the borg's cell
-				var/mob/living/silicon/robot/bro = user
-				bro.cell.use(30)
-				var/refill = R.get_master_reagent_id()
-				spawn(600)
-					R.add_reagent(refill, fillevel)
-
-
 			playsound(M.loc,'drink.ogg', rand(10,50), 1)
 			return 1
 
@@ -1483,13 +1470,6 @@
 
 			var/trans = src.reagents.trans_to(target, amount_per_transfer_from_this)
 			user << "\blue You transfer [trans] units of the solution to [target]."
-
-			if(isrobot(user)) //Cyborg modules that include drinks automatically refill themselves, but drain the borg's cell
-				var/mob/living/silicon/robot/bro = user
-				bro.cell.use(30)
-				var/refill = reagents.get_master_reagent_id()
-				spawn(600)
-					reagents.add_reagent(refill, trans)
 
 		return
 

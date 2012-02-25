@@ -248,24 +248,16 @@
 		if("arrowleft")
 			switch(usr.a_intent)
 				if("help")
-					if(issilicon(usr))
-						usr.a_intent = "hurt"
-						usr.hud_used.action_intent.icon_state = "harm"
-					else
-						usr.a_intent = "grab"
-						usr.hud_used.action_intent.icon_state = "grab"
+					usr.a_intent = "grab"
+					usr.hud_used.action_intent.icon_state = "grab"
 
 				if("disarm")
 					usr.a_intent = "help"
 					usr.hud_used.action_intent.icon_state = "help"
 
 				if("hurt")
-					if(issilicon(usr))
-						usr.a_intent = "help"
-						usr.hud_used.action_intent.icon_state = "help"
-					else
-						usr.a_intent = "disarm"
-						usr.hud_used.action_intent.icon_state = "disarm"
+					usr.a_intent = "disarm"
+					usr.hud_used.action_intent.icon_state = "disarm"
 
 				if("grab")
 					usr.a_intent = "hurt"
@@ -274,24 +266,16 @@
 		if("arrowright")
 			switch(usr.a_intent)
 				if("help")
-					if(issilicon(usr))
-						usr.a_intent = "hurt"
-						usr.hud_used.action_intent.icon_state = "harm"
-					else
-						usr.a_intent = "disarm"
-						usr.hud_used.action_intent.icon_state = "disarm"
+					usr.a_intent = "disarm"
+					usr.hud_used.action_intent.icon_state = "disarm"
 
 				if("disarm")
 					usr.a_intent = "hurt"
 					usr.hud_used.action_intent.icon_state = "harm"
 
 				if("hurt")
-					if(issilicon(usr))
-						usr.a_intent = "help"
-						usr.hud_used.action_intent.icon_state = "help"
-					else
-						usr.a_intent = "grab"
-						usr.hud_used.action_intent.icon_state = "grab"
+					usr.a_intent = "grab"
+					usr.hud_used.action_intent.icon_state = "grab"
 
 				if("grab")
 					usr.a_intent = "help"
@@ -398,7 +382,7 @@
 			if(usr:handcuffed && usr:canmove && (usr.last_special <= world.time))
 				usr.next_move = world.time + 100
 				usr.last_special = world.time + 100
-				if(isalienadult(usr) || usr.mutations & HULK)//Don't want to do a lot of logic gating here.
+				if(usr.mutations & HULK)//Don't want to do a lot of logic gating here.
 					usr << "\green You attempt to break your handcuffs. (This will take around 5 seconds and you need to stand still)"
 					for(var/mob/O in viewers(usr))
 						O.show_message(text("\red <B>[] is trying to break the handcuffs!</B>", usr), 1)

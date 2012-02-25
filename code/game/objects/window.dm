@@ -86,30 +86,6 @@
 		del(src)
 	return
 
-/obj/structure/window/attack_alien()
-	if (istype(usr, /mob/living/carbon/alien/larva))//Safety check for larva. /N
-		return
-	usr << text("\green You smash against the window.")
-	for(var/mob/O in oviewers())
-		if ((O.client && !( O.blinded )))
-			O << text("\red [] smashes against the window.", usr)
-	playsound(src.loc, 'Glasshit.ogg', 100, 1)
-	src.health -= 15
-	if(src.health <= 0)
-		usr << text("\green You smash through the window.")
-		for(var/mob/O in oviewers())
-			if ((O.client && !( O.blinded )))
-				O << text("\red [] smashes through the window!", usr)
-		src.health = 0
-		new /obj/item/weapon/shard(src.loc)
-		if(reinf)
-			new /obj/item/stack/rods(src.loc)
-		src.density = 0
-		del(src)
-		return
-	return
-
-
 /obj/structure/window/attack_animal(mob/living/simple_animal/M as mob)
 	if (M.melee_damage_upper == 0)
 		return
@@ -124,30 +100,6 @@
 		for(var/mob/O in viewers(src, null))
 			if ((O.client && !( O.blinded )))
 				O << text("\red [] smashes through the window!", M)
-		src.health = 0
-		new /obj/item/weapon/shard(src.loc)
-		if(reinf)
-			new /obj/item/stack/rods(src.loc)
-		src.density = 0
-		del(src)
-		return
-	return
-
-/obj/structure/window/attack_metroid()
-	if(!istype(usr, /mob/living/carbon/metroid/adult))
-		return
-
-	usr<< text("\green You smash against the window.")
-	for(var/mob/O in oviewers())
-		if ((O.client && !( O.blinded )))
-			O << text("\red [] smashes against the window.", usr)
-	playsound(src.loc, 'Glasshit.ogg', 100, 1)
-	src.health -= rand(10,15)
-	if(src.health <= 0)
-		usr << text("\green You smash through the window.")
-		for(var/mob/O in oviewers())
-			if ((O.client && !( O.blinded )))
-				O << text("\red [] smashes through the window!", usr)
 		src.health = 0
 		new /obj/item/weapon/shard(src.loc)
 		if(reinf)

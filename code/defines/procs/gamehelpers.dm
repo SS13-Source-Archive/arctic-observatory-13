@@ -114,10 +114,6 @@
 		if(get_turf(C) in V)
 			if(isInSight(source,C))
 				hear += C
-	for(var/mob/living/silicon/pai/C in world)
-		if(get_turf(C) in V)
-			if(isInSight(source,C))
-				hear += C
 
 /*   -- Handled above.  WHY IS THIS HERE?  WHYYYYYYY
 	// Personal AIs

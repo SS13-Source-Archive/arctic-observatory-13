@@ -131,12 +131,6 @@ STUN BATON
 
 	log_attack("<font color='red'>[user.name] ([user.ckey]) attacked [M.name] ([M.ckey]) with [src.name] (INTENT: [uppertext(user.a_intent)])</font>")
 
-
-
-	if(isrobot(M))
-		..()
-		return
-
 	if (status == 0 || (status == 1 && charges ==0))
 		if(user.a_intent == "hurt")
 			if(!..()) return
@@ -157,22 +151,14 @@ STUN BATON
 		if (user.a_intent == "hurt")
 			if(!..()) return
 			playsound(src.loc, 'Genhit.ogg', 50, 1, -1)
-			if(isrobot(user))
-				var/mob/living/silicon/robot/R = user
-				R.cell.charge -= 20
-			else
-				charges--
+			charges--
 			if (M.stuttering < 1 && (!(M.mutations & HULK) && M.canstun)  /*&& (!istype(H:wear_suit, /obj/item/clothing/suit/judgerobe))*/)
 				M.stuttering = 1
 			M.Stun(1)
 			M.Weaken(1)
 		else
 			playsound(src.loc, 'Egloves.ogg', 50, 1, -1)
-			if(isrobot(user))
-				var/mob/living/silicon/robot/R = user
-				R.cell.charge -= 20
-			else
-				charges--
+			charges--
 			if (M.stuttering < 10 && (!(M.mutations & HULK) && M.canstun)  /*&& (!istype(H:wear_suit, /obj/item/clothing/suit/judgerobe))*/)
 				M.stuttering = 10
 			M.Stun(10)

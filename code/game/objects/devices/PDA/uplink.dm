@@ -191,12 +191,6 @@
 					uses -= 3
 					new /obj/item/weapon/cartridge/syndicate(get_turf(hostpda))
 					feedback_add_details("traitor_uplink_items_bought","DC")
-			if("space")
-				if (uses >= 3)
-					uses -= 3
-					new /obj/item/clothing/suit/space/syndicate(get_turf(hostpda))
-					new /obj/item/clothing/head/helmet/space/syndicate(get_turf(hostpda))
-					feedback_add_details("traitor_uplink_items_bought","SS")
 			if("botchat")
 				if (uses >= 3)
 					uses -= 3

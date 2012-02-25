@@ -196,8 +196,6 @@
 				A = new /obj/item/projectile/beam/heavylaser( loc )
 			if(3)
 				A = new /obj/item/projectile/beam/pulse( loc )
-			if(4)
-				A = new /obj/item/projectile/change( loc )
 		A.original = target.loc
 		use_power(500)
 	else
@@ -323,12 +321,6 @@
 		else
 			user << "\red Access denied."
 
-/obj/machinery/turretid/attack_ai(mob/user as mob)
-	if(!ailock)
-		return attack_hand(user)
-	else
-		user << "There seems to be a firewall preventing you from accessing this device."
-
 /obj/machinery/turretid/attack_hand(mob/user as mob)
 	if ( (get_dist(src, user) > 1 ))
 		if (!istype(user, /mob/living/silicon))
@@ -356,19 +348,6 @@
 	user << browse(t, "window=turretid")
 	onclose(user, "turretid")
 
-
-/obj/machinery/turret/attack_alien(mob/living/carbon/alien/humanoid/M as mob)
-	if(!(stat & BROKEN))
-		playsound(src.loc, 'slash.ogg', 25, 1, -1)
-		for(var/mob/O in viewers(src, null))
-			if ((O.client && !( O.blinded )))
-				O.show_message(text("\red <B>[] has slashed at []!</B>", M, src), 1)
-		src.health -= 15
-		if (src.health <= 0)
-			src.die()
-	else
-		M << "\green That object is useless to you."
-	return
 
 /obj/machinery/turretid/Topic(href, href_list)
 	..()

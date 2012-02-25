@@ -147,10 +147,6 @@
 							return
 						*/
 
-					if(istype(affecting, /mob/living/carbon/metroid))
-						assailant << "\blue You squeeze [affecting], but nothing interesting happens."
-						return
-
 					for(var/mob/O in viewers(assailant, null))
 						O.show_message(text("\red [] has reinforced his grip on [] (now neck)!", assailant, affecting), 1)
 
@@ -202,15 +198,12 @@
 			s_click(hud1)
 		return
 	if(M == assailant && state >= 2)
-		if( ( ishuman(user) && (user.mutations & FAT) && ismonkey(affecting) ) || ( isalien(user) && iscarbon(affecting) ) )
+		if((ishuman(user) && (user.mutations & FAT) && ismonkey(affecting)))
 			var/mob/living/carbon/attacker = user
 			for(var/mob/N in viewers(user, null))
 				if(N.client)
 					N.show_message(text("\red <B>[user] is attempting to devour [affecting]!</B>"), 1)
-			if(istype(user, /mob/living/carbon/alien/humanoid/hunter))
-				if(!do_mob(user, affecting)||!do_after(user, 30)) return
-			else
-				if(!do_mob(user, affecting)||!do_after(user, 100)) return
+			if(!do_mob(user, affecting)||!do_after(user, 100)) return
 			for(var/mob/N in viewers(user, null))
 				if(N.client)
 					N.show_message(text("\red <B>[user] devours [affecting]!</B>"), 1)

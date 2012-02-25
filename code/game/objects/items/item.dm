@@ -146,14 +146,6 @@
 
 
 /obj/item/attack_paw(mob/user as mob)
-
-	if(isalien(user)) // -- TLE
-		var/mob/living/carbon/alien/A = user
-
-		if(!A.has_fine_manipulation || w_class >= 4)
-			user << "Your claws aren't capable of such fine manipulation."
-			return
-
 	if (istype(src.loc, /obj/item/weapon/storage))
 		for(var/mob/M in range(1, src.loc))
 			if (M.s_active == src.loc)
@@ -241,16 +233,11 @@
 	else
 		switch(src.damtype)
 			if("brute")
-				if(istype(src, /mob/living/carbon/metroid))
-					M.adjustBrainLoss(power)
-
-				else
-
-					M.take_organ_damage(power)
-					if (prob(33)) // Added blood for whacking non-humans too
-						var/turf/location = M.loc
-						if (istype(location, /turf/simulated))
-							location.add_blood_floor(M)
+				M.take_organ_damage(power)
+				if (prob(33)) // Added blood for whacking non-humans too
+					var/turf/location = M.loc
+					if (istype(location, /turf/simulated))
+						location.add_blood_floor(M)
 			if("fire")
 				if (!(M.mutations & COLD_RESISTANCE))
 					M.take_organ_damage(0, power)
@@ -281,10 +268,6 @@
 		))
 		// you can't stab someone in the eyes wearing a mask!
 		user << "\red You're going to need to remove that mask/helmet/glasses first."
-		return
-
-	if(istype(M, /mob/living/carbon/alien) || istype(M, /mob/living/carbon/metroid))//Aliens don't have eyes./N     Metroids also don't have eyes!
-		user << "\red You cannot locate any eyes on this creature!"
 		return
 
 	user.attack_log += "\[[time_stamp()]\]<font color='red'> Attacked [M.name] ([M.ckey]) with [src.name] (INTENT: [uppertext(user.a_intent)])</font>"

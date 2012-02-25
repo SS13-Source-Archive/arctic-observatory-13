@@ -115,7 +115,7 @@ var/GLOBAL_RADIO_TYPE = 1 // radio type to use
 	//..()
 	if (usr.stat)
 		return
-	if (!(issilicon(usr) || (usr.contents.Find(src) || ( in_range(src, usr) && istype(loc, /turf) ))))
+	if (!(usr.contents.Find(src) || ( in_range(src, usr) && istype(loc, /turf) )))
 		usr << browse(null, "window=radio")
 		return
 	usr.machine = src
@@ -227,18 +227,6 @@ var/GLOBAL_RADIO_TYPE = 1 // radio type to use
 		// --- Carbon Nonhuman ---
 		else if (iscarbon(M)) // Nonhuman carbon mob
 			jobname = "No id"
-
-		// --- AI ---
-		else if (isAI(M))
-			jobname = "AI"
-
-		// --- Cyborg ---
-		else if (isrobot(M))
-			jobname = "Cyborg"
-
-		// --- Personal AI (pAI) ---
-		else if (istype(M, /mob/living/silicon/pai))
-			jobname = "Personal AI"
 
 		// --- Unidentifiable mob ---
 		else
@@ -380,12 +368,6 @@ var/GLOBAL_RADIO_TYPE = 1 // radio type to use
 			eqjobname = M:get_assignment()
 		else if (iscarbon(M))
 			eqjobname = "No id" //only humans can wear ID
-		else if (isAI(M))
-			eqjobname = "AI"
-		else if (isrobot(M))
-			eqjobname = "Cyborg"//Androids don't really describe these too well, in my opinion.
-		else if (istype(M, /mob/living/silicon/pai))
-			eqjobname = "Personal AI"
 		else
 			eqjobname = "Unknown"
 

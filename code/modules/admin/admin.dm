@@ -891,9 +891,6 @@
 		if (!istype(M))
 			player_panel_new()
 			return
-		if(isalien(M))
-			alert("Is an [M.mind ? M.mind.special_role : "Alien"]!", "[M.key]")
-			return
 		if (M:mind)
 			M:mind.edit_memory()
 			return
@@ -1167,34 +1164,6 @@
 					log_admin("[key_name(usr)] made all areas unpowered", 1)
 					message_admins("\blue [key_name_admin(usr)] made all areas unpowered", 1)
 					power_failure()
-				if("activateprison")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","AP")
-					world << "\blue <B>Transit signature detected.</B>"
-					world << "\blue <B>Incoming shuttle.</B>"
-					/*
-					var/A = locate(/area/shuttle_prison)
-					for(var/atom/movable/AM as mob|obj in A)
-						AM.z = 1
-						AM.Move()
-					*/
-					message_admins("\blue [key_name_admin(usr)] sent the prison shuttle to the station.", 1)
-				if("deactivateprison")
-					/*
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","DP")
-					var/A = locate(/area/shuttle_prison)
-					for(var/atom/movable/AM as mob|obj in A)
-						AM.z = 2
-						AM.Move()
-					*/
-					message_admins("\blue [key_name_admin(usr)] sent the prison shuttle back.", 1)
-				if("toggleprisonstatus")
-					feedback_inc("admin_secrets_fun_used",1)
-					feedback_add_details("admin_secrets_fun_used","TPS")
-					for(var/obj/machinery/computer/prison_shuttle/PS in world)
-						PS.allowedtocall = !(PS.allowedtocall)
-						message_admins("\blue [key_name_admin(usr)] toggled status of prison shuttle to [PS.allowedtocall].", 1)
 				if("traitor_all")
 					if ((src.rank in list( "Admin Candidate", "Trial Admin", "Badmin", "Game Admin", "Game Master"  )))
 						if(!ticker)
@@ -1647,13 +1616,6 @@
 				foo += text("<A HREF='?src=\ref[src];corgione=\ref[M]'>Corgize</A> | ")
 			else
 				foo += text("<B>Corgized</B> | ")
-			if(isAI(M))
-				foo += text("<B>Is an AI</B> | ")
-			else if(ishuman(M))
-				foo += text("<A HREF='?src=\ref[src];makeai=\ref[M]'>Make AI</A> | ")
-				foo += text("<A HREF='?src=\ref[src];makerobot=\ref[M]'>Make Robot</A> | ")
-				foo += text("<A HREF='?src=\ref[src];makealien=\ref[M]'>Make Alien</A> | ")
-				foo += text("<A HREF='?src=\ref[src];makemetroid=\ref[M]'>Make Metroid</A> | ")
 			foo += text("<A HREF='?src=\ref[src];tdome1=\ref[M]'>Thunderdome 1</A> | ")
 			foo += text("<A HREF='?src=\ref[src];tdome2=\ref[M]'>Thunderdome 2</A> | ")
 			foo += text("<A HREF='?src=\ref[src];tdomeadmin=\ref[M]'>Thunderdome Admin</A> | ")
@@ -2210,10 +2172,6 @@
 		if(istype(D, /datum/disease/jungle_fever))
 			if (ticker.mode.config_tag == "monkey")
 				return 2
-			return 1
-	if(isrobot(M))
-		var/mob/living/silicon/robot/R = M
-		if(R.emagged)
 			return 1
 	if(M.mind&&M.mind.special_role)//If they have a mind and special role, they are some type of traitor or antagonist.
 		return 1

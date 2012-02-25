@@ -228,26 +228,6 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 				this.viruses += newDisease
 				newDisease.holder = this
 
-	else if( istype(M, /mob/living/carbon/alien ))
-		if( istype(src, /turf/simulated) )
-			var/turf/simulated/source2 = src
-			var/obj/effect/decal/cleanable/xenoblood/this = new /obj/effect/decal/cleanable/xenoblood(source2)
-			for(var/datum/disease/D in M.viruses)
-				var/datum/disease/newDisease = new D.type
-				this.viruses += newDisease
-				newDisease.holder = this
-
-	else if( istype(M, /mob/living/silicon/robot ))
-		if( istype(src, /turf/simulated) )
-			var/turf/simulated/source2 = src
-			var/obj/effect/decal/cleanable/oil/this = new /obj/effect/decal/cleanable/oil(source2)
-			for(var/datum/disease/D in M.viruses)
-				var/datum/disease/newDisease = new D.type
-				this.viruses += newDisease
-				newDisease.holder = this
-
-
-
 /atom/proc/clean_blood()
 
 	if (!( src.flags ) & 256)
@@ -317,18 +297,10 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 		if( usr.restrained() )
 			if(ishuman(usr))
 				src.attack_hand(usr)
-			else if(isAI(usr))
-				src.attack_ai(usr)
-			else if(isrobot(usr))
-				src.attack_ai(usr)
 			else if(isobserver(usr))
 				src.attack_ghost(usr)
 			else if(ismonkey(usr))
 				src.attack_paw(usr)
-			else if(isalienadult(usr))
-				src.attack_alien(usr)
-			else if(ismetroid(usr))
-				src.attack_metroid(usr)
 			else if(isanimal(usr))
 				src.attack_animal(usr)
 			else
@@ -336,18 +308,10 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 		else
 			if(ishuman(usr))
 				src.hand_h(usr, usr.hand)
-			else if(isAI(usr))
-				src.hand_a(usr, usr.hand)
-			else if(isrobot(usr))
-				src.hand_a(usr, usr.hand)
 			else if(isobserver(usr))
 				return
 			else if(ismonkey(usr))
 				src.hand_p(usr, usr.hand)
-			else if(isalienadult(usr))
-				src.hand_al(usr, usr.hand)
-			else if(ismetroid(usr))
-				return
 			else if(isanimal(usr))
 				return
 			else
@@ -440,46 +404,6 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 			if ( (W) && !human.restrained() )
 				W.afterattack(src, human)
 
-
-	else if(isAI(usr))
-		var/mob/living/silicon/ai/ai = usr
-		//-ai stuff-
-
-		if(ai.stat)
-			return
-
-		if (ai.control_disabled)
-			return
-
-		if( !ai.restrained() )
-			attack_ai(ai)
-		else
-			hand_a(ai, ai.hand)
-
-	else if(isrobot(usr))
-		var/mob/living/silicon/robot/robot = usr
-		//-cyborg stuff-
-
-		if(robot.stat)
-			return
-
-		if (robot.lockcharge)
-			return
-
-
-
-		if(W)
-			var/in_range = in_range(src, robot) || src.loc == robot
-			if(in_range)
-				attackby(W,robot)
-			if (W)
-				W.afterattack(src, robot)
-		else
-			if( !robot.restrained() )
-				attack_robot(robot)
-			else
-				hand_r(robot, robot.hand)
-
 	else if(isobserver(usr))
 		var/mob/dead/observer/ghost = usr
 		//-ghost stuff-
@@ -522,54 +446,6 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 		else
 			if ( (W) && !monkey.restrained() )
 				W.afterattack(src, monkey)
-
-	else if(isalienadult(usr))
-		var/mob/living/carbon/alien/humanoid/alien = usr
-		//-alien stuff-
-
-		if(alien.stat)
-			return
-
-		var/in_range = in_range(src, alien) || src.loc == alien
-
-		if (in_range)
-			if ( !alien.restrained() )
-				if (W)
-					attackby(W,alien)
-					if (W)
-						W.afterattack(src, alien)
-				else
-					attack_alien(alien)
-			else
-				hand_al(alien, alien.hand)
-		else
-			if ( (W) && !alien.restrained() )
-				W.afterattack(src, alien)
-
-
-	else if(ismetroid(usr))
-		var/mob/living/carbon/metroid/metroid = usr
-		//-metroid stuff-
-
-		if(metroid.stat)
-			return
-
-		var/in_range = in_range(src, metroid) || src.loc == metroid
-
-		if (in_range)
-			if ( !metroid.restrained() )
-				if (W)
-					attackby(W,metroid)
-					if (W)
-						W.afterattack(src, metroid)
-				else
-					attack_metroid(metroid)
-			else
-				hand_m(metroid, metroid.hand)
-		else
-			if ( (W) && !metroid.restrained() )
-				W.afterattack(src, metroid)
-
 
 	else if(isanimal(usr))
 		var/mob/living/simple_animal/animal = usr
@@ -626,41 +502,23 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 	var/parameters = params2list(params)
 
 	if(parameters["shift"]){
-		if(!isAI(usr))
-			ShiftClick(usr)
+		ShiftClick(usr)
 		return
 	}
 
 	// ------- ALT-CLICK -------
 
 	if(parameters["alt"]){
-		if(!isAI(usr))
-			AltClick(usr)
+		AltClick(usr)
 		return
 	}
 
 	// ------- CTRL-CLICK -------
 
 	if(parameters["ctrl"]){
-		if(!isAI(usr))
-			CtrlClick(usr)
+		CtrlClick(usr)
 		return
 	}
-
-
-
-
-	// ------- AI -------
-	if (istype(usr, /mob/living/silicon/ai))
-		var/mob/living/silicon/ai/ai = usr
-		if (ai.control_disabled)
-			return
-
-	// ------- CYBORG -------
-	if (istype (usr, /mob/living/silicon/robot))
-		var/mob/living/silicon/robot/bot = usr
-		if (bot.lockcharge) return
-	..()
 
 	// ------- THROW -------
 	if(usr.in_throw_mode)
@@ -668,13 +526,6 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 
 	// ------- ITEM IN HAND DEFINED -------
 	var/obj/item/W = usr.equipped()
-
-	// ------- ROBOT -------
-	if(istype(usr, /mob/living/silicon/robot))
-		if(!isnull(usr:module_active))
-			W = usr:module_active
-		else
-			W = null
 
 	// ------- ATTACK SELF -------
 	if (W == src && usr.stat == 0)
@@ -688,23 +539,10 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 
 	// ------- CLICKING STUFF IN CONTAINERS -------
 	if ((!( src in usr.contents ) && (((!( isturf(src) ) && (!( isturf(src.loc) ) && (src.loc && !( isturf(src.loc.loc) )))) || !( isturf(usr.loc) )) && (src.loc != usr.loc && (!( istype(src, /obj/screen) ) && !( usr.contents.Find(src.loc) ))))))
-		if (istype(usr, /mob/living/silicon/ai))
-			var/mob/living/silicon/ai/ai = usr
-			if (ai.control_disabled || ai.malfhacking)
-				return
-		else
-			return
+		return
 
 	// ------- 1 TILE AWAY -------
 	var/t5 = in_range(src, usr) || src.loc == usr
-
-	// ------- AI CAN CLICK ANYTHING -------
-	if (istype(usr, /mob/living/silicon/ai))
-		t5 = 1
-
-	// ------- CYBORG CAN CLICK ANYTHING WHEN NOT HOLDING STUFF -------
-	if ((istype(usr, /mob/living/silicon/robot)) && W == null)
-		t5 = 1
 
 	// ------- CLICKING ON ORGANS -------
 	if (istype(src, /datum/organ) && src in usr.contents)
@@ -850,12 +688,6 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 					// ------- YOU ARE NOT HUMAN. WHAT ARE YOU - DETERMINED HERE AND PROPER ATTACK_MOBTYPE CALLED -------
 					if (istype(usr, /mob/living/carbon/monkey))
 						src.attack_paw(usr, usr.hand)
-					else if (istype(usr, /mob/living/carbon/alien/humanoid))
-						src.attack_alien(usr, usr.hand)
-					else if (istype(usr, /mob/living/silicon/ai) || istype(usr, /mob/living/silicon/robot))
-						src.attack_ai(usr, usr.hand)
-					else if(istype(usr, /mob/living/carbon/metroid))
-						src.attack_metroid(usr)
 					else if(istype(usr, /mob/living/simple_animal))
 						src.attack_animal(usr)
 		else
@@ -864,11 +696,6 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 				src.hand_h(usr, usr.hand)
 			else if (istype(usr, /mob/living/carbon/monkey))
 				src.hand_p(usr, usr.hand)
-			else if (istype(usr, /mob/living/carbon/alien/humanoid))
-				src.hand_al(usr, usr.hand)
-			else if (istype(usr, /mob/living/silicon/ai) || istype(usr, /mob/living/silicon/robot))
-				src.hand_a(usr, usr.hand)
-
 	else
 		// ------- ITEM INACESSIBLE OR CLICKING ON SCREEN -------
 		if (istype(src, /obj/screen))
@@ -896,16 +723,12 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 						src.attack_hand(usr, usr.hand)
 					else if (istype(usr, /mob/living/carbon/monkey))
 						src.attack_paw(usr, usr.hand)
-					else if (istype(usr, /mob/living/carbon/alien/humanoid))
-						src.attack_alien(usr, usr.hand)
 			else
 				// ------- YOU ARE RESTRAINED CLICKING ON A HUD OBJECT -------
 				if (istype(usr, /mob/living/carbon/human))
 					src.hand_h(usr, usr.hand)
 				else if (istype(usr, /mob/living/carbon/monkey))
 					src.hand_p(usr, usr.hand)
-				else if (istype(usr, /mob/living/carbon/alien/humanoid))
-					src.hand_al(usr, usr.hand)
 		else
 			// ------- YOU ARE CLICKING ON AN OBJECT THAT'S INACCESSIBLE TO YOU AND IS NOT YOUR HUD -------
 			if(usr:mutations & LASER && usr:a_intent == "hurt" && world.time >= usr.next_move)

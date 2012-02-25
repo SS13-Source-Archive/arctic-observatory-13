@@ -411,26 +411,6 @@
 	dat += "<BR>\[ [(src.aistate != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=ai-main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
 	return dat
 
-/mob/living/silicon/ai/proc/ai_call_shuttle()
-	set category = "AI Commands"
-	set name = "Call Emergency Shuttle"
-	if(usr.stat == 2)
-		usr << "You can't call the shuttle because you are dead!"
-		return
-	call_shuttle_proc(src)
-
-	// hack to display shuttle timer
-	if(emergency_shuttle.online)
-		var/obj/machinery/computer/communications/C = locate() in world
-		if(C)
-			C.post_status("shuttle")
-
-	return
-
-/proc/enable_prison_shuttle(var/mob/user)
-	for(var/obj/machinery/computer/prison_shuttle/PS in world)
-		PS.allowedtocall = !(PS.allowedtocall)
-
 /proc/call_shuttle_proc(var/mob/user)
 	if ((!( ticker ) || emergency_shuttle.location))
 		return
@@ -441,14 +421,6 @@
 
 	if(emergency_shuttle.direction == -1)
 		user << "Shuttle may not be called while returning to CentCom."
-		return
-
-	if(ticker.mode.name == "revolution" || ticker.mode.name == "AI malfunction" || ticker.mode.name == "sandbox")
-		//New version pretends to call the shuttle but cause the shuttle to return after a random duration.
-		emergency_shuttle.fake_recall = rand(300,500)
-
-	if(ticker.mode.name == "blob")
-		user << "Under directive 7-10, [station_name()] is quarantined until further notice."
 		return
 
 	emergency_shuttle.incall()

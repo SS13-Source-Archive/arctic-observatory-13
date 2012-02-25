@@ -8,9 +8,6 @@
 
 
 	attack_hand(mob/M as mob)
-		if(isrobot(M) || isAI(M))
-			return
-
 		if(busy)
 			M << "\red Someone's already washing something here."
 			return
@@ -71,11 +68,7 @@
 				user.Stun(10)
 				user.stuttering = 10
 				user.Weaken(10)
-				if(isrobot(user))
-					var/mob/living/silicon/robot/R = user
-					R.cell.charge -= 20
-				else
-					B.charges--
+				B.charges--
 				user.visible_message( \
 					"[user] was stunned by his wet [O].", \
 					"\red You have wet \the [O], it shocks you!")

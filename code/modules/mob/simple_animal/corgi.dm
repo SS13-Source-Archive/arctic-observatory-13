@@ -87,7 +87,7 @@
 
 	//Removing from inventory
 	if(href_list["remove_inv"])
-		if(get_dist(src,usr) > 1 || !(ishuman(usr) || ismonkey(usr) || isrobot(usr) ||  isalienadult(usr)))
+		if(get_dist(src,usr) > 1 || !(ishuman(usr) || ismonkey(usr)))
 			return
 		var/remove_from = href_list["remove_inv"]
 		switch(remove_from)
@@ -118,7 +118,7 @@
 
 	//Adding things to inventory
 	else if(href_list["add_inv"])
-		if(get_dist(src,usr) > 1 || !(ishuman(usr) || ismonkey(usr) || isrobot(usr) ||  isalienadult(usr)))
+		if(get_dist(src,usr) > 1 || !(ishuman(usr) || ismonkey(usr)))
 			return
 		var/add_to = href_list["add_inv"]
 		if(!usr.get_active_hand())
@@ -166,7 +166,7 @@
 						/obj/item/clothing/head/collectable/hardhat,
 						/obj/item/clothing/head/helmet/hardhat/white,
 						/obj/item/weapon/bedsheet,
-						/obj/item/clothing/head/helmet/space/santahat,
+//						/obj/item/clothing/head/helmet/space/santahat,	//see line 234
 						/obj/item/clothing/head/collectable/paper
 					)
 
@@ -231,11 +231,13 @@
 							emote_see = list("stumbles around", "shivers")
 							emote_hear = list("howls","groans")
 							desc = "Spooky!"
-						if(/obj/item/clothing/head/helmet/space/santahat)
+//Santa hat is a spacesuit, and thus I commented it out. Should probably be readded as a normal hat. :3 -Pete
+/*						if(/obj/item/clothing/head/helmet/space/santahat)
 							name = "Rudolph the Red-Nosed Corgi"
 							emote_hear = list("barks christmas songs", "yaps")
 							desc = "He has a very shiny nose."
 							src.sd_SetLuminosity(6)
+*/
 
 			if("back")
 				if(inventory_back)

@@ -83,7 +83,7 @@
 
 
 	attackby(obj/item/I as obj, mob/user as mob)
-		if(src.operating || isrobot(user))	return //borgs can't attack doors open because it conflicts with their AI-like interaction with them.
+		if(src.operating)	return
 		src.add_fingerprint(user)
 		if(!src.requiresID())
 			user = null

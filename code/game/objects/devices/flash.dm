@@ -50,21 +50,6 @@
 			else
 				flashfail = 1
 
-		else if(issilicon(M))
-			M.Weaken(rand(5,10))
-
-		if(isrobot(user))
-			spawn(0)
-				var/atom/movable/overlay/animation = new(user.loc)
-				animation.layer = user.layer + 1
-				animation.icon_state = "blank"
-				animation.icon = 'mob.dmi'
-				animation.master = user
-				flick("blspell", animation)
-				sleep(5)
-				del(animation)
-
-
 		if(!flashfail)
 			for(var/mob/O in viewers(user, null))
 				O.show_message(text("\red [] blinds [] with the flash!", user, M))
@@ -102,16 +87,6 @@
 		shots_left--
 
 		flick("flash2", src)
-		if(isrobot(user))
-			spawn(0)
-				var/atom/movable/overlay/animation = new(user.loc)
-				animation.layer = user.layer + 1
-				animation.icon_state = "blank"
-				animation.icon = 'mob.dmi'
-				animation.master = user
-				flick("blspell", animation)
-				sleep(5)
-				del(animation)
 
 		for(var/mob/living/carbon/M in oviewers(3, null))
 			if(prob(50))

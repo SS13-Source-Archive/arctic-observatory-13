@@ -192,13 +192,6 @@
 		overlays = null
 		overlays += greenlight
 
-/obj/structure/closet/crate/rcd/New()
-	..()
-	new /obj/item/weapon/rcd_ammo(src)
-	new /obj/item/weapon/rcd_ammo(src)
-	new /obj/item/weapon/rcd_ammo(src)
-	new /obj/item/weapon/rcd(src)
-
 /obj/structure/closet/crate/radiation/New()
 	..()
 	new /obj/item/clothing/suit/radiation(src)
@@ -276,8 +269,6 @@
 
 /obj/structure/closet/crate/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(opened)
-		if(isrobot(user))
-			return
 		user.drop_item()
 		if(W)
 			W.loc = src.loc
