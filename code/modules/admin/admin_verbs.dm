@@ -146,7 +146,7 @@
 			verbs += /client/proc/cmd_debug_del_all
 			verbs += /client/proc/cmd_debug_tog_aliens
 			verbs += /client/proc/ticklag
-			verbs += /client/proc/mapload
+//			verbs += /client/proc/mapload
 			verbs += /obj/admins/proc/spawn_atom
 			verbs += /client/proc/drop_bomb
 			//verbs += /client/proc/give_spell --moved to view variables
@@ -285,7 +285,7 @@
 	verbs -= /client/proc/cmd_debug_del_all
 	verbs -= /client/proc/cmd_debug_tog_aliens
 	verbs -= /client/proc/ticklag
-	verbs -= /client/proc/mapload
+//	verbs -= /client/proc/mapload
 	verbs -= /obj/admins/proc/spawn_atom
 	verbs -= /client/proc/drop_bomb
 	//verbs -= /client/proc/give_spell --moved to view variables

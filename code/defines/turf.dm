@@ -62,16 +62,18 @@
 
 /turf/snow
 	icon = 'snow.dmi'
-	name = "\proper Snow"
+	name = "\proper snow"
 	icon_state = "snow0"
-
-	temperature = TCMB
-	thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
-	heat_capacity = 700000
 
 /turf/snow/New()
 	icon_state = "snow[rand(0,3)]"
 
+/turf/snow/Entered(atom/movable/M as mob|obj)
+	..()
+	if(istype(M, /mob/living/carbon/human))
+		spawn(2)
+			var/obj/effect/footprint/human/newprints = new /obj/effect/footprint/human (src)
+			newprints.dir = M.dir
 
 
 /turf/simulated/wall/r_wall

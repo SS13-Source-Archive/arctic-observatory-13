@@ -83,7 +83,7 @@
 
 	..()
 
-	for(var/turf/space/snowTile in range(src,1))
+	for(var/turf/snow/snowTile in range(src,1))
 		var/snowDirection = get_dir(src,snowTile)
 		if(snowDirection in cardinal)
 			new /obj/effect/snow_covering(snowTile,snowDirection)
