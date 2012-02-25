@@ -4,7 +4,7 @@ var/global/controllernum = "no"
 datum/controller/game_controller
 	var/processing = 1
 	var/timeOfDay = 0
-	var/minutesPerTick = 10 //DEBUG, don't forget to change to 1
+	var/minutesPerTick = 1
 
 	proc
 		setup()
