@@ -618,8 +618,13 @@ proc/process_ghost_teleport_locs()
 	icon_state = "bridge"
 	music = null
 
-/area/crew_quarters/captain
-	name = "Captain's Quarters"
+/area/bridge/logoffice
+	name = "Log office"
+	icon_state = "bridge"
+	music = null
+
+/area/crew_quarters/leader
+	name = "Expedition leader"
 	icon_state = "captain"
 
 /area/crew_quarters/courtroom
@@ -727,6 +732,10 @@ proc/process_ghost_teleport_locs()
 	chiefs_office
 		name = "Chief Engineers office"
 		icon_state = "engine_control"
+
+	mechanics_workshop
+		name = "Mechanic's workshop"
+		icon_state = "engine"
 
 
 //Solars
@@ -955,6 +964,10 @@ proc/process_ghost_teleport_locs()
 	name = "Hydroponics"
 	icon_state = "hydro"
 
+/area/translator/
+	name = "Translator's office"
+	icon_state = "bridge" //Stand in sprite
+
 //Toxins
 
 /area/toxins/lab
@@ -985,6 +998,10 @@ proc/process_ghost_teleport_locs()
 
 /area/storage/tools
 	name = "Tool Storage"
+	icon_state = "storage"
+
+/area/storage/material
+	name = "Material Storage"
 	icon_state = "storage"
 
 /area/storage/primary
@@ -1018,6 +1035,10 @@ proc/process_ghost_teleport_locs()
 /area/storage/tech
 	name = "Technical Storage"
 	icon_state = "auxstorage"
+
+/area/storage/logrd
+	name = "Log/research storage"
+	icon_state = "storage"
 
 /area/storage/testroom
 	requires_power = 0
@@ -1329,6 +1350,7 @@ var/list/the_station_areas = list (
 	/area/quartermaster,
 	/area/janitor,
 	/area/hydroponics,
+	/area/translator,
 	/area/toxins,
 	/area/storage,
 	/area/construction,
