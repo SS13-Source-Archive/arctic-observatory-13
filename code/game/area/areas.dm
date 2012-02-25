@@ -14,7 +14,6 @@
 	spawn(1)
 	//world.log << "New: [src] [tag]"
 		var/sd_created = findtext(tag,"sd_L")
-		sd_New(sd_created)
 		if(sd_created)
 			related += src
 			return

@@ -745,10 +745,10 @@ steam.start() -- spawns the effect
 	New()
 		..()
 		spawn(1)
-			sd_NewOpacity(1)
+			sd_SetOpacity(1)
 
 	Del()
-		sd_NewOpacity(0)
+		sd_SetOpacity(0)
 		density = 0
 		..()
 

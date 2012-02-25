@@ -3,11 +3,14 @@ var/global/controllernum = "no"
 
 datum/controller/game_controller
 	var/processing = 1
+	var/timeOfDay = 0
+	var/minutesPerTick = 10 //DEBUG, don't forget to change to 1
 
 	proc
 		setup()
 		setup_objects()
 		process()
+		UpdateOutsideLight()
 
 	setup()
 		if(master_controller && (master_controller != src))
@@ -22,6 +25,8 @@ datum/controller/game_controller
 				job_master.LoadJobs("config/jobs.txt")
 
 		world.tick_lag = 0.9
+
+		timeOfDay = 720 //start at noon
 
 		setup_objects()
 
@@ -56,6 +61,10 @@ datum/controller/game_controller
 		spawn (100) controllernum = "no"
 
 		var/start_time = world.timeofday
+
+		timeOfDay = (timeOfDay+minutesPerTick)%1440
+
+		UpdateOutsideLight()
 
 		sleep(1)
 
@@ -93,5 +102,25 @@ datum/controller/game_controller
 
 		spawn process()
 
-
 		return 1
+
+	UpdateOutsideLight()
+		switch(timeOfDay/60)
+			if(-INFINITY to 4)
+				sd_OutsideLight(0)
+			if(4 to 6)
+				sd_OutsideLight(2)
+			if(6 to 8)
+				sd_OutsideLight(4)
+			if(8 to 10)
+				sd_OutsideLight(6)
+			if(10 to 16)
+				sd_OutsideLight(7)
+			if(16 to 18)
+				sd_OutsideLight(6)
+			if(18 to 20)
+				sd_OutsideLight(4)
+			if(20 to 22)
+				sd_OutsideLight(2)
+			if(22 to INFINITY)
+				sd_OutsideLight(0)

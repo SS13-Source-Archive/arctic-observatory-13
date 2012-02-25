@@ -393,6 +393,9 @@ proc/process_ghost_teleport_locs()
 
 //Arctic observatory
 
+/area/outside
+	name = "Outside"
+	sd_outside = 1
 
 /area/observatory/translator
 	name = "Translator's office"

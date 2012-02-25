@@ -134,6 +134,7 @@
 			verbs += /client/proc/enable_mapping_debug
 			verbs += /client/proc/everyone_random
 			verbs += /client/proc/deadmin_self
+			verbs += /client/proc/set_outside_light_level
 
 		if (holder.level >= 5)//Game Admin********************************************************************
 			verbs += /obj/admins/proc/view_txt_log
@@ -698,4 +699,14 @@
 	verbs += /client/proc/deadchat					//toggles deadchat
 	verbs += /obj/admins/proc/toggleooc				//toggle ooc
 	verbs += /client/proc/cmd_admin_say//asay
+	return
+
+/client/proc/set_outside_light_level()
+	set name = "Set outside light level"
+	set category = "Debug"
+
+	var/list/levels = list(0,1,2,3,4,5,6,7)
+
+	sd_OutsideLight(input("Set outside light level") in levels)
+
 	return

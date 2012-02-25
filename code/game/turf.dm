@@ -226,7 +226,7 @@
 	var/turf/simulated/wall/S = new /turf/simulated/wall( locate(src.x, src.y, src.z) )
 	S.icon_old = old_icon
 	S.opacity = 0
-	S.sd_NewOpacity(1)
+	S.sd_SetOpacity(1)
 	return S
 
 /turf/proc/ReplaceWithRWall()
@@ -234,7 +234,7 @@
 	var/turf/simulated/wall/r_wall/S = new /turf/simulated/wall/r_wall( locate(src.x, src.y, src.z) )
 	S.icon_old = old_icon
 	S.opacity = 0
-	S.sd_NewOpacity(1)
+	S.sd_SetOpacity(1)
 	return S
 
 /turf/simulated/wall/New()
