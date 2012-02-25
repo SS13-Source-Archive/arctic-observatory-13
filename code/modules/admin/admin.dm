@@ -1755,19 +1755,10 @@
 		dat += {"
 <B>'Random' Events</B><BR>
 <BR>
-<A href='?src=\ref[src];secretsfun=wave'>Spawn a wave of meteors</A><BR>
-<A href='?src=\ref[src];secretsfun=gravanomalies'>Spawn a gravitational anomaly (Untested)</A><BR>
-<A href='?src=\ref[src];secretsfun=timeanomalies'>Spawn wormholes (Untested)</A><BR>
-<A href='?src=\ref[src];secretsfun=goblob'>Spawn blob(Untested)</A><BR>
-<A href='?src=\ref[src];secretsfun=aliens'>Trigger an Alien infestation</A><BR>
 <A href='?src=\ref[src];secretsfun=carp'>Trigger an Carp migration</A><BR>
 <A href='?src=\ref[src];secretsfun=radiation'>Irradiate the station</A><BR>
-<A href='?src=\ref[src];secretsfun=prison_break'>Trigger a Prison Break</A><BR>
 <A href='?src=\ref[src];secretsfun=virus'>Trigger a Virus Outbreak</A><BR>
-<A href='?src=\ref[src];secretsfun=immovable'>Spawn an Immovable Rod</A><BR>
 <A href='?src=\ref[src];secretsfun=lightsout'>Toggle a "lights out" event</A><BR>
-<A href='?src=\ref[src];secretsfun=ionstorm'>Spawn an Ion Storm</A><BR>
-<A href='?src=\ref[src];secretsfun=spacevines'>Spawn Space-Vines</A><BR>
 <BR>
 <B>Fun Secrets</B><BR>
 <BR>
