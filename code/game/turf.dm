@@ -37,6 +37,11 @@
 				mover.Bump(obstacle, 1)
 				return 0
 
+	//Then, check the turf itself
+	if (!src.CanPass(mover, src))
+		mover.Bump(src, 1)
+		return 0
+
 	//Now, check objects to block exit that are on the border
 	for(var/obj/border_obstacle in mover.loc)
 		if((border_obstacle.flags & ON_BORDER) && (mover != border_obstacle) && (forget != border_obstacle))
