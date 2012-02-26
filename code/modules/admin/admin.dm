@@ -1200,17 +1200,6 @@
 						log_admin("[key_name(usr)] used everyone is a traitor secret. Objective is [objective]")
 					else
 						alert("You're not of a high enough rank to do this")
-				if("moveminingshuttle")
-					if ((src.rank in list( "Admin Candidate", "Trial Admin", "Badmin", "Game Admin", "Game Master"  )))
-						if(mining_shuttle_moving)
-							return
-						feedback_inc("admin_secrets_fun_used",1)
-						feedback_add_details("admin_secrets_fun_used","ShM")
-						move_mining_shuttle()
-						message_admins("\blue [key_name_admin(usr)] moved mining shuttle", 1)
-						log_admin("[key_name(usr)] moved the mining shuttle")
-					else
-						alert("You're not of a high enough rank to do this")
 				if("moveadminshuttle")
 					if ((src.rank in list( "Admin Candidate", "Trial Admin", "Badmin", "Game Admin", "Game Master"  )))
 						feedback_inc("admin_secrets_fun_used",1)

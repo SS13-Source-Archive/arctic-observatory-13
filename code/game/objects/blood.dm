@@ -13,6 +13,26 @@
 
 //Gibs.spread proc in gibs.dm
 
+/obj/effect/decal/cleanable/blood/Crossed(atom/movable/O)
+	world << "blood was Crossed([O])!!!"
+	if(istype(O, /mob/living/carbon/human))
+		var/mob/living/carbon/human/walker = O
+		world << "walker [O] found"
+		if(walker.lying)
+			world << "walker is lying"
+			if(walker.wear_suit)
+				walker.wear_suit.add_blood_from_blood(blood_DNA, blood_type)
+			if(walker.w_uniform)
+				walker.w_uniform.add_blood_from_blood(blood_DNA, blood_type)
+		else if(walker.shoes)
+			world << "applying blood to walker shoes: [walker.shoes]"
+			walker.shoes.add_blood_from_blood(blood_DNA, blood_type)
+			world << "[blood_DNA] | [blood_type]"
+	..()
+
+//	blood_DNA
+//	blood_type
+
 /obj/effect/decal/cleanable/blood/gibs/proc/streak(var/list/directions)
 	spawn (0)
 		var/direction = pick(directions)

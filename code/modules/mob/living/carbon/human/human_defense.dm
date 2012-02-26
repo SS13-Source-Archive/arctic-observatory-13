@@ -98,7 +98,7 @@ emp_act
 	apply_damage(I.force, I.damtype, affecting, armor)
 
 	var/bloody = 0
-	if((I.damtype == BRUTE) && prob(25 + (I.force * 2)))	//Upping this to *3, because blood is fun.	-Pete
+	if((I.damtype == BRUTE) && prob(25 + (I.force * 2)))
 		I.add_blood(src)
 		if(prob(33))
 			bloody = 1

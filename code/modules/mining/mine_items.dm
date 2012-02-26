@@ -8,7 +8,7 @@
 	luminosity = 8
 
 /**********************Miner Lockers**************************/
-
+/*
 /obj/structure/closet/secure_closet/miner
 	name = "Miner's Equipment"
 	icon_state = "miningsec1"
@@ -91,7 +91,7 @@ proc/move_mining_shuttle()
 		src.req_access = list()
 		hacked = 1
 		usr << "You fried the consoles ID checking system. It's now available to everyone!"
-
+*/
 /******************************Lantern*******************************/
 
 /obj/item/device/flashlight/lantern

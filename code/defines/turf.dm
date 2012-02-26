@@ -71,6 +71,9 @@
 /turf/simulated/snow/Entered(atom/movable/M as mob|obj)
 	..()
 	if(istype(M, /mob/living/carbon/human))
+		var/mob/living/carbon/human/printhuman = M
+		if(printhuman.lying)
+			return
 		spawn(2)
 			var/obj/effect/footprint/human/newprints = new /obj/effect/footprint/human (src)
 			newprints.dir = M.dir

@@ -210,12 +210,12 @@
 	item_state = "dg_suit"
 	color = "centcom"
 
-/obj/item/clothing/under/rank/miner
+/obj/item/clothing/under/rank/mechanic
 	desc = "A snappy jumpsuit with a sturdy set of overalls. It is very dirty."
-	name = "Shaft Miner Jumpsuit"
-	icon_state = "miner"
-	item_state = "miner"
-	color = "miner"
+	name = "Mechanic Jumpsuit"
+	icon_state = "mechanic"
+	item_state = "mechanic"
+	color = "mechanic"
 
 /obj/item/clothing/under/rank/roboticist
 	desc = "A slimming black with reinforced seams. Great for industrial work."

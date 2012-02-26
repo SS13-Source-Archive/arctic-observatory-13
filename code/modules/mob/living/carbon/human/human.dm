@@ -55,9 +55,13 @@
 
 	var/list/organs = list()
 
-/mob/living/carbon/human/dummy
+/mob/living/carbon/human/dummy/New()
+	..()
 	real_name = "Test Dummy"
-	nodamage = 1
+	dna.unique_enzymes = "7a7bcd339560dde9dae475c2b75b3de8"
+	dna.struc_enzymes = "2013E85C944C19A4B00185144725785DC6406A4508"
+	dna.uni_identity = "000000000000000000DC0000000000111FD2025"
+	b_type = "A+"
 
 
 
