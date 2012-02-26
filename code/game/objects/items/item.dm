@@ -237,7 +237,7 @@
 				if (prob(33)) // Added blood for whacking non-humans too
 					var/turf/location = M.loc
 					if (istype(location, /turf/simulated))
-						location.add_blood_floor(M)
+						location.add_blood(M)
 			if("fire")
 				if (!(M.mutations & COLD_RESISTANCE))
 					M.take_organ_damage(0, power)

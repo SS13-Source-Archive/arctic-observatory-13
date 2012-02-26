@@ -461,7 +461,7 @@
 	mymob.throw_icon.icon_state = "act_throw_off"
 	mymob.throw_icon.name = "throw"
 	mymob.throw_icon.screen_loc = ui_throw
-
+/*
 	mymob.oxygen = new /obj/screen( null )
 	mymob.oxygen.icon = ui_style
 	mymob.oxygen.icon_state = "oxy0"
@@ -473,7 +473,7 @@
 	mymob.pressure.icon_state = "pressure0"
 	mymob.pressure.name = "pressure"
 	mymob.pressure.screen_loc = ui_pressure
-
+*/
 
 /*
 	mymob.i_select = new /obj/screen( null )
@@ -486,7 +486,7 @@
 	mymob.m_select.name = "moving"
 	mymob.m_select.screen_loc = "16:-11,14"
 */
-
+/*
 	mymob.toxin = new /obj/screen( null )
 	mymob.toxin.icon = ui_style
 	mymob.toxin.icon_state = "tox0"
@@ -504,7 +504,7 @@
 	mymob.fire.icon_state = "fire0"
 	mymob.fire.name = "fire"
 	mymob.fire.screen_loc = ui_fire
-
+*/
 	mymob.bodytemp = new /obj/screen( null )
 	mymob.bodytemp.icon = ui_style
 	mymob.bodytemp.icon_state = "temp1"
@@ -657,7 +657,7 @@
 	mymob.client.screen = null
 
 	//, mymob.i_select, mymob.m_select
-	mymob.client.screen += list( mymob.throw_icon, mymob.zone_sel, mymob.oxygen, mymob.pressure, mymob.toxin, mymob.bodytemp, mymob.internals, mymob.fire, mymob.hands, mymob.healths, mymob.nutrition_icon, mymob.pullin, mymob.blind, mymob.flash, mymob.rest, mymob.sleep) //, mymob.mach )
+	mymob.client.screen += list( mymob.throw_icon, mymob.zone_sel, mymob.bodytemp, mymob.hands, mymob.healths, mymob.nutrition_icon, mymob.pullin, mymob.blind, mymob.flash, mymob.rest, mymob.sleep) //, mymob.mach )
 	mymob.client.screen += src.adding + src.other
 
 	//if(istype(mymob,/mob/living/carbon/monkey)) mymob.client.screen += src.mon_blo

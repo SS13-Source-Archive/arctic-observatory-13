@@ -102,7 +102,6 @@ MASS SPECTROMETER
 	return
 
 /obj/item/device/detective_scanner/attack(mob/living/carbon/human/M as mob, mob/user as mob)
-
 	if (!ishuman(M))
 		user << "\red [M] is not human and cannot have the fingerprints."
 		return 0
@@ -123,16 +122,9 @@ MASS SPECTROMETER
 			F.name = text("FPrintC- '[M.name]'")
 			user << "\blue Done printing."
 		user << text("\blue [M]'s Fingerprints: [md5(M.dna.uni_identity)]")
-	if ( !(M.blood_DNA) )
-		user << "\blue No blood found on [M]"
-	else
-		user << "\blue Blood found on [M]. Analysing..."
-		spawn(15)
-			user << "\blue Blood type: [M.blood_type]\nDNA: [M.blood_DNA]"
 	return
 
 /obj/item/device/detective_scanner/afterattack(atom/A as mob|obj|turf|area, mob/user as mob)
-
 	src.add_fingerprint(user)
 	if(istype(A, /obj/effect/decal/cleanable/blood))
 		if(A.blood_DNA)
@@ -162,7 +154,6 @@ MASS SPECTROMETER
 	user << text("\blue Isolated [L.len] fingerprints.")
 	for(var/i in L)
 		user << text("\blue \t [i]")
-		//Foreach goto(186)
 	return
 
 

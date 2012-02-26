@@ -133,12 +133,13 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 
 
 /atom/proc/add_blood(mob/living/carbon/human/M as mob)
+	world << "[src].add_blood([M]) called."
 	if (!( istype(M, /mob/living/carbon/human) ))
 		return 0
 	if (!( src.flags ) & 256)
 		return
 	if (!( src.blood_DNA ))
-		if (istype(src, /obj/item)&&!istype(src, /obj/item/weapon/melee/energy))//Only regular items. Energy melee weapon are not affected.
+		if (istype(src, /obj/item))//Only regular items. Energy melee weapon are not affected.	//Fuck exceptions for energy weapons.	-Pete
 			var/obj/item/source2 = src
 			source2.icon_old = src.icon
 			var/icon/I = new /icon(src.icon, src.icon_state)
@@ -148,14 +149,14 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 			src.icon = I
 			src.blood_DNA = M.dna.unique_enzymes
 			src.blood_type = M.b_type
-		else if (istype(src, /turf/simulated))
-			var/turf/simulated/source2 = src
+		else if(istype(src, /turf/simulated) || istype(src, /turf/snow))
 			var/list/objsonturf = range(0,src)
 			var/i
 			for(i=1, i<=objsonturf.len, i++)
 				if(istype(objsonturf[i],/obj/effect/decal/cleanable/blood))
 					return
-			var/obj/effect/decal/cleanable/blood/this = new /obj/effect/decal/cleanable/blood(source2)
+			var/obj/effect/decal/cleanable/blood/this = new /obj/effect/decal/cleanable/blood(src)
+			world << "[src] just got some blood from [M]."
 			this.blood_DNA = M.dna.unique_enzymes
 			this.blood_type = M.b_type
 			for(var/datum/disease/D in M.viruses)
@@ -177,7 +178,7 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 	return
 
 /atom/proc/add_vomit_floor(mob/living/carbon/M as mob, var/toxvomit = 0)
-	if( istype(src, /turf/simulated) )
+	if(istype(src, /turf/simulated) || istype(src, /turf/snow))
 		var/obj/effect/decal/cleanable/vomit/this = new /obj/effect/decal/cleanable/vomit(src)
 
 		// Make toxins vomit look different
@@ -189,20 +190,8 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 			this.viruses += newDisease
 			newDisease.holder = this
 
-// Only adds blood on the floor -- Skie
-/atom/proc/add_blood_floor(mob/living/carbon/M as mob)
-	if( istype(M, /mob/living/carbon/monkey) )
-		if( istype(src, /turf/simulated) )
-			var/turf/simulated/source1 = src
-			var/obj/effect/decal/cleanable/blood/this = new /obj/effect/decal/cleanable/blood(source1)
-			this.blood_DNA = M.dna.unique_enzymes
-			for(var/datum/disease/D in M.viruses)
-				var/datum/disease/newDisease = new D.type
-				this.viruses += newDisease
-				newDisease.holder = this
-
 /atom/proc/clean_blood()
-
+	world << "[src].clean_blood() called."
 	if (!( src.flags ) & 256)
 		return
 	if ( src.blood_DNA )

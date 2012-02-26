@@ -674,6 +674,7 @@
 						var/t = M.pulling
 						M.pulling = null
 
+						//IF WE WANT TO ADD FANCIER BLOOD TRAILS, START HERE	-Pete
 						//this is the gay blood on floor shit -- Added back -- Skie
 						if (M.lying && (prob(M.getBruteLoss() / 6)))
 							var/turf/location = M.loc
