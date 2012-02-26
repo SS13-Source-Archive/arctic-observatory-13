@@ -11,6 +11,7 @@ datum/controller/game_controller
 		setup_objects()
 		process()
 		UpdateOutsideLight()
+		GetStateOfDay()
 
 	setup()
 		if(master_controller && (master_controller != src))
@@ -94,6 +95,9 @@ datum/controller/game_controller
 		for(var/datum/powernet/P in powernets)
 			P.reset()
 
+		for(var/area/area in world)//DEBUG; will later be moved to procs that change temp, so that the check is not run all the time
+			area.CalculateTemperature()
+
 		sleep(-1)
 
 		ticker.process()
@@ -124,3 +128,6 @@ datum/controller/game_controller
 				sd_OutsideLight(2)
 			if(22 to INFINITY)
 				sd_OutsideLight(0)
+
+	GetStateOfDay()
+		return (timeOfDay/60 <= 20 && timeOfDay/60 >= 8) ? "day" : "night"

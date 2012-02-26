@@ -22,16 +22,16 @@
 
 // Reinforced
 
-/obj/structure/window/reniforced
+/obj/structure/window/reinforced
 	reinf = 1
 	icon_state = "rwindow"
 	name = "reinforced window"
 
-/obj/structure/window/reniforced/tinted
+/obj/structure/window/reinforced/tinted
 	name = "tinted window"
 	icon_state = "twindow"
 	opacity = 1
 
-/obj/structure/window/reniforced/tinted/frosted
+/obj/structure/window/reinforced/tinted/frosted
 	icon_state = "fwindow"
 	name = "frosted window"
