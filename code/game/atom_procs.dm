@@ -132,7 +132,7 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 	return
 
 /atom/proc/add_blood_from_blood(new_DNA, new_type)
-	world << "add_blood_from_blood([new_DNA],[new_type])"
+//	world << "add_blood_from_blood([new_DNA],[new_type])"
 	var/mob/living/carbon/human/B = new /mob/living/carbon/human
 	B.blood_DNA = new_DNA
 	B.blood_type = new_type
