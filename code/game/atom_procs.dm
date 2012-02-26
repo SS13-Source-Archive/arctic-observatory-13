@@ -133,7 +133,7 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 
 
 /atom/proc/add_blood(mob/living/carbon/human/M as mob)
-	world << "[src].add_blood([M]) called."
+//	world << "[src].add_blood([M]) called."
 	if (!( istype(M, /mob/living/carbon/human) ))
 		return 0
 	if (!( src.flags ) & 256)
@@ -149,14 +149,13 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 			src.icon = I
 			src.blood_DNA = M.dna.unique_enzymes
 			src.blood_type = M.b_type
-		else if(istype(src, /turf/simulated) || istype(src, /turf/snow))
+		else if(istype(src, /turf/simulated))
 			var/list/objsonturf = range(0,src)
-			var/i
-			for(i=1, i<=objsonturf.len, i++)
+			for(var/i=1, i<=objsonturf.len, i++)
 				if(istype(objsonturf[i],/obj/effect/decal/cleanable/blood))
 					return
 			var/obj/effect/decal/cleanable/blood/this = new /obj/effect/decal/cleanable/blood(src)
-			world << "[src] just got some blood from [M]."
+		//	world << "[src] just got some blood from [M]."
 			this.blood_DNA = M.dna.unique_enzymes
 			this.blood_type = M.b_type
 			for(var/datum/disease/D in M.viruses)
@@ -178,7 +177,7 @@ turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
 	return
 
 /atom/proc/add_vomit_floor(mob/living/carbon/M as mob, var/toxvomit = 0)
-	if(istype(src, /turf/simulated) || istype(src, /turf/snow))
+	if(istype(src, /turf/simulated))
 		var/obj/effect/decal/cleanable/vomit/this = new /obj/effect/decal/cleanable/vomit(src)
 
 		// Make toxins vomit look different

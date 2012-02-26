@@ -60,15 +60,15 @@
 	var/to_be_destroyed = 0 //Used for fire, if a melting temperature was reached, it will be destroyed
 	var/max_fire_temperature_sustained = 0 //The max temperature of the fire which it was subjected to
 
-/turf/snow
+/turf/simulated/snow
 	icon = 'snow.dmi'
 	name = "\proper snow"
 	icon_state = "snow0"
 
-/turf/snow/New()
+/turf/simulated/snow/New()
 	icon_state = "snow[rand(0,3)]"
 
-/turf/snow/Entered(atom/movable/M as mob|obj)
+/turf/simulated/snow/Entered(atom/movable/M as mob|obj)
 	..()
 	if(istype(M, /mob/living/carbon/human))
 		spawn(2)

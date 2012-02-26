@@ -1,6 +1,6 @@
 world
 	mob = /mob/new_player
-	turf = /turf/snow
+	turf = /turf/simulated/snow
 	area = /area/outside
 	view = "15x15"
 

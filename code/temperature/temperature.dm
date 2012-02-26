@@ -41,7 +41,7 @@ area
 		for(var/turf/simulated/floor/tile in src)
 			var/totalSnowDir = 0 //first, we check if it's adjacent to any snow tile
 
-			for(var/turf/snow/snow in range(1,tile))
+			for(var/turf/simulated/snow/snow in range(1,tile))
 				var/snowDir = get_dir(tile,snow)
 				if(snowDir in cardinal) //to simplify stuff, only snow in cardinal directions counts. No seeping through diagonals for ya.
 					totalSnowDir |= snowDir
