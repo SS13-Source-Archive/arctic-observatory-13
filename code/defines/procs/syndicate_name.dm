@@ -30,7 +30,7 @@ var/syndicate_name = null
 
 
 //Traitors and traitor silicons will get these. Revs will not.
-var/syndicate_code_phrase//Code phrase for traitors.
+/*var/syndicate_code_phrase//Code phrase for traitors.
 var/syndicate_code_response//Code response for traitors.
 
 	/*
@@ -194,4 +194,5 @@ var/syndicate_code_response//Code response for traitors.
 		if(5)
 
 	return
+*/
 */
