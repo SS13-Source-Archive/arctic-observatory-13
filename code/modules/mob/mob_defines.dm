@@ -142,10 +142,8 @@
 	var/r_ch_cou = 0
 	var/r_Tourette = 0//Carbon
 
-	var/seer = 0 //for cult//Carbon, probably Human
-
-	var/miming = null //checks if the guy is a mime//Human
-	var/silent = null //Can't talk. Value goes down every life proc.//Human
+	var/silent = 0
+	var/dreaming = 0	//used for dream fluff text
 
 	var/obj/hud/hud_used = null
 

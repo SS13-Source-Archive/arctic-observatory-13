@@ -292,16 +292,6 @@
 				temp.take_damage(b_loss * 0.05, f_loss * 0.05)
 	UpdateDamageIcon()
 
-
-/mob/living/carbon/human/blob_act()
-	if(stat == 2)	return
-	show_message("\red The blob attacks you!")
-	var/dam_zone = pick("chest", "l_hand", "r_hand", "l_leg", "r_leg")
-	var/datum/organ/external/affecting = get_organ(ran_zone(dam_zone))
-	apply_damage(rand(30,40), BRUTE, affecting, run_armor_check(affecting, "melee"))
-	UpdateDamageIcon()
-	return
-
 /mob/living/carbon/human/u_equip(obj/item/W as obj)
 	if (W == wear_suit)
 		W = s_store

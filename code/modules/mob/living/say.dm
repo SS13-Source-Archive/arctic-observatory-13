@@ -4,10 +4,6 @@
 	if (!message)
 		return
 
-	if (length(message) >= 1)
-		if (miming && copytext(message, 1, 2) != "*")
-			return
-
 	if (stat == 2)
 		return say_dead(message)
 

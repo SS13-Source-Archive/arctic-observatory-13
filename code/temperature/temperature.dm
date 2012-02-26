@@ -70,3 +70,6 @@ area
 		//y u remove heaters pete they'd be perfect for testing instead we'll have to BURN ANIMALS IS THAT WHAT YOU WANT
 
 		return heating
+
+	proc/GetTemp()
+		return temperature
