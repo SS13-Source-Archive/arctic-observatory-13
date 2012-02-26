@@ -435,6 +435,13 @@
 	item_state = "red_suit"
 	color = "red_suit"
 
+/obj/item/clothing/under/sleeveless
+	name = "Sleeveless Shirt"
+	desc = "Who'd be dumb enough to wear this in the Arctic?"
+	icon_state = "sleeveless"
+	item_state = "sleeveless"
+	color = "sleeveless"
+
 /obj/item/clothing/under/mime
 	name = "Mime Outfit"
 	desc = "It's not very colourful."

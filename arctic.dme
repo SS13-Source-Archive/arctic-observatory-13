@@ -256,6 +256,7 @@
 #include "code\game\jobs\jobs.dm"
 #include "code\game\jobs\whitelist.dm"
 #include "code\game\jobs\job\assistant.dm"
+#include "code\game\jobs\job\chef.dm"
 #include "code\game\jobs\job\job.dm"
 #include "code\game\jobs\job\leader.dm"
 #include "code\game\jobs\job\mechanic.dm"
