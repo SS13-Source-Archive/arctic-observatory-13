@@ -11,11 +11,11 @@ mob/living/carbon/human/proc/dream()
 		"blue ice", "drifting", "exhilaration", "a loved one", "a slow piano", "a grave", "running", "daylight", "a bad joke", "despair"
 		)
 	spawn(0)
-		for(var/i = rand(1,4),i > 0, i--)
+		for(var/i = rand(2,4),i > 0, i--)
 			var/dream_image = pick(dreams)
 			dreams -= dream_image
-			src << "\blue <i>... [dream_image] ...</i>"
-			sleep(rand(40,70))
+			src << "\blue <i>...[dream_image]...</i>"
+			sleep(rand(50,80))
 			if(paralysis <= 0)
 				dreaming = 0
 				return 0
@@ -23,4 +23,4 @@ mob/living/carbon/human/proc/dream()
 		return 1
 
 mob/living/carbon/human/proc/handle_dreams()
-	if(prob(5) && !dreaming) dream()
+	if(!dreaming) dream()

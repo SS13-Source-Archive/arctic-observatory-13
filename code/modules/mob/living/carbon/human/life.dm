@@ -290,7 +290,7 @@
 				if(stat != 2)	stat = 1
 				Paralyse(5)
 
-			if (stat != 2) //Alive.
+			if (stat != DEAD) //Alive.
 				if (silent)
 					silent--
 

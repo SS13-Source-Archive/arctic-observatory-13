@@ -40,7 +40,11 @@
 					return
 	// Added voice muffling for Issue 41.
 	if (stat == 1 || sleeping > 0)
-		src << "<I>... You can almost hear someone talking ...</I>"
+		if(istype(src, /mob/living/carbon/human))
+			var/mob/living/carbon/human/me = src
+			me.handle_dreams()
+		else
+			src << "<I>... You can almost hear someone talking ...</I>"	//fuuuuuuck this
 	else
 		src << msg
 	return
