@@ -431,15 +431,11 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 		if("masked killer")
 			M.equip_if_possible(new /obj/item/clothing/under/overalls(M), M.slot_w_uniform)
-			M.equip_if_possible(new /obj/item/clothing/shoes/white(M), M.slot_shoes)
+			M.equip_if_possible(new /obj/item/clothing/shoes/black(M), M.slot_shoes)
 			M.equip_if_possible(new /obj/item/clothing/gloves/latex(M), M.slot_gloves)
 			M.equip_if_possible(new /obj/item/clothing/mask/surgical(M), M.slot_wear_mask)
 			M.equip_if_possible(new /obj/item/clothing/head/helmet/welding(M), M.slot_head)
-			M.equip_if_possible(new /obj/item/device/radio/headset(M), M.slot_ears)
-			M.equip_if_possible(new /obj/item/clothing/glasses/thermal/monocle(M), M.slot_glasses)
 			M.equip_if_possible(new /obj/item/clothing/suit/apron(M), M.slot_wear_suit)
-			M.equip_if_possible(new /obj/item/weapon/kitchenknife(M), M.slot_l_store)
-			M.equip_if_possible(new /obj/item/weapon/scalpel(M), M.slot_r_store)
 
 			var/obj/item/weapon/fireaxe/fire_axe = new(M)
 			fire_axe.name = "Fire Axe (Unwielded)"
