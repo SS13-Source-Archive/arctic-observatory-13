@@ -121,22 +121,6 @@
 			else
 				src.overlays += image('monitors.dmi', "overlay_green")
 
-/obj/machinery/partyalarm
-	name = "\improper Party Button"
-	desc = "Cuban Pete is in the house!"
-	icon = 'monitors.dmi'
-	icon_state = "fire0"
-	var/detecting = 1.0
-	var/working = 1.0
-	var/time = 10.0
-	var/timing = 0.0
-	var/lockdownbyai = 0
-	anchored = 1.0
-	use_power = 1
-	idle_power_usage = 2
-	active_power_usage = 6
-
-
 /obj/machinery/igniter
 	name = "igniter"
 	desc = "Fun for igniting plasma."
@@ -161,19 +145,6 @@
 	use_power = 1
 	idle_power_usage = 2
 	active_power_usage = 4
-
-/obj/machinery/restruct
-	name = "\improper DNA Physical Restructurization Accelerator"
-	desc = "This looks complex."
-	icon = 'Cryogenic2.dmi'
-	icon_state = "restruct_0"
-	density = 1
-	var/locked = 0.0
-	var/mob/occupant = null
-	anchored = 1.0
-	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 600
 
 /obj/machinery/scan_console
 	name = "\improper DNA Scanner Access Console"
@@ -247,31 +218,6 @@
 	idle_power_usage = 2
 	active_power_usage = 4
 
-/obj/machinery/teleport
-	name = "teleport"
-	icon = 'stationobjs.dmi'
-	density = 1
-	anchored = 1.0
-	var/lockeddown = 0
-
-/obj/machinery/teleport/hub
-	name = "hub"
-	desc = "A hub of a teleporting machine."
-	icon_state = "tele0"
-	var/accurate = 0
-	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 2000
-
-/obj/machinery/teleport/station
-	name = "station"
-	desc = "The station thingy of a teleport thingy."
-	icon_state = "controller"
-	var/active = 0
-	var/engaged = 0
-	use_power = 1
-	idle_power_usage = 10
-	active_power_usage = 2000
 /*
 /obj/machinery/wire
 	name = "wire"
