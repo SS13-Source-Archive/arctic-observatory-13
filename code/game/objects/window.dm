@@ -28,12 +28,11 @@
 				return
 	return
 
-/obj/structure/window/CheckExit(atom/movable/O as mob|obj, target as turf)
-	if(istype(O) && O.checkpass(PASSGLASS))
-		return 1
-	if (get_dir(O.loc, target) == dir)
-		return 0
-	return 1
+/obj/structure/window/CanExit(atom/movable/O as mob|obj, movementDir)
+	return (dir in cardinal) ? !(dir & movementDir) : ..()
+
+/obj/structure/window/CanPass(atom/movable/O, movementDir)
+	return (dir in cardinal) ? (!(dir & movementDir) && !density) : ..()
 
 /obj/structure/window/hitby(AM as mob|obj)
 	..()
@@ -192,6 +191,10 @@
 			icon_state = "twindow"
 	else
 		icon_state = "window"
+
+	if(dir in cardinal) //hack yo
+		density = 0
+
 	return
 
 /obj/structure/window/Del()

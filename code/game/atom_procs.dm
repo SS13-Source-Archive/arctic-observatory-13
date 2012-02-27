@@ -1,26 +1,7 @@
 
 
-atom/proc/CanPass(atom/movable/mover, turf/target, height=1.5, air_group = 0)
-	return (!density || !height)
-
-turf/CanPass(atom/movable/mover, turf/target, height=1.5,air_group=0)
-	if(!target) return 0
-
-	if(istype(mover)) // turf/Enter(...) will perform more advanced checks
-		return !density
-
-	else // Now, doing more detailed checks for air movement and air group formation
-		if(target.blocks_air||blocks_air)
-			return 0
-
-		for(var/obj/obstacle in src)
-			if(!obstacle.CanPass(mover, target, height, air_group))
-				return 0
-		for(var/obj/obstacle in target)
-			if(!obstacle.CanPass(mover, src, height, air_group))
-				return 0
-
-		return 1
+atom/proc/CanPass(atom/movable/mover, movementDir)
+	return (!(borderCover & movementDir) && !density)
 
 /atom/proc/MouseDrop_T()
 	return
@@ -573,7 +554,7 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 						check_1 = 1
 						for(var/obj/border_obstacle in Step_1)
 							if(border_obstacle.flags & ON_BORDER)
-								if(!border_obstacle.CheckExit(D, src))
+								if(!border_obstacle.CanExit(D, src))
 									check_1 = 0
 									// ------- YOU TRIED TO CLICK ON AN ITEM THROUGH A WINDOW (OR SIMILAR THING THAT LIMITS ON BORDERS) ON ONE OF THE DIRECITON TILES -------
 						for(var/obj/border_obstacle in get_turf(src))
@@ -588,7 +569,7 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 
 						for(var/obj/border_obstacle in Step_2)
 							if(border_obstacle.flags & ON_BORDER)
-								if(!border_obstacle.CheckExit(D, src))
+								if(!border_obstacle.CanExit(D, src))
 									check_2 = 0
 						for(var/obj/border_obstacle in get_turf(src))
 							if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
@@ -605,7 +586,7 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 							If you're trying to click an item in the north-east of your mob, the above section of code will first check if tehre's a tile to the north or you and to the east of you
 							These two tiles are Step_1 and Step_2. After this, a new dummy object is created on your location. It then tries to move to Step_1, If it succeeds, objects on the turf you're on and
 							the turf that Step_1 is are checked for items which have the ON_BORDER flag set. These are itmes which limit you on only one tile border. Windows, for the most part.
-							CheckExit() and CanPass() are use to determine this. The dummy object is then moved back to your location and it tries to move to Step_2. Same checks are performed here.
+							CanExit() and CanPass() are use to determine this. The dummy object is then moved back to your location and it tries to move to Step_2. Same checks are performed here.
 							If at least one of the two checks succeeds, it means you can reach the item and ok is set to 1.
 					*/
 			else
@@ -619,7 +600,7 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 					//Now, check objects to block exit that are on the border
 					for(var/obj/border_obstacle in usr.loc)
 						if(border_obstacle.flags & ON_BORDER)
-							if(!border_obstacle.CheckExit(D, src))
+							if(!border_obstacle.CanExit(D, src))
 								ok = 0
 
 					//Next, check objects to block entry that are on the border

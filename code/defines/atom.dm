@@ -10,6 +10,7 @@
 	var/blood_type = null
 	var/last_bumped = 0
 	var/pass_flags = 0
+	var/borderCover = 0 //can be any combination of NORTH, SOUTH, WEST and EAST
 
 	///Chemistry.
 	var/datum/reagents/reagents = null
@@ -37,8 +38,8 @@
 /atom/proc/allow_drop()
 	return 1
 
-/atom/proc/CheckExit()
-	return 1
+/atom/proc/CanExit(atom/movable/mover, movementDir)
+	return !(borderCover & movementDir)
 
 /atom/proc/HasEntered(atom/movable/AM as mob|obj)
 	return

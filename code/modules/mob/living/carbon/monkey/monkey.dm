@@ -39,10 +39,10 @@
 		tally += (283.222 - bodytemperature) / 10 * 1.75
 	return tally
 
-/mob/living/carbon/monkey/Bump(atom/movable/AM as mob|obj, yes)
+/mob/living/carbon/monkey/Bump(atom/movable/AM as mob|obj)
 
 	spawn( 0 )
-		if ((!( yes ) || now_pushing))
+		if (now_pushing)
 			return
 		now_pushing = 1
 		if(ismob(AM))

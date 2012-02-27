@@ -26,10 +26,28 @@
 	return 0
 
 /turf/Enter(atom/movable/mover as mob|obj, atom/forget as mob|obj|turf|area)
-	if (!mover || !isturf(mover.loc))
-		return 1
+	. = ..() //. is the return value
+
+	var/movementDir = get_dir(mover.loc,src)
+
+	if(!mover.loc.CanExit(mover,movementDir))
+		return 0
+
+	if(!CanPass(mover,turn(movementDir,180)))
+		return 0
+
+	for(var/obj/obstacle in mover.loc)
+		if(!obstacle.CanExit(mover,movementDir))
+			return 0
+
+	for(var/obj/obstacle in src)
+		if(!obstacle.CanPass(mover,turn(movementDir,180)))
+			return 0
+
+	return
 
 
+/*
 	//First, check objects to block exit that are not on the border
 	for(var/obj/obstacle in mover.loc)
 		if((obstacle.flags & ~ON_BORDER) && (mover != obstacle) && (forget != obstacle))
@@ -64,8 +82,7 @@
 				return 0
 
 	return 1 //Nothing found to block so return success!
-
-
+*/
 /turf/Entered(atom/movable/M as mob|obj)
 	var/loopsanity = 10
 	if(ismob(M))

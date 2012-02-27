@@ -151,9 +151,9 @@
 /atom/proc/Bumped(AM as mob|obj)
 	return
 
-/atom/movable/Bump(var/atom/A as mob|obj|turf|area, yes)
+/atom/movable/Bump(var/atom/A as mob|obj|turf|area)
 	spawn( 0 )
-		if ((A && yes))
+		if (A)
 			A.last_bumped = world.time
 			A.Bumped(src)
 		return

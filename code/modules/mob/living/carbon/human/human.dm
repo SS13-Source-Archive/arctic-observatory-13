@@ -113,8 +113,8 @@
 
 //	organStructure = new /obj/effect/organstructure/human(src)
 
-/mob/living/carbon/human/Bump(atom/movable/AM as mob|obj, yes)
-	if ((!( yes ) || now_pushing))
+/mob/living/carbon/human/Bump(atom/movable/AM as mob|obj)
+	if (now_pushing)
 		return
 	now_pushing = 1
 	if (ismob(AM))

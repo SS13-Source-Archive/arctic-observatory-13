@@ -336,10 +336,10 @@
 	name = "Corgi meat"
 	desc = "Tastes like... well you know..."
 
-/mob/living/simple_animal/corgi/Ian/Bump(atom/movable/AM as mob|obj, yes)
+/mob/living/simple_animal/corgi/Ian/Bump(atom/movable/AM as mob|obj)
 
 	spawn( 0 )
-		if ((!( yes ) || now_pushing))
+		if (now_pushing)
 			return
 		now_pushing = 1
 		if(ismob(AM))
