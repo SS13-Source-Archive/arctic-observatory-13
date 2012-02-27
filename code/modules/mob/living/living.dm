@@ -1,3 +1,6 @@
+/mob/living
+	var/deathedge_process = 0 //Mob is in the deathedge animation
+
 /mob/living/verb/succumb()
 	set hidden = 1
 	if ((src.health < 0 && src.health > -95.0))

@@ -225,8 +225,20 @@ var/const
 	GAS_CO2 = 1 << 3
 	GAS_N2O = 1 << 4
 
+#define ZLEVEL_OBSERVATORY 1
+#define ZLEVEL_MINE 2
+#define ZLEVEL_IGLOO 3
+#define ZLEVEL_LAKE 4
+#define ZLEVEL_LEFT 5
+#define ZLEVEL_TROLL 6
+#define ZLEVEL_LEFTBOTTOM 7
+#define ZLEVEL_POWER 8
+#define ZLEVEL_RIGHTBOTTOM 9
 
-var/list/accessable_z_levels = list("3" = 30, "4" = 70)
+#define TRANSITIONEDGE 7 //Distance from edge to move to another z-level
+
+
+//var/list/accessable_z_levels = list("3" = 30, "4" = 70)
 //This list contains the z-level numbers which can be accessed via space travel and the percentile chances to get there.
 //(Exceptions: extended, sandbox and nuke) -Errorage
 //Was list("1" = 10, "3" = 15, "4" = 60, "5" = 15); changed it to list("3" = 30, "4" = 70).

@@ -1180,62 +1180,6 @@ turf/simulated/floor/return_siding_icon_state()
 			user << "\red The plating is going to need some support."
 	return
 
-
-// Ported from unstable r355
-
-/turf/space/Entered(atom/movable/A as mob|obj)
-	..()
-	if ((!(A) || src != A.loc || istype(null, /obj/effect/beam)))	return
-
-	inertial_drift(A)
-
-	if(ticker && ticker.mode)
-
-		// Okay, so let's make it so that people can travel z levels but not nuke disks!
-		// if(ticker.mode.name == "nuclear emergency")	return
-
-
-		if(istype(A, /obj/item/weapon/disk/nuclear)) // Don't let nuke disks travel Z levels
-			return
-
-		if(!isemptylist(A.search_contents_for(/obj/item/weapon/disk/nuclear)))
-			if(istype(A, /mob/living))
-				var/mob/living/MM = A
-				if(MM.client)
-					MM << "\red Something you are carrying is preventing you from leaving. Don't play stupid; you know exactly what it is."
-			return
-
-		else
-			if (src.x <= 2 || A.x >= (world.maxx - 1) || src.y <= 2 || A.y >= (world.maxy - 1))
-
-				var/move_to_z_str = pickweight(accessable_z_levels)
-
-				var/move_to_z = text2num(move_to_z_str)
-
-				if(!move_to_z)
-					return
-
-				A.z = move_to_z
-
-				if(src.x <= 2)
-					A.x = world.maxx - 2
-
-				else if (A.x >= (world.maxx - 1))
-					A.x = 3
-
-				else if (src.y <= 2)
-					A.y = world.maxy - 2
-
-				else if (A.y >= (world.maxy - 1))
-					A.y = 3
-
-				spawn (0)
-					if ((A && A.loc))
-						A.loc.Entered(A)
-
-//				if(istype(A, /obj/structure/closet/coffin))
-//					coffinhandler.Add(A)
-
 /obj/effect/vaultspawner
 	var/maxX = 6
 	var/maxY = 6

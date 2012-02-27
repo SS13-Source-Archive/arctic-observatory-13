@@ -68,15 +68,126 @@
 /turf/simulated/snow/New()
 	icon_state = "snow[rand(0,3)]"
 
-/turf/simulated/snow/Entered(atom/movable/M as mob|obj)
+/turf/simulated/snow/Entered(atom/movable/A as mob|obj)
 	..()
-	if(istype(M, /mob/living/carbon/human))
-		var/mob/living/carbon/human/printhuman = M
-		if(printhuman.lying)
-			return
-		spawn(2)
-			var/obj/effect/footprint/human/newprints = new /obj/effect/footprint/human (src)
-			newprints.dir = M.dir
+	if ((!(A) || src != A.loc || istype(null, /obj/effect/beam)))	return
+
+	if(ticker && ticker.mode)
+
+		// Okay, so let's make it so that people can travel z levels but not nuke disks!
+		// if(ticker.mode.name == "nuclear emergency")	return
+
+		if(istype(A, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = A
+			if(!H.lying)
+				spawn(2)
+					var/obj/effect/footprint/human/newprints = new /obj/effect/footprint/human (src)
+					newprints.dir = H.dir
+		if (src.x <= TRANSITIONEDGE || src.x >= (world.maxx - TRANSITIONEDGE) || src.y <= TRANSITIONEDGE || src.y >= (world.maxy - TRANSITIONEDGE))
+
+			var/edge = ""
+			if( src.x <= TRANSITIONEDGE )
+				edge = "west"
+			if( src.x >= (world.maxx - TRANSITIONEDGE) )
+				edge = "east"
+			if( src.y <= TRANSITIONEDGE )
+				edge = "south"
+			if( src.y >= (world.maxy - TRANSITIONEDGE) )
+				edge = "north"
+
+			var/deathedge = 0
+
+			switch(src.z)
+				if(ZLEVEL_OBSERVATORY)
+					switch(edge)
+						if("north") A.z = ZLEVEL_IGLOO
+						if("south") A.z = ZLEVEL_POWER
+						if("east") A.z = ZLEVEL_TROLL
+						if("west") A.z = ZLEVEL_LEFT
+				if(ZLEVEL_MINE)
+					switch(edge)
+						if("north") deathedge = 1
+						if("south") A.z = ZLEVEL_LEFT
+						if("east") A.z = ZLEVEL_IGLOO
+						if("west") deathedge = 1
+				if(ZLEVEL_IGLOO)
+					switch(edge)
+						if("north") deathedge = 1
+						if("south") A.z = ZLEVEL_OBSERVATORY
+						if("east") A.z = ZLEVEL_LAKE
+						if("west") A.z = ZLEVEL_MINE
+				if(ZLEVEL_LAKE)
+					switch(edge)
+						if("north") deathedge = 1
+						if("south") A.z = ZLEVEL_TROLL
+						if("east") deathedge = 1
+						if("west") A.z = ZLEVEL_IGLOO
+				if(ZLEVEL_LEFT)
+					switch(edge)
+						if("north") A.z = ZLEVEL_MINE
+						if("south") A.z = ZLEVEL_LEFTBOTTOM
+						if("east") A.z = ZLEVEL_OBSERVATORY
+						if("west") deathedge = 1
+				if(ZLEVEL_TROLL)
+					switch(edge)
+						if("north") A.z = ZLEVEL_LAKE
+						if("south") A.z = ZLEVEL_RIGHTBOTTOM
+						if("east") deathedge = 1
+						if("west") A.z = ZLEVEL_OBSERVATORY
+				if(ZLEVEL_LEFTBOTTOM)
+					switch(edge)
+						if("north") A.z = ZLEVEL_LEFT
+						if("south") deathedge = 1
+						if("east") A.z = ZLEVEL_POWER
+						if("west") deathedge = 1
+				if(ZLEVEL_POWER)
+					switch(edge)
+						if("north") A.z = ZLEVEL_OBSERVATORY
+						if("south") deathedge = 1
+						if("east") A.z = ZLEVEL_RIGHTBOTTOM
+						if("west") A.z = ZLEVEL_LEFTBOTTOM
+				if(ZLEVEL_POWER)
+					switch(edge)
+						if("north") A.z = ZLEVEL_TROLL
+						if("south") deathedge = 1
+						if("east") deathedge = 1
+						if("west") A.z = ZLEVEL_POWER
+
+			if(deathedge)
+				if(isliving(A))
+					var/mob/living/L = A
+					if(L.deathedge_process) return //Animation already started. Prevents additioanl movement from calling it again.
+					if(L.client)
+						L << "\red <b>You got lost in the snow</b>"
+						var/mob/dead/observer/O = new(L.loc)
+						O.client = L.client
+					L.deathedge_process = 1 //The animation is within the edge so additional Entered() calls would double the animation. This prevents this.
+					var/walkdir = 0
+					switch(edge)
+						if("north") walkdir = NORTH
+						if("south") walkdir = SOUTH
+						if("east") walkdir = EAST
+						if("west") walkdir = WEST
+					for(var/i = 1; i < TRANSITIONEDGE+1; i++)
+						if(!L) return
+						step(L,walkdir)
+						sleep(10)
+					if(L)
+						L.death()
+				else
+					del(A)
+				return
+
+			switch(edge)
+				if("north") A.y = TRANSITIONEDGE + 1
+				if("south") A.y = world.maxy - TRANSITIONEDGE -1
+				if("east") A.x = TRANSITIONEDGE +1
+				if("west") A.x = world.maxx - TRANSITIONEDGE -1
+
+			spawn (0)
+				if ((A && A.loc))
+					A.loc.Entered(A)
+
 
 
 /turf/simulated/wall/r_wall
