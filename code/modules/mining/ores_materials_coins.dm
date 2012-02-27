@@ -204,6 +204,22 @@
 	pixel_x = rand(0,4)-4
 	pixel_y = rand(0,4)-4
 
+/obj/item/stack/sheet/snow
+	name = "snow"
+	icon_state = "sheet-snow"
+	force = 0
+	throwforce = 0
+	w_class = 3.0
+	throw_speed = 3
+	throw_range = 7
+	origin_tech = "materials=0"
+	perunit = 2000
+
+/obj/item/stack/sheet/snow/New(loc,amount)
+	..()
+	pixel_x = rand(0,4)-4
+	pixel_y = rand(0,4)-4
+
 /obj/item/stack/sheet/diamond
 	name = "diamond"
 	icon_state = "sheet-diamond"

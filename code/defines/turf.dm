@@ -68,6 +68,29 @@
 /turf/simulated/snow/New()
 	icon_state = "snow[rand(0,3)]"
 
+
+/turf/simulated/snow/attackby(obj/item/weapon/W as obj, mob/user as mob)
+
+	if (istype(W, /obj/item/weapon/shovel))
+		if(!user.IsAdvancedToolUser())
+			user << "\red you don't know how to use this [W.name]"
+			return
+		var/footprints = 0
+		usr << "\blue you start shoveling"
+		if(do_after(user,20))
+			for(var/obj/effect/footprint/footprint in src)
+				del(footprint)
+				footprints = 1
+			if(isturf(user.loc))
+				for(var/obj/effect/footprint/footprint in user.loc)
+					del(footprint)
+					footprints = 1
+			if(footprints)
+				usr << "\blue You cover up the footprints"
+			else //There were no footprints to clear. Means the person is trying to collect snow
+				new/obj/item/stack/sheet/snow(src)
+				usr << "\blue You dig up some snow"
+
 /turf/simulated/snow/Entered(atom/movable/A as mob|obj)
 	..()
 	if ((!(A) || src != A.loc || istype(null, /obj/effect/beam)))	return

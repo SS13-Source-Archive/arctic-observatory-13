@@ -112,12 +112,20 @@ var/global/list/datum/stack_recipe/plasteel_recipes = list ( \
 /obj/item/stack/tile/plasteel/attack_self(mob/user as mob)
 	if (usr.stat)
 		return
-	var/T = user.loc
-	if (!( istype(T, /turf) ))
+	var/turf/T = user.loc
+	if (!( isturf(T) ))
 		user << "\red You must be on the ground!"
 		return
-	if (!( istype(T, /turf/space) ))
-		user << "\red You cannot build on or repair this turf!"
+	if(istype(T, /turf/simulated/floor))
+		var/turf/simulated/floor/F = T
+		if(F.floor_tile)
+			user << "\red This tile already has a [F.floor_tile] on it."
+			return
+		else
+			F.attackby(src,user)
+			return
+	if(T.density)
+		user << "\red You cannot build on a dense tile."
 		return
 	src.build(T)
 	src.add_fingerprint(user)
