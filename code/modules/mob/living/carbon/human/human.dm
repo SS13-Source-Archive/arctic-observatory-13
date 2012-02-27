@@ -198,8 +198,8 @@
 
 	if(mutations & FAT)
 		tally += 1.5
-	if (bodytemperature < 283.222)
-		tally += (283.222 - bodytemperature) / 10 * 1.75
+	if (bodytemperature < WARM)
+		tally += (3 - bodytemperature)
 
 	return tally
 
