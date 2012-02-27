@@ -41,8 +41,8 @@
 
 	var/midis = 1 //Check if midis should be played for someone
 	var/bubbles = 1 //Check if bubbles should be displayed for someone
-	var/be_alien = 0 //Check if that guy wants to be an alien
-	var/be_pai = 1 //Consider client when searching for players to recruit as a pAI
+	//var/be_alien = 0 //Check if that guy wants to be an alien
+	//var/be_pai = 1 //Consider client when searching for players to recruit as a pAI
 
 
 	var/vote = null

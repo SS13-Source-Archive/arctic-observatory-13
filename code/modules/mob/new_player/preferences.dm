@@ -9,7 +9,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	"wizard" = IS_MODE_COMPILED("wizard"),
 	"malf AI" = IS_MODE_COMPILED("malfunction"),
 	"revolutionary" = IS_MODE_COMPILED("revolution"),
-	"alien candidate" = 1, //always show
+//	"alien candidate" = 1, //always show
 //	"pai candidate" = 1, // -- TLE
 	"cultist" = IS_MODE_COMPILED("cult"),
 	"infested monkey" = IS_MODE_COMPILED("monkey"),
@@ -35,7 +35,7 @@ var/const
 	BE_WIZARD    =(1<<3)
 	BE_MALF      =(1<<4)
 	BE_REV       =(1<<5)
-	BE_ALIEN     =(1<<6)
+//	BE_ALIEN     =(1<<6)
 	BE_CULTIST   =(1<<7)
 	BE_MONKEY    =(1<<8)
 //	BE_PAI       =(1<<9)
@@ -648,7 +648,7 @@ datum/preferences
 		if(C)
 			C.midis = src.midis
 			C.ooccolor = src.ooccolor
-			C.be_alien = be_special & BE_ALIEN
+//			C.be_alien = be_special & BE_ALIEN
 //			C.be_pai = be_special & BE_PAI
 			if(isnull(src.ghost_ears)) src.ghost_ears = 1 //There were problems where the default was null before someone saved their profile.
 			C.ghost_ears = src.ghost_ears

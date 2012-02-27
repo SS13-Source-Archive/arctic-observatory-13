@@ -223,7 +223,7 @@ var/list/karma_spenders = list()
 		isnegative = 1
 	sql_report_karma(src, M, isnegative)
 
-/mob/dead/observer/verb/toggle_alien_candidate()
+/*mob/dead/observer/verb/toggle_alien_candidate()
 	set name = "Toggle Be Alien Candidate"
 	set category = "Ghost"
 	set desc = "Determines whether you will or will not be an alien candidate when someone bursts."
@@ -243,7 +243,7 @@ var/list/karma_spenders = list()
 		src << "You will no longer receive pAI recruitment pop-ups this round."
 	else
 		client.be_pai = 1
-		src << "You will now be considered a viable candidate when a pAI device requests a new personality, effective until the end of this round."
+		src << "You will now be considered a viable candidate when a pAI device requests a new personality, effective until the end of this round."*/
 
 /mob/dead/observer/memory()
 	set hidden = 1
