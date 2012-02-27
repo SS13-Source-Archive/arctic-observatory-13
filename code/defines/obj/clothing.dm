@@ -19,7 +19,8 @@
 
 	var/armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 
-
+	var/temperatureModifier = 0 //a human's temperature is modified by the lowest temperatureModifier of the gloves, suit (uniform if there's no suit), boots and hat he's wearing. missing items count as 0
+	var/list/workingTemperatures = list() //at what temps will the piece of clothing provide any protection
 
 
 

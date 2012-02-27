@@ -58,6 +58,7 @@
 	//Status updates, death etc.
 	UpdateLuminosity()
 	handle_regular_status_updates()
+	UpdateTemperature()
 
 	// Update clothing
 	update_clothing()
@@ -488,20 +489,7 @@
 			//NOTE: the alerts dont reset when youre out of danger. dont blame me,
 			//blame the person who coded them. Temporary fix added.
 
-			var/area/A = get_area(src)
-
-			switch(A.GetTemp())
-
-				if(4 to INFINITY)
-					bodytemp.icon_state = "temp-4"
-				if(3)
-					bodytemp.icon_state = "temp-3"
-				if(2)
-					bodytemp.icon_state = "temp-2"
-				if(1)
-					bodytemp.icon_state = "temp-1"
-				else
-					bodytemp.icon_state = "temp-0"
+			bodytemp.icon_state = "temp[bodytemperature]"
 
 			if(!client)	return 0 //Wish we did not need these
 			client.screen -= hud_used.blurry

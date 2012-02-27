@@ -151,3 +151,12 @@
 	icon_state = "jackboots"
 	item_state = "jackboots"
 	color = "hosred"
+
+/obj/item/clothing/shoes/winter
+	name = "Winter Boots"
+	desc = "A pair of boots designed to protect against cold. Useless without the full outfit, however."
+	icon_state = "winterboots"
+	item_state = "winterboots"
+
+	temperatureModifier = 1
+	workingTemperatures = list(X_COLD,COLD)

@@ -2093,3 +2093,28 @@ It can still be worn/put on as normal.
 	if(mutations & HULK)
 		return
 	..()
+
+/mob/living/carbon/human/UpdateTemperature()
+	var/turf/currentTurf = get_turf(src)
+	var/area/currentArea = currentTurf.loc
+	var/temperature = currentArea.GetTemp()
+
+	var/obj/item/clothing/wear_suit = src.wear_suit
+	var/obj/item/clothing/head = src.head
+	var/obj/item/clothing/gloves = src.gloves
+	var/obj/item/clothing/shoes= src.shoes
+
+	var/suitTemp = wear_suit ? wear_suit.temperatureModifier : 0
+	var/headTemp = head ? head.temperatureModifier : 0
+	var/glovesTemp = gloves ? gloves.temperatureModifier : 0
+	var/shoesTemp = shoes ? shoes.temperatureModifier : 0
+
+	var/list/workingTemp = list()
+	if(wear_suit && head && gloves && shoes) workingTemp = wear_suit.workingTemperatures & head.workingTemperatures & gloves.workingTemperatures & shoes.workingTemperatures
+
+	if(temperature in workingTemp)
+		temperature += min(suitTemp, headTemp, glovesTemp, shoesTemp)
+
+	bodytemperature = temperature
+
+	return

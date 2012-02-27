@@ -75,6 +75,15 @@
 	icon_state = "beret"
 	flags = FPRINT | TABLEPASS
 
+/obj/item/clothing/head/winter
+	name = "winter hood"
+	desc = "A hood designed to protect against cold. Useless without the full outfit, however."
+	icon_state = "winterhood"
+	item_state = "winterhood"
+	flags = FPRINT | TABLEPASS
+
+	temperatureModifier = 1
+	workingTemperatures = list(X_COLD,COLD)
 
 // CHUMP HELMETS: COOKING THEM DESTROYS THE CHUMP HELMET SPAWN.
 

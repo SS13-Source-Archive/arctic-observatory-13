@@ -1,16 +1,4 @@
-#define ZERO_K 0
-#define X_COLD 1
-#define COLD 2
-#define WARM 3
-#define HOT 4
 
-/*
-ZERO_K - kills you dead almost instantly; used in abnormal circumstances, such as SCIENCE CRYSTAL effects and specific events maybe
-X_COLD - kills you dead pretty fast; outside world is of that temperature at night, barring specific circumstances
-COLD   - kills you dead slowly; outside world is of that temperature at day, barring specific circumstances
-WARM   - default interior temperature, thanks to integrity, heating, and stuff
-HOT    - kills you dead pretty fast; can be achieved by using too much heating or something
-*/
 
 area
 	var/temperature = ZERO_K

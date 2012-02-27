@@ -212,3 +212,12 @@
 
 	cargo
 		color = "cargo"				//Exists for washing machines. Is not different from brown gloves in any way.
+
+/obj/item/clothing/gloves/winter
+	name = "Winter Mittens"
+	desc = "A pair of mittens designed to protect against cold. Useless without the full outfit, however."
+	icon_state = "winter"
+	item_state = "wintermittens"
+
+	temperatureModifier = 1
+	workingTemperatures = list(X_COLD,COLD)

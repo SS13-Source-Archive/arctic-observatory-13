@@ -140,6 +140,16 @@
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	flags_inv = HIDEJUMPSUIT
 
+/obj/item/clothing/suit/winter
+	name = "winter coat"
+	desc = "A coat designed to protect against cold. Useless without the full outfit, however."
+	icon_state = "wintercoat"
+	item_state = "wintercoat"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+	flags_inv = HIDEJUMPSUIT
+
+	temperatureModifier = 1
+	workingTemperatures = list(X_COLD,COLD)
 
 // BubbleWrap - Nothing to see here
 

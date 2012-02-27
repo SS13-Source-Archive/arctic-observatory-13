@@ -93,3 +93,9 @@
 	desc = "A set of implantable lenses designed to augment your vision"
 	icon_state = "thermalimplants"
 	item_state = "syringe_kit"
+
+/obj/item/clothing/glasses/googles
+	name = "Winter Googles"
+	desc = "Googles designed to protect against wind and cold."
+	icon_state = "wintergoogles"
+	item_state = "wintergoogles"

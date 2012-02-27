@@ -1061,3 +1061,6 @@ note dizziness decrements automatically in the mob's Life() proc.
 			src << browse_rsc(file)
 		return 1
 	return 0
+
+/mob/proc/UpdateTemperature()
+	return
