@@ -397,56 +397,54 @@ proc/process_ghost_teleport_locs()
 	name = "Outside"
 	sd_outside = 1
 
-/area/observatory/translator
-	name = "Translator's office"
-	icon_state = "translator" //Stand in sprite
 
-/area/observatory/bridge/logoffice
-	name = "Log office"
-	icon_state = "bridge" //Stand in sprite
-	music = null
+/area/observatory/crew_quarters
+	name = "Crew quarters"
+	icon_state = "crew_quarters"
+
+/area/observatory/crew_quarters/logkeeper
+	name = "Log keeper"
+	icon_state = "courtroom"
 
 /area/observatory/crew_quarters/leader
 	name = "Expedition leader"
 	icon_state = "captain"
 
-/area/observatory/crew_quarters/kitchen
-	name = "Kitchen"
-	icon_state = "kitchen"
 
-/area/observatory/engine/mechanics_workshop
-	name = "Mechanic's workshop"
+/area/observatory/cafeteria
+	name = "Cafeteria"
+	icon_state = "cafeteria"
+
+
+/area/observatory/engine
+	name = "Engine"
 	icon_state = "engine"
 
-/area/observatory/storage/material
-	name = "Material Storage"
+
+/area/observatory/storage
+	name = "Storage"
 	icon_state = "storage"
 
-/area/observatory/storage/logrd
-	name = "Log/research storage"
-	icon_state = "storage"
 
-/area/observatory/hallway/east
-	name = "East Hallway"
+/area/observatory/tunnel
+	name = "tunnel"
+
+/area/observatory/tunnel/first
 	icon_state = "hallA"
 
-/area/observatory/hallway/west
-	name = "West Hallway"
+/area/observatory/tunnel/second
 	icon_state = "hallF"
 
-/area/observatory/hallway/center
-	name = "West Hallway"
+/area/observatory/tunnel/third
 	icon_state = "hallS"
+
 
 /area/observatory/research
 	name = "Research"
 	icon_state = "toxlab"
 
+
 /area/observatory/medical
 	name = "Medical"
 	icon_state = "medical"
-
-/area/observatory/security
-	name = "Security"
-	icon_state = "security"
 
