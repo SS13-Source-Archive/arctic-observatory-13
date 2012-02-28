@@ -608,5 +608,5 @@
 #include "code\temperature\temperature.dm"
 #include "code\WorkInProgress\explosion_particles.dm"
 #include "interface\skin.dmf"
-#include "maps\arctic_tunnels_WIP.dmm"
+#include "maps\arctic.dmm"
 // END_INCLUDE
