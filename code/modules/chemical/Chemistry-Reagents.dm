@@ -79,7 +79,7 @@ datum
 			on_update(var/atom/A)
 				return
 
-		metroid
+		/*metroid
 			name = "Metroid Jam"
 			id = "metroid"
 			description = "A green semi-liquid produced from one of the deadliest lifeforms in existence."
@@ -92,7 +92,7 @@ datum
 				else if(prob(40))
 					M:heal_organ_damage(5,0)
 				..()
-				return
+				return*/
 
 
 		blood
@@ -224,7 +224,7 @@ datum
 						cube.Expand()
 				return
 
-		lube
+		/*lube
 			name = "Space Lube"
 			id = "lube"
 			description = "Lubricant is a substance introduced between two moving surfaces to reduce the friction and wear between them. giggity."
@@ -242,7 +242,7 @@ datum
 					if(T.wet_overlay)
 						T.overlays -= T.wet_overlay
 						T.wet_overlay = null
-					return
+					return*/
 
 		anti_toxin
 			name = "Anti-Toxin (Dylovene)"
@@ -387,7 +387,7 @@ datum
 				holder.remove_reagent(src.id, 0.2)
 				return
 
-		space_drugs
+		/*space_drugs
 			name = "Space drugs"
 			id = "space_drugs"
 			description = "An illegal chemical compound used as drug."
@@ -415,7 +415,7 @@ datum
 				if(ishuman(M))
 					if(prob(7)) M:emote(pick("twitch","drool","moan","gasp"))
 					holder.remove_reagent(src.id, 0.1)
-				return
+				return*/
 
 /*		silicate
 			name = "Silicate"
@@ -641,7 +641,7 @@ datum
 						M << "\red \the [O] melts."
 					del(O)
 
-		pacid
+		/*pacid
 			name = "Polytrinic acid"
 			id = "pacid"
 			description = "Polytrinic acid is a an extremely corrosive chemical substance."
@@ -701,7 +701,7 @@ datum
 					I.desc = "Looks like this was \an [O] some time ago."
 					for(var/mob/M in viewers(5, O))
 						M << "\red \the [O] melts."
-					del(O)
+					del(O)*/
 
 		glycerol
 			name = "Glycerol"
@@ -769,7 +769,7 @@ datum
 
 
 
-		mutagen
+		/*mutagen
 			name = "Unstable mutagen"
 			id = "mutagen"
 			description = "Might cause unpredictable mutations. Keep away from children."
@@ -792,7 +792,7 @@ datum
 				if(!M) M = holder.my_atom
 				M.radiation += 3
 				..()
-				return
+				return*/
 
 		virus_food
 			name = "Virus Food"
@@ -911,7 +911,7 @@ datum
 				return
 
 		space_cleaner
-			name = "Space cleaner"
+			name = "Cleaner"
 			id = "cleaner"
 			description = "A compound used to clean things. Now with 50% more sodium hypochlorite!"
 			reagent_state = LIQUID
@@ -984,7 +984,7 @@ datum
 							//M.make_dizzy(1) doesn't seem to do anything
 
 
-		plasma
+		/*plasma
 			name = "Plasma"
 			id = "plasma"
 			description = "Plasma in its liquid form."
@@ -997,7 +997,7 @@ datum
 					holder.remove_reagent("inaprovaline", 2)
 				M:adjustToxLoss(1)
 				..()
-				return
+				return*/
 
 		leporazine
 			name = "Leporazine"
@@ -1079,7 +1079,7 @@ datum
 				..()
 				return
 
-		dexalin
+		/*dexalin
 			name = "Dexalin"
 			id = "dexalin"
 			description = "Dexalin is used in the treatment of oxygen deprivation."
@@ -1111,7 +1111,7 @@ datum
 				if(holder.has_reagent("lexorin"))
 					holder.remove_reagent("lexorin", 2)
 				..()
-				return
+				return*/
 
 		tricordrazine
 			name = "Tricordrazine"
@@ -1124,7 +1124,7 @@ datum
 				if(M.stat == 2.0)
 					return
 				if(!M) M = holder.my_atom
-				if(M:getOxyLoss() && prob(40)) M:adjustOxyLoss(-1)
+				//if(M:getOxyLoss() && prob(40)) M:adjustOxyLoss(-1)
 				if(M:getBruteLoss() && prob(40)) M:heal_organ_damage(1,0)
 				if(M:getFireLoss() && prob(40)) M:heal_organ_damage(0,1)
 				if(M:getToxLoss() && prob(40)) M:adjustToxLoss(-1)
@@ -1362,7 +1362,7 @@ datum
 				..()
 				return
 
-		carpotoxin
+		/*carpotoxin
 			name = "Carpotoxin"
 			id = "carpotoxin"
 			description = "A deadly neurotoxin produced by the dreaded spess carp."
@@ -1388,7 +1388,7 @@ datum
 				M.Weaken(10)
 				M.silent = max(M:silent, 10)
 				..()
-				return
+				return*/
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1573,7 +1573,7 @@ datum
 
 			on_mob_life(var/mob/living/M as mob)
 				if(!M) M = holder.my_atom
-				M:bodytemperature += 5
+				//M:bodytemperature += 5
 
 				..()
 				return
@@ -1644,7 +1644,7 @@ datum
 
 			on_mob_life(var/mob/living/M as mob)
 				if(!M) M = holder.my_atom
-				M:bodytemperature -= 5
+				//M:bodytemperature -= 5
 				if(prob(40))
 					M.take_organ_damage(0, 1)
 				..()
@@ -1686,13 +1686,13 @@ datum
 			color = "#403010" // rgb: 64, 48, 16
 
 			on_mob_life(var/mob/living/M as mob)
-				if (M.bodytemperature < 310)//310 is the normal bodytemp. 310.055
-					M.bodytemperature = min(310, M.bodytemperature+5)
+				//if (M.bodytemperature < 310)//310 is the normal bodytemp. 310.055
+				//	M.bodytemperature = min(310, M.bodytemperature+5)
 				M:nutrition += nutriment_factor
 				..()
 				return
 
-		amatoxin
+		/*amatoxin
 			name = "Amatoxin"
 			id = "amatoxin"
 			description = "A powerful poison derived from certain species of mushroom."
@@ -1734,7 +1734,7 @@ datum
 				holder.remove_reagent(src.id, 0.2)
 				data++
 				..()
-				return
+				return*/
 
 		sprinkles
 			name = "Sprinkles"
@@ -1833,8 +1833,8 @@ datum
 
 			on_mob_life(var/mob/living/M as mob)
 				M:nutrition += nutriment_factor
-				if (M.bodytemperature < 310)//310 is the normal bodytemp. 310.055
-					M.bodytemperature = min(310, M.bodytemperature+10)
+				//if (M.bodytemperature < 310)//310 is the normal bodytemp. 310.055
+				//	M.bodytemperature = min(310, M.bodytemperature+10)
 				..()
 				return
 
@@ -1848,7 +1848,7 @@ datum
 
 			on_mob_life(var/mob/living/M as mob)
 				M:nutrition += nutriment_factor
-				M:bodytemperature += 10
+				//M:bodytemperature += 10
 				..()
 				return
 
@@ -1868,7 +1868,7 @@ datum
 			on_mob_life(var/mob/living/M as mob)
 				M:nutrition += nutriment_factor
 				if(!M) M = holder.my_atom
-				if(M:getOxyLoss() && prob(30)) M:adjustOxyLoss(-1)
+				//if(M:getOxyLoss() && prob(30)) M:adjustOxyLoss(-1)
 				M:nutrition++
 				..()
 				return
@@ -2109,8 +2109,8 @@ datum
 				M:sleeping = 0
 				if(M:getToxLoss() && prob(20))
 					M:adjustToxLoss(-1)
-				if (M.bodytemperature < 310)  //310 is the normal bodytemp. 310.055
-					M.bodytemperature = min(310, M.bodytemperature+5)
+				//if (M.bodytemperature < 310)  //310 is the normal bodytemp. 310.055
+				//	M.bodytemperature = min(310, M.bodytemperature+5)
 				..()
 				return
 
@@ -2126,8 +2126,8 @@ datum
 				M.dizziness = max(0,M.dizziness-5)
 				M:drowsyness = max(0,M:drowsyness-3)
 				M:sleeping = 0
-				if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
-					M.bodytemperature = min(310, M.bodytemperature-5)
+				//if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
+				//	M.bodytemperature = min(310, M.bodytemperature-5)
 				M.make_jittery(5)
 				..()
 				return
@@ -2146,8 +2146,8 @@ datum
 				M:sleeping = 0
 				if(M:getToxLoss() && prob(20))
 					M:adjustToxLoss(-1)
-				if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
-					M.bodytemperature = min(310, M.bodytemperature-5)
+				//if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
+				//	M.bodytemperature = min(310, M.bodytemperature-5)
 				return
 
 		space_cola
@@ -2159,8 +2159,8 @@ datum
 
 			on_mob_life(var/mob/living/M as mob)
 				M:drowsyness = max(0,M:drowsyness-5)
-				if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
-					M.bodytemperature = max(310, M.bodytemperature-5)
+				//if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
+				//	M.bodytemperature = max(310, M.bodytemperature-5)
 				M:nutrition += 1
 				..()
 				return
@@ -2178,8 +2178,8 @@ datum
 				M.dizziness +=5
 				M:drowsyness = 0
 				M:sleeping = 0
-				if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
-					M.bodytemperature = max(310, M.bodytemperature-5)
+				//if (M.bodytemperature > 310)//310 is the normal bodytemp. 310.055
+				//	M.bodytemperature = max(310, M.bodytemperature-5)
 				M:nutrition += 1
 				..()
 				return
@@ -2194,8 +2194,8 @@ datum
 			on_mob_life(var/mob/living/M as mob)
 				M:drowsyness = max(0,M:drowsyness-7)
 				M:sleeping = 0
-				if (M.bodytemperature > 310)
-					M.bodytemperature = max(310, M.bodytemperature-5)
+				//if (M.bodytemperature > 310)
+				//	M.bodytemperature = max(310, M.bodytemperature-5)
 				M.make_jittery(5)
 				M:nutrition += 1
 				..()
@@ -2235,8 +2235,8 @@ datum
 
 			on_mob_life(var/mob/living/M as mob)
 				M:drowsyness = max(0,M:drowsyness-6)
-				if (M.bodytemperature > 310)
-					M.bodytemperature = max(310, M.bodytemperature-5) //310 is the normal bodytemp. 310.055
+				//if (M.bodytemperature > 310)
+				//	M.bodytemperature = max(310, M.bodytemperature-5) //310 is the normal bodytemp. 310.055
 				M:nutrition += 1
 				..()
 				return
@@ -2249,8 +2249,8 @@ datum
 			color = "#202800" // rgb: 32, 40, 0
 
 			on_mob_life(var/mob/living/M as mob)
-				if (M.bodytemperature > 310)
-					M.bodytemperature = max(310, M.bodytemperature-8) //310 is the normal bodytemp. 310.055
+				//if (M.bodytemperature > 310)
+				//	M.bodytemperature = max(310, M.bodytemperature-8) //310 is the normal bodytemp. 310.055
 				M:nutrition += 1
 				..()
 				return
@@ -2263,8 +2263,8 @@ datum
 			color = "#878F00" // rgb: 135, 40, 0
 
 			on_mob_life(var/mob/living/M as mob)
-				if (M.bodytemperature > 310)
-					M.bodytemperature = max(310, M.bodytemperature-8) //310 is the normal bodytemp. 310.055
+				//if (M.bodytemperature > 310)
+				//	M.bodytemperature = max(310, M.bodytemperature-8) //310 is the normal bodytemp. 310.055
 				M:nutrition += 1
 				..()
 				return
@@ -2633,7 +2633,7 @@ datum
 				return
 
 		threemileisland
-			name = "THree Mile Island Iced Tea"
+			name = "Three Mile Island Iced Tea"
 			id = "threemileisland"
 			description = "Made for a woman, strong enough for a man."
 			reagent_state = LIQUID

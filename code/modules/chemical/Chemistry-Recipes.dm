@@ -70,12 +70,12 @@ datum
 			required_reagents = list("silicon" = 1, "potassium" = 1, "nitrogen" = 1)
 			result_amount = 3
 
-		mutagen
+		/*mutagen
 			name = "Unstable mutagen"
 			id = "mutagen"
 			result = "mutagen"
 			required_reagents = list("radium" = 1, "phosphorus" = 1, "chlorine" = 1)
-			result_amount = 3
+			result_amount = 3*/
 
 		//cyanide
 		//	name = "Cyanide"
@@ -98,7 +98,7 @@ datum
 			required_reagents = list("plasma" = 1, "hydrogen" = 1, "nitrogen" = 1)
 			result_amount = 3
 
-		space_drugs
+		/*space_drugs
 			name = "Space Drugs"
 			id = "space_drugs"
 			result = "space_drugs"
@@ -117,7 +117,7 @@ datum
 			id = "pacid"
 			result = "pacid"
 			required_reagents = list("acid" = 1, "chlorine" = 1, "potassium" = 1)
-			result_amount = 3
+			result_amount = 3*/
 
 		synaptizine
 			name = "Synaptizine"
@@ -388,12 +388,12 @@ datum
 			required_reagents = list("ethanol" = 1, "chlorine" = 3, "water" = 1)
 			result_amount = 1
 
-		zombiepowder
+		/*zombiepowder
 			name = "Zombie Powder"
 			id = "zombiepowder"
 			result = "zombiepowder"
 			required_reagents = list("carpotoxin" = 5, "stoxin" = 5, "copper" = 5)
-			result_amount = 2
+			result_amount = 2*/
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -501,7 +501,7 @@ datum
 			result_amount = 2
 
 		space_cleaner
-			name = "Space cleaner"
+			name = "Cleaner"
 			id = "cleaner"
 			result = "cleaner"
 			required_reagents = list("ammonia" = 1, "water" = 1)
@@ -516,7 +516,7 @@ datum
 
 
 /////////////////////////////////////METROID CORE REACTIONS ///////////////////////////////
-
+/*
 		metroidpepper
 			name = "Metroid Condensedcapaicin"
 			id = "m_condensedcapaicin"
@@ -787,7 +787,7 @@ datum
 
 
 
-
+*/
 
 
 
