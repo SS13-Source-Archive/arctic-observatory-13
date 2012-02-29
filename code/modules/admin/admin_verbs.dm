@@ -161,8 +161,6 @@
 			verbs += /client/proc/restartcontroller //Can call via aproccall --I_hate_easy_things.jpg, Mport --Agouri
 			verbs += /client/proc/toggle_clickproc //TODO ERRORAGE (Temporary proc while the enw clickproc is being tested)
 			verbs += /client/proc/cmd_switch_radio // BEEP BOOP FARTE -- Doohl
-			verbs += /client/proc/toggle_gravity_on
-			verbs += /client/proc/toggle_gravity_off
 			verbs += /client/proc/toggle_random_events
 			verbs += /client/proc/deadmin_self
 
@@ -374,8 +372,6 @@
 	verbs -= /client/proc/toggle_hear_deadcast
 	verbs -= /client/proc/toggle_hear_radio
 	verbs -= /client/proc/player_panel_new
-	verbs -= /client/proc/toggle_gravity_on
-	verbs -= /client/proc/toggle_gravity_off
 	verbs -= /client/proc/toggle_random_events
 	verbs -= /client/proc/deadmin_self
 	verbs -= /client/proc/jumptocoord

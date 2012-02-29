@@ -88,8 +88,6 @@
 	if(ismob(M))
 		if(!M:lastarea)
 			M:lastarea = get_area(M.loc)
-		if(M:lastarea.has_gravity == 0)
-			inertial_drift(M)
 
 	/*
 		if(M.flags & NOGRAV)

@@ -17,7 +17,7 @@
 		if(sd_created)
 			related += src
 			return
-		master = src
+	//	master = src	//fuuuuck y'all -Pete
 		related = list(src)
 
 		src.icon = 'alert.dmi'
@@ -162,39 +162,14 @@
 		updateicon()
 	return
 
-/area/proc/partyalert()
-	if(src.name == "Space") //no parties in space!!!
-		return
-	if (!( src.party ))
-		src.party = 1
-		src.updateicon()
-		src.mouse_opacity = 0
-	return
-
-/area/proc/partyreset()
-	if (src.party)
-		src.party = 0
-		src.mouse_opacity = 0
-		src.updateicon()
-		for(var/obj/machinery/door/firedoor/D in src)
-			if(!D.blocked)
-				if(D.operating)
-					D.nextstate = OPEN
-				else if(D.density)
-					spawn(0)
-					D.open()
-	return
-
 /area/proc/updateicon()
-	if ((fire || eject || party) && ((!requires_power)?(!requires_power):power_environ))//If it doesn't require power, can still activate this proc.
-		if(fire && !eject && !party)
+	if ((fire || eject) && ((!requires_power)?(!requires_power):power_environ))//If it doesn't require power, can still activate this proc.
+		if(fire && !eject)
 			icon_state = "blue"
 		/*else if(atmosalm && !fire && !eject && !party)
 			icon_state = "bluenew"*/
-		else if(!fire && eject && !party)
+		else if(!fire && eject)
 			icon_state = "red"
-		else if(party && !fire && !eject)
-			icon_state = "party"
 		else
 			icon_state = "blue-red"
 	else
@@ -210,17 +185,17 @@
 
 /area/proc/powered(var/chan)		// return true if the area has power to given channel
 
-	if(!master.requires_power)
+	if(!requires_power)
 		return 1
-	if(master.always_unpowered)
+	if(always_unpowered)
 		return 0
 	switch(chan)
 		if(EQUIP)
-			return master.power_equip
+			return power_equip
 		if(LIGHT)
-			return master.power_light
+			return power_light
 		if(ENVIRON)
-			return master.power_environ
+			return power_environ
 
 	return 0
 
@@ -230,38 +205,38 @@
 	for(var/area/RA in related)
 		for(var/obj/machinery/M in RA)	// for each machine in the area
 			M.power_change()				// reverify power status (to update icons etc.)
-		if (fire || eject || party)
+		if (fire || eject)
 			RA.updateicon()
 
 /area/proc/usage(var/chan)
 	var/used = 0
 	switch(chan)
 		if(LIGHT)
-			used += master.used_light
+			used += used_light
 		if(EQUIP)
-			used += master.used_equip
+			used += used_equip
 		if(ENVIRON)
-			used += master.used_environ
+			used += used_environ
 		if(TOTAL)
-			used += master.used_light + master.used_equip + master.used_environ
+			used += used_light + used_equip + used_environ
 
 	return used
 
 /area/proc/clear_usage()
 
-	master.used_equip = 0
-	master.used_light = 0
-	master.used_environ = 0
+	used_equip = 0
+	used_light = 0
+	used_environ = 0
 
 /area/proc/use_power(var/amount, var/chan)
 
 	switch(chan)
 		if(EQUIP)
-			master.used_equip += amount
+			used_equip += amount
 		if(LIGHT)
-			master.used_light += amount
+			used_light += amount
 		if(ENVIRON)
-			master.used_environ += amount
+			used_environ += amount
 
 
 /area/Entered(A)
@@ -274,17 +249,13 @@
 	if (ismob(A))
 
 		if (istype(A, /mob/dead/observer)) return
-		if (!A:ckey)
-			return
+		if (!A:ckey) return
 
 		if(istype(A,/mob/living))
 			if(!A:lastarea)
 				A:lastarea = get_area(A:loc)
 			//world << "Entered new area [get_area(A:loc)]"
 			var/area/newarea = get_area(A:loc)
-			var/area/oldarea = A:lastarea
-			if((oldarea.has_gravity == 0) && (newarea.has_gravity == 1) && (A:m_intent == "run")) // Being ready when you change areas gives you a chance to avoid falling all together.
-				thunk(A)
 
 			A:lastarea = newarea
 
@@ -318,34 +289,3 @@
 				spawn(600)
 					if(A && A:client)
 						A:client:played = 0
-
-
-/area/proc/gravitychange(var/gravitystate = 0, var/area/A)
-
-	A.has_gravity = gravitystate
-
-	for(var/area/SubA in A.related)
-		SubA.has_gravity = gravitystate
-
-		if(gravitystate)
-			for(var/mob/living/carbon/human/M in SubA)
-				thunk(M)
-
-/area/proc/thunk(mob)
-	if(istype(mob,/mob/living/carbon/human/))  // Only humans can wear magboots, so we give them a chance to.
-		if((istype(mob:shoes, /obj/item/clothing/shoes/magboots) && (mob:shoes.flags & NOSLIP)))
-			return
-
-	if(istype(get_turf(mob), /turf/space)) // Can't fall onto nothing.
-		return
-
-	if((istype(mob,/mob/living/carbon/human/)) && (mob:m_intent == "run")) // Only clumbsy humans can fall on their asses.
-		mob:AdjustStunned(5)
-		mob:AdjustWeakened(5)
-
-	else if (istype(mob,/mob/living/carbon/human/))
-		mob:AdjustStunned(2)
-		mob:AdjustWeakened(2)
-
-	mob << "Gravity!"
-

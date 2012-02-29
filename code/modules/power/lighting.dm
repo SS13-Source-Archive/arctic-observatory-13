@@ -217,7 +217,7 @@
 // true if area has power and lightswitch is on
 /obj/machinery/light/proc/has_power()
 	var/area/A = src.loc.loc
-	return A.master.lightswitch && A.master.power_light
+	return A.lightswitch && A.power_light
 
 // attack with hand - remove tube/bulb
 // if hands aren't protected and the light is on, burn the player
@@ -335,7 +335,6 @@
 /obj/machinery/light/power_change()
 	spawn(0)  //rand(0,15)
 		var/area/A = src.loc.loc
-		A = A.master
 		seton(A.lightswitch && A.power_light)
 
 // explode the light

@@ -19,7 +19,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/atmos = 1
 	var/atmosalm = 0
 	var/poweralm = 1
-	var/party = null
+//	var/party = null	//NO FUN ALLOWED	-Pete
 	level = null
 	name = "Space"
 	icon = 'areas.dmi'
@@ -43,10 +43,8 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/used_light = 0
 	var/used_environ = 0
 
-	var/has_gravity = 1
-
 	var/no_air = null
-	var/area/master				// master area used for power calcluations
+//	var/area/master				// master area used for power calcluations	//B-B-BUUUUUUURN REMOVING DIS BECAUSE IT FUCKS UP THE TEMP SYSTEM	-Pete
 								// (original area before splitting due to sd_DAL)
 	var/list/related			// the other areas of the same type as this
 	var/list/lights				// list of all lights on this area
@@ -300,7 +298,6 @@ proc/process_ghost_teleport_locs()
 	requires_power = 0
 	luminosity = 1
 	sd_lighting = 0
-	has_gravity = 1
 
 // === end remove
 
