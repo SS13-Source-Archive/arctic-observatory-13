@@ -75,16 +75,16 @@
 
 
 	update_solar_exposure()
-		if(!sun)
-			return
+		//if(!sun)
+		//	return
 		if(obscured)
 			sunfrac = 0
 			return
-		var/p_angle = abs((360+adir)%360 - (360+sun.angle)%360)
-		if(p_angle > 90)			// if facing more than 90deg from sun, zero output
-			sunfrac = 0
-			return
-		sunfrac = cos(p_angle) ** 2
+		//var/p_angle = abs((360+adir)%360 - (360+sun.angle)%360)
+		//if(p_angle > 90)			// if facing more than 90deg from sun, zero output
+		//	sunfrac = 0
+		//	return
+		//sunfrac = cos(p_angle) ** 2
 
 
 	process()
@@ -111,11 +111,11 @@
 		return
 
 
-	meteorhit()
+	/*meteorhit()
 		if(stat & !BROKEN)
 			broken()
 		else
-			del(src)
+			del(src)*/
 
 
 	ex_act(severity)
@@ -206,10 +206,10 @@
 		return
 
 
-	attack_ai(mob/user)
+	/*attack_ai(mob/user)
 		add_fingerprint(user)
 		if(stat & (BROKEN | NOPOWER)) return
-		interact(user)
+		interact(user)*/
 
 
 	attack_hand(mob/user)
