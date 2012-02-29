@@ -65,12 +65,12 @@
 					brightness = A.area_lights_luminosity
 				else
 					brightness = rand(6,9)
-				if(prob(10))
-					broken(1)
+				//if(prob(10))
+				//	broken(1)
 			if("bulb")
 				brightness = 3
-				if(prob(25))
-					broken(1)
+				//if(prob(25))
+				//	broken(1)
 		spawn(1)
 			update()
 
