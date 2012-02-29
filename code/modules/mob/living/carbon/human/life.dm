@@ -564,9 +564,10 @@
 						lastpuke = 0
 
 		handle_virus_updates()
-			if(bodytemperature > 406)
-				for(var/datum/disease/D in viruses)
-					D.cure()
+		//WHY? -Pete
+		//	if(bodytemperature > 406)
+		//		for(var/datum/disease/D in viruses)
+		//			D.cure()
 			return
 
 		handle_stomach()

@@ -160,11 +160,6 @@
 					uses -= 3
 					new /obj/item/weapon/pen/paralysis(get_turf(src))
 					feedback_add_details("traitor_uplink_items_bought","PP")
-			if("projector")
-				if (uses >= 4)
-					uses -= 4
-					new /obj/item/device/chameleon(get_turf(hostpda))
-					feedback_add_details("traitor_uplink_items_bought","CP")
 			if("cloak")
 				if (uses >= 4)
 					uses -= 4

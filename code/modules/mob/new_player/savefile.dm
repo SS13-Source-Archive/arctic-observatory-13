@@ -25,14 +25,6 @@ datum/preferences/proc/savefile_save(mob/user)
 	F["job_civilian_med"] << src.job_civilian_med
 	F["job_civilian_low"] << src.job_civilian_low
 
-	F["job_medsci_high"] << src.job_medsci_high
-	F["job_medsci_med"] << src.job_medsci_med
-	F["job_medsci_low"] << src.job_medsci_low
-
-	F["job_engsec_high"] << src.job_engsec_high
-	F["job_engsec_med"] << src.job_engsec_med
-	F["job_engsec_low"] << src.job_engsec_low
-
 	//Body data
 	F["hair_red"] << src.r_hair
 	F["hair_green"] << src.g_hair
@@ -109,14 +101,6 @@ datum/preferences/proc/savefile_load(mob/user)
 	F["job_civilian_high"] >> src.job_civilian_high
 	F["job_civilian_med"] >> src.job_civilian_med
 	F["job_civilian_low"] >> src.job_civilian_low
-
-	F["job_medsci_high"] >> src.job_medsci_high
-	F["job_medsci_med"] >> src.job_medsci_med
-	F["job_medsci_low"] >> src.job_medsci_low
-
-	F["job_engsec_high"] >> src.job_engsec_high
-	F["job_engsec_med"] >> src.job_engsec_med
-	F["job_engsec_low"] >> src.job_engsec_low
 
 	//NOTE: Conversion things go inside this if statement
 	//When updating the save file remember to add 1 to BOTH the savefile constants

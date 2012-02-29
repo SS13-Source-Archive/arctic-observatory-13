@@ -1,12 +1,12 @@
 /datum/job/leader
 	title = "Expedition Leader"
-	flag = CAPTAIN
+	flag = LEADER
 	department_flag = CIVILIAN
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 1
+	spawn_positions = 1
 	supervisors = "Trasen-North Corporation"
-	selection_color = "#ffeeff"
+	selection_color = "#ffeeba"
 
 
 	equip(var/mob/living/carbon/human/H)

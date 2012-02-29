@@ -194,6 +194,8 @@
 		if(P.client && P.ready)
 			. ++
 
+//We don't have enough heads to need these procs, imo. -Pete
+/*
 
 ///////////////////////////////////
 //Keeps track of all living heads//
@@ -215,3 +217,5 @@
 		if(player.mind && (player.mind.assigned_role in command_positions))
 			heads += player.mind
 	return heads
+
+*/

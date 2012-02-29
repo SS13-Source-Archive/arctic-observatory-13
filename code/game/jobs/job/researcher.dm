@@ -1,6 +1,6 @@
 /datum/job/researcher
 	title = "Researcher"
-	flag = SCIENTIST
+	flag = RESEARCHER
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2

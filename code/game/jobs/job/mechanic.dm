@@ -1,6 +1,6 @@
 /datum/job/mechanic
 	title = "Mechanic"
-	flag = ENGINEER
+	flag = MECHANIC
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2

@@ -164,6 +164,29 @@ atom/proc/CanPass(atom/movable/mover, movementDir)
 		src.blood_DNA = list2params(L)
 	return
 
+/atom/proc/add_snow()
+	if (!( src.flags ) & 256)
+		return
+	if (istype(src, /obj/item))
+		var/obj/item/source2 = src
+		source2.icon_old = src.icon
+		var/icon/I = new /icon(src.icon, src.icon_state)
+		I.Blend(new /icon('blood.dmi', "thisisfuckingstupid"),ICON_ADD)
+		I.Blend(new /icon('blood.dmi', "itemsnow"),ICON_MULTIPLY)
+		I.Blend(new /icon(src.icon, src.icon_state),ICON_UNDERLAY)
+		src.icon = I
+	return
+
+/atom/proc/melt_snow()
+//	world << "[src].melt_snow() called."
+	if (!( src.flags ) & 256)
+		return
+	if (istype (src, /obj/item))
+		var/obj/item/source2 = src
+		source2.icon = source2.icon_old
+		source2.update_icon()
+	return
+
 /atom/proc/add_vomit_floor(mob/living/carbon/M as mob, var/toxvomit = 0)
 	if(istype(src, /turf/simulated))
 		var/obj/effect/decal/cleanable/vomit/this = new /obj/effect/decal/cleanable/vomit(src)
@@ -178,7 +201,7 @@ atom/proc/CanPass(atom/movable/mover, movementDir)
 			newDisease.holder = this
 
 /atom/proc/clean_blood()
-	world << "[src].clean_blood() called."
+//	world << "[src].clean_blood() called."
 	if (!( src.flags ) & 256)
 		return
 	if ( src.blood_DNA )
@@ -559,7 +582,7 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 									// ------- YOU TRIED TO CLICK ON AN ITEM THROUGH A WINDOW (OR SIMILAR THING THAT LIMITS ON BORDERS) ON ONE OF THE DIRECITON TILES -------
 						for(var/obj/border_obstacle in get_turf(src))
 							if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
-								if(!border_obstacle.CanPass(D, D.loc, 1, 0))
+								if(!border_obstacle.CanPass(D, D.dir))
 									// ------- YOU TRIED TO CLICK ON AN ITEM THROUGH A WINDOW (OR SIMILAR THING THAT LIMITS ON BORDERS) ON THE TILE YOU'RE ON -------
 									check_1 = 0
 
@@ -573,7 +596,7 @@ var/using_new_click_proc = 0 //TODO ERRORAGE (This is temporary, while the DblCl
 									check_2 = 0
 						for(var/obj/border_obstacle in get_turf(src))
 							if((border_obstacle.flags & ON_BORDER) && (src != border_obstacle))
-								if(!border_obstacle.CanPass(D, D.loc, 1, 0))
+								if(!border_obstacle.CanPass(D, D.dir))
 									check_2 = 0
 
 

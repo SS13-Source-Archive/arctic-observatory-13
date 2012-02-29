@@ -148,11 +148,6 @@ SYNDICATE UPLINK
 						src.uses -= 3
 						new /obj/item/weapon/pen/paralysis(get_turf(src))
 						feedback_add_details("traitor_uplink_items_bought","PP")
-				if("projector")
-					if (src.uses >= 4)
-						src.uses -= 4
-						new /obj/item/device/chameleon(get_turf(src))
-						feedback_add_details("traitor_uplink_items_bought","CP")
 				if("cloak")
 					if (src.uses >= 4)
 						if (ticker.mode.config_tag!="nuclear" || \
