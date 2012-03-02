@@ -195,12 +195,20 @@
 	if(dir in cardinal) //hack yo
 		density = 0
 
+	var/area/currentArea = get_area(src)
+	currentArea.UpdateTemperature()
+
 	return
 
 /obj/structure/window/Del()
 	density = 0
 	playsound(src, "shatter", 70, 1)
+
+	var/area/currentArea = get_area(src)
+
 	..()
+
+	currentArea.UpdateTemperature()
 
 /obj/structure/window/Move()
 

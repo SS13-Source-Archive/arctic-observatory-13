@@ -426,13 +426,18 @@ proc/process_ghost_teleport_locs()
 /area/observatory/tunnel
 	name = "tunnel"
 
+	sd_outside = 1 //just so they get lit up
+
 /area/observatory/tunnel/first
+	name = "Tunnel 1"
 	icon_state = "hallA"
 
 /area/observatory/tunnel/second
+	name = "Tunnel 2"
 	icon_state = "hallF"
 
 /area/observatory/tunnel/third
+	name = "Tunnel 3"
 	icon_state = "hallS"
 
 

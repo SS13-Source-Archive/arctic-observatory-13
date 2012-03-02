@@ -11,6 +11,8 @@
 	animate_movement = 2
 	var/throwforce = 1
 
+	var/preservesIntegrity = 0
+
 	proc/handle_internal_lifeform(mob/lifeform_inside_me, breath_request)
 		//Return: (NONSTANDARD)
 		//		null if object handles breathing logic for lifeform

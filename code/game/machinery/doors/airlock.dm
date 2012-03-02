@@ -81,6 +81,7 @@ Airlock index -> wire color are { 9, 4, 6, 7, 5, 8, 1, 2, 3 }.
 	var/justzap = 0
 	var/safe = 1
 	var/obj/item/weapon/airlock_electronics/electronics = null
+	preservesIntegrity = 1
 
 /obj/machinery/door/airlock/command
 	name = "Airlock"
@@ -948,10 +949,16 @@ About the new airlock wires panel:
 	if(src.welded || src.locked || (!src.arePowerSystemsOn()) || (stat & NOPOWER) || src.isWireCut(AIRLOCK_WIRE_OPEN_DOOR))
 		return 0
 	use_power(50)
+
 	if(istype(src, /obj/machinery/door/airlock/glass))
 		playsound(src.loc, 'windowdoor.ogg', 30, 1)
 	else
 		playsound(src.loc, 'airlock.ogg', 30, 1)
+
+	preservesIntegrity = 0
+	var/area/currentArea = get_area(src)
+	currentArea.UpdateTemperature()
+
 	if(src.closeOther != null && istype(src.closeOther, /obj/machinery/door/airlock/) && !src.closeOther.density)
 		src.closeOther.close()
 	return ..()
@@ -983,6 +990,11 @@ About the new airlock wires panel:
 
 	use_power(50)
 	playsound(src.loc, 'airlock.ogg', 30, 1)
+
+	preservesIntegrity = 1
+	var/area/currentArea = get_area(src)
+	currentArea.UpdateTemperature()
+
 	var/obj/structure/window/killthis = (locate(/obj/structure/window) in get_turf(src))
 	if(killthis)
 		killthis.ex_act(2)//Smashin windows

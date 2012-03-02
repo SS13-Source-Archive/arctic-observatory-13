@@ -23,6 +23,10 @@
 		name = text("monkey ([rand(1, 1000)])")
 	real_name = name
 	..()
+
+	var/area/currentArea = get_area(src)
+	currentArea.UpdateTemperature()
+
 	return
 
 /mob/living/carbon/monkey/movement_delay()
@@ -587,3 +591,8 @@
 	if(!ticker.mode.name == "monkey")	return 0
 	return 1
 
+/mob/living/carbon/monkey/Del()
+	..()
+
+	var/area/currentArea = get_area(src)
+	currentArea.UpdateTemperature()

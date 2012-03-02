@@ -604,6 +604,7 @@
 #include "code\modules\security levels\keycard authentication.dm"
 #include "code\modules\security levels\security levels.dm"
 #include "code\temperature\temperature.dm"
+#include "code\temperature\weather.dm"
 #include "code\WorkInProgress\explosion_particles.dm"
 #include "interface\skin.dmf"
 #include "maps\arctic_tunnels_WIP.dmm"

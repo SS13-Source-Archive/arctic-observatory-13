@@ -12,6 +12,7 @@ datum/controller/game_controller
 		process()
 		UpdateOutsideLight()
 		GetStateOfDay()
+		ChangeGlobalWeather()
 
 	setup()
 		if(master_controller && (master_controller != src))
@@ -37,6 +38,9 @@ datum/controller/game_controller
 		//syndicate_code_response = generate_code_phrase()
 
 		emergency_shuttle = new /datum/shuttle_controller/emergency_shuttle()
+
+		for(var/area/area in world)
+			area.UpdateTemperature(1)
 
 		if(!ticker)
 			ticker = new /datum/controller/gameticker()
@@ -66,6 +70,9 @@ datum/controller/game_controller
 		timeOfDay = (timeOfDay+minutesPerTick)%1440
 
 		UpdateOutsideLight()
+		if(timeOfDay == 480 || timeOfDay == 1200) //day/night switches
+			for(var/area/area in world)
+				area.UpdateTemperature(1)
 
 		sleep(1)
 
@@ -95,8 +102,8 @@ datum/controller/game_controller
 		for(var/datum/powernet/P in powernets)
 			P.reset()
 
-		for(var/area/area in world)//DEBUG; will later be moved to procs that change temp, so that the check is not run all the time
-			area.CalculateTemperature()
+//		for(var/area/area in world)//DEBUG; will later be moved to procs that change temp, so that the check is not run all the time
+//			area.CalculateTemperature() //now only gets called when airlocks close/open, monkeys spawn/despawn, and weather changes (never happens yet)
 
 		sleep(-1)
 
@@ -131,3 +138,6 @@ datum/controller/game_controller
 
 	GetStateOfDay()
 		return (timeOfDay/60 <= 20 && timeOfDay/60 >= 8) ? "day" : "night"
+
+	ChangeGlobalWeather() //placeholder
+		return
