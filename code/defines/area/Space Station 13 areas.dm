@@ -44,7 +44,7 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	var/used_environ = 0
 
 	var/no_air = null
-//	var/area/master				// master area used for power calcluations	//B-B-BUUUUUUURN REMOVING DIS BECAUSE IT FUCKS UP THE TEMP SYSTEM	-Pete
+	var/area/master				// master area used for power calcluations
 								// (original area before splitting due to sd_DAL)
 	var/list/related			// the other areas of the same type as this
 	var/list/lights				// list of all lights on this area

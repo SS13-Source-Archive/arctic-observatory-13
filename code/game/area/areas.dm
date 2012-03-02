@@ -17,7 +17,7 @@
 		if(sd_created)
 			related += src
 			return
-	//	master = src	//fuuuuck y'all -Pete
+		master = src
 		related = list(src)
 
 		src.icon = 'alert.dmi'
@@ -185,17 +185,17 @@
 
 /area/proc/powered(var/chan)		// return true if the area has power to given channel
 
-	if(!requires_power)
+	if(!master.requires_power)
 		return 1
-	if(always_unpowered)
+	if(master.always_unpowered)
 		return 0
 	switch(chan)
 		if(EQUIP)
-			return power_equip
+			return master.power_equip
 		if(LIGHT)
-			return power_light
+			return master.power_light
 		if(ENVIRON)
-			return power_environ
+			return master.power_environ
 
 	return 0
 
@@ -212,31 +212,31 @@
 	var/used = 0
 	switch(chan)
 		if(LIGHT)
-			used += used_light
+			used += master.used_light
 		if(EQUIP)
-			used += used_equip
+			used += master.used_equip
 		if(ENVIRON)
-			used += used_environ
+			used += master.used_environ
 		if(TOTAL)
-			used += used_light + used_equip + used_environ
+			used += master.used_light + master.used_equip + master.used_environ
 
 	return used
 
 /area/proc/clear_usage()
 
-	used_equip = 0
-	used_light = 0
-	used_environ = 0
+	master.used_equip = 0
+	master.used_light = 0
+	master.used_environ = 0
 
 /area/proc/use_power(var/amount, var/chan)
 
 	switch(chan)
 		if(EQUIP)
-			used_equip += amount
+			master.used_equip += amount
 		if(LIGHT)
-			used_light += amount
+			master.used_light += amount
 		if(ENVIRON)
-			used_environ += amount
+			master.used_environ += amount
 
 
 /area/Entered(A)

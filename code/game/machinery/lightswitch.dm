@@ -40,7 +40,7 @@
 
 	on = !on
 
-	for(var/area/A in area.related)
+	for(var/area/A in area.master.related)
 		A.lightswitch = on
 		A.updateicon()
 
@@ -48,7 +48,7 @@
 			L.on = on
 			L.updateicon()
 
-	area.power_change()
+	area.master.power_change()
 
 /obj/machinery/light_switch/power_change()
 

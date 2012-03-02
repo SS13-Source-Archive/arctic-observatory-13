@@ -28,19 +28,19 @@
 		return 0
 
 	var/area/A = src.loc.loc		// make sure it's in an area
-	if(!A || !isarea(A))
+	if(!A || !isarea(A) || !A.master)
 		return 0					// if not, then not powered
 
-	return A.powered(chan)	// return power status of the area
+	return A.master.powered(chan)	// return power status of the area
 
 // increment the power usage stats for an area
 
 /obj/machinery/proc/use_power(var/amount, var/chan=EQUIP) // defaults to Equipment channel
 	var/area/A = src.loc.loc		// make sure it's in an area
-	if(!A || !isarea(A))
+	if(!A || !isarea(A) || !A.master)
 		return
 
-	A.use_power(amount, chan)
+	A.master.use_power(amount, chan)
 
 /obj/machinery/proc/power_change()		// called whenever the power settings of the containing area change
 										// by default, check equipment channel & set flag
