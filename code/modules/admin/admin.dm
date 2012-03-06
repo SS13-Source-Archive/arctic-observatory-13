@@ -1347,6 +1347,9 @@
 					feedback_add_details("admin_secrets_fun_used","BO")
 					message_admins("[key_name_admin(usr)] broke all lights", 1)
 					lightsout(0,0)
+				if("equipfail")
+					message_admins("[key_name_admin(usr)] forced an equipment failure", 1)
+					equipfail()
 				if("virus")
 					feedback_inc("admin_secrets_fun_used",1)
 					feedback_add_details("admin_secrets_fun_used","V")
@@ -1748,6 +1751,7 @@
 <A href='?src=\ref[src];secretsfun=radiation'>Irradiate the station</A><BR>
 <A href='?src=\ref[src];secretsfun=virus'>Trigger a Virus Outbreak</A><BR>
 <A href='?src=\ref[src];secretsfun=lightsout'>Toggle a "lights out" event</A><BR>
+<A href='?src=\ref[src];secretsfun=equipfail'>Toggle equipment failure</A><BR>
 <BR>
 <B>Fun Secrets</B><BR>
 <BR>

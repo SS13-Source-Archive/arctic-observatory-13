@@ -293,19 +293,7 @@
 
 	proc/ion_act()
 		if(src.z == 1)
-			if(prob(1)) //explosion
-				world << "\red SMES explosion in [src.loc.loc]"
-				for(var/mob/M in viewers(src))
-					M.show_message("\red The [src.name] is making strange noises!", 3, "\red You hear sizzling electronics.", 2)
-				sleep(10*pick(4,5,6,7,10,14))
-				var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
-				smoke.set_up(3, 0, src.loc)
-				smoke.attach(src)
-				smoke.start()
-				explosion(src.loc, -1, 0, 1, 3, 0)
-				del(src)
-				return
-			if(prob(15)) //Power drain
+			if(prob(30)) //Power drain
 				world << "\red SMES power drain in [src.loc.loc]"
 				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 				s.set_up(3, 1, src)
@@ -314,7 +302,7 @@
 					emp_act(1)
 				else
 					emp_act(2)
-			if(prob(5)) //smoke only
+			if(prob(25)) //smoke only
 				world << "\red SMES smoke in [src.loc.loc]"
 				var/datum/effect/effect/system/harmless_smoke_spread/smoke = new /datum/effect/effect/system/harmless_smoke_spread()
 				smoke.set_up(3, 0, src.loc)

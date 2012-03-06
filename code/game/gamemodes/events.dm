@@ -10,17 +10,25 @@
 /proc/event()
 	event = 1
 
-	var/eventNumbersToPickFrom = list(5,6,11,12) //so ninjas don't cause "empty" events.
+	var/eventNumbersToPickFrom = list(1,2,5,6,7,11,12,13) //so ninjas don't cause "empty" events.
 
 	switch(pick(eventNumbersToPickFrom))
+		if(1)
+			equipfail()				//Probably a shitty way to do it
+		if(2)
+			equipfail()
 		if(5)
 			high_radiation_event()
 		if(6)
 			viral_outbreak()
+		if(7)
+			equipfail()
 		if(11)
 			lightsout(1,2)
 		if(12)
 			appendicitis()
+		if(13)
+			equipfail()
 
 /proc/power_failure()
 	command_alert("Abnormal activity detected in [station_name()]'s powernet. As a precautionary measure, the station's power will be shut off for an indeterminate duration.", "Critical Power Failure")
@@ -221,3 +229,18 @@
 			apc.overload_lighting()
 
 	return
+
+///////////////////////////////////ARCTIC STUFF\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -- Newt
+
+/proc/equipfail()
+	world << "Equipfail called"
+	sleep(rand(20,1000))
+	for (var/obj/machinery/power/apc/APC in world)
+		APC.ion_act()
+	sleep(rand(20,1000))
+	for (var/obj/machinery/power/smes/SMES in world)
+		SMES.ion_act()
+	sleep(rand(20,1000))
+	for (var/obj/machinery/door/airlock/AL in world)
+		AL.ion_act()
+	world << "Equipfail done"

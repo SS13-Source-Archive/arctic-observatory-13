@@ -792,10 +792,10 @@
 /obj/machinery/power/apc/proc/ion_act()
 	//intended to be exactly the same as an AI malf attack
 	if(!src.malfhack && src.z == 1)
-		if(prob(3))
+		if(prob(20))
 			src.locked = 1
 			if (src.cell.charge > 0)
-//				world << "\red blew APC in [src.loc.loc]"
+				world << "\red blew APC in [src.loc.loc]"
 				src.cell.charge = 0
 				cell.corrupt()
 				src.malfhack = 1
