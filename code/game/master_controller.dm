@@ -39,8 +39,12 @@ datum/controller/game_controller
 
 		emergency_shuttle = new /datum/shuttle_controller/emergency_shuttle()
 
+		globalweather = new /datum/weather/calm()
+
 		for(var/area/area in world)
 			area.UpdateTemperature(1)
+			if(area == area.master)
+				globalweather.areas += area
 
 		if(!ticker)
 			ticker = new /datum/controller/gameticker()
@@ -92,6 +96,8 @@ datum/controller/game_controller
 				if(machine && machine.use_power)
 					machine.auto_use_power()
 
+		for(var/datum/weather/weather in world)
+			weather.Process()
 
 		sleep(-1)
 		sleep(1)

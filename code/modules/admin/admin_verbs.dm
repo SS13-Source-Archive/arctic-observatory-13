@@ -135,6 +135,7 @@
 			verbs += /client/proc/everyone_random
 			verbs += /client/proc/deadmin_self
 			verbs += /client/proc/set_outside_light_level
+			verbs += /client/proc/set_global_weather
 
 		if (holder.level >= 5)//Game Admin********************************************************************
 			verbs += /obj/admins/proc/view_txt_log
@@ -160,9 +161,10 @@
 			verbs += /client/proc/play_local_sound
 			verbs += /client/proc/restartcontroller //Can call via aproccall --I_hate_easy_things.jpg, Mport --Agouri
 			verbs += /client/proc/toggle_clickproc //TODO ERRORAGE (Temporary proc while the enw clickproc is being tested)
-			verbs += /client/proc/cmd_switch_radio // BEEP BOOP FARTE -- Doohl
+			verbs += /client/proc/cmd_switch_radio
 			verbs += /client/proc/toggle_random_events
 			verbs += /client/proc/deadmin_self
+			verbs += /client/proc/set_global_weather
 
 		if (holder.level >= 4)//Badmin********************************************************************
 			verbs += /obj/admins/proc/adrev					//toggle admin revives
@@ -704,5 +706,13 @@
 	var/list/levels = list(0,1,2,3,4,5,6,7)
 
 	sd_OutsideLight(input("Set outside light level") in levels)
+
+	return
+
+/client/proc/set_global_weather()
+	set name = "Set global weather"
+	set category = "Debug"
+
+	SetWeather(globalweather.areas,input("Set weather type." in list("snow","hail","blizzard","calm")))
 
 	return
