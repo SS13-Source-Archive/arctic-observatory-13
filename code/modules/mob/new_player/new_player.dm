@@ -122,7 +122,26 @@
 			else	output += "<b>You are ready</b> (<a href='byond://?src=\ref[src];ready=2'>Cancel</A>)<BR>"
 
 		else
-			output += "<a href='byond://?src=\ref[src];late_join=1'>Join Game!</A><BR>"
+			var/mob/dead/observer/observer = new()
+
+			spawning = 1
+			src << sound(null, repeat = 0, wait = 0, volume = 85, channel = 1) // MAD JAMS cant last forever yo
+
+			close_spawn_windows()
+			var/obj/O = locate("landmark*Observer-Start")
+			src << "\blue Now teleporting."
+			observer.loc = O.loc
+			observer.key = key
+			if(preferences.be_random_name)						//Borrowed code from observe.
+				preferences.randomize_name()
+			observer.name = preferences.real_name
+			observer.real_name = observer.name
+			observer.original_name = observer.name //Original name is only used in ghost chat! It is not to be edited by anything!
+
+			preferences.copy_to_observer(observer)
+
+			del(src)
+			return 1
 
 		output += "<BR><a href='byond://?src=\ref[src];observe=1'>Observe</A><BR>"
 
