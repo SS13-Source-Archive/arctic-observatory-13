@@ -10,13 +10,17 @@
 /proc/event()
 	event = 1
 
-	var/eventNumbersToPickFrom = list(1,2,5,6,7,11,12,13) //so ninjas don't cause "empty" events.
+	var/eventNumbersToPickFrom = list(1,2,3,4,5,6,7,11,12,13) //so ninjas don't cause "empty" events.
 
 	switch(pick(eventNumbersToPickFrom))
 		if(1)
 			equipfail()				//Probably a shitty way to do it
 		if(2)
 			equipfail()
+		if(3)
+			supplydrop()
+		if(4)
+			supplydrop()
 		if(5)
 			high_radiation_event()
 		if(6)
@@ -244,3 +248,7 @@
 	for (var/obj/machinery/door/airlock/AL in world)
 		AL.ion_act()
 	world << "Equipfail done"
+
+/proc/supplydrop()
+	var/droploc = pick(supplydrop)
+	new /obj/structure/closet/crate/drop(droploc)

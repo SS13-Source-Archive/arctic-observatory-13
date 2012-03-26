@@ -61,6 +61,10 @@
 		xeno_spawn += loc
 		del(src)
 
+	if(name == "supplydrop")
+		supplydrop += loc
+		del(src)
+
 	return 1
 
 /obj/effect/landmark/start/New()

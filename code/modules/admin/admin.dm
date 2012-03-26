@@ -1164,6 +1164,10 @@
 					log_admin("[key_name(usr)] made all areas unpowered", 1)
 					message_admins("\blue [key_name_admin(usr)] made all areas unpowered", 1)
 					power_failure()
+				if("supplydrop")
+					log_admin("[key_name(usr)] forced a supply drop", 1)
+					message_admins("\blue [key_name_admin(usr)] forced a supply drop", 1)
+					supplydrop()
 				if("traitor_all")
 					if ((src.rank in list( "Admin Candidate", "Trial Admin", "Badmin", "Game Admin", "Game Master"  )))
 						if(!ticker)
@@ -1752,6 +1756,7 @@
 <A href='?src=\ref[src];secretsfun=virus'>Trigger a Virus Outbreak</A><BR>
 <A href='?src=\ref[src];secretsfun=lightsout'>Toggle a "lights out" event</A><BR>
 <A href='?src=\ref[src];secretsfun=equipfail'>Toggle equipment failure</A><BR>
+<A href='?src=\ref[src];secretsfun=supplydrop'>Force a supply drop</A><BR>
 <BR>
 <B>Fun Secrets</B><BR>
 <BR>
